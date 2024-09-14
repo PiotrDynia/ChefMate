@@ -57,8 +57,16 @@ dependencies {
     implementation(libs.androidx.room.ktx)
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.lifecycle.runtime.compose.android)
-    implementation(libs.androidx.ui.text.google.fonts)
     ksp(libs.androidx.room.compiler)
+
+    // Datastore
+    implementation(libs.androidx.datastore.preferences)
+
+    // Lottie
+    implementation(libs.lottie.compose)
+
+    // Google fonts
+    implementation(libs.androidx.ui.text.google.fonts)
 
     // Navigation
     implementation(libs.androidx.navigation.compose)
