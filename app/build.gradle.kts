@@ -62,6 +62,12 @@ dependencies {
     // Datastore
     implementation(libs.androidx.datastore.preferences)
 
+    // Accompanist
+    implementation(libs.accompanist.pager.indicators)
+
+    // Splash screen
+    implementation(libs.androidx.core.splashscreen)
+
     // Lottie
     implementation(libs.lottie.compose)
 

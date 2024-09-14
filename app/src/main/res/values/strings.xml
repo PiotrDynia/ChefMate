@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">ChefMate</string>
+    <string name="welcome_to_chefmate_the_app_that_lets_you_do_more_with_recipes_and_nutrition_than_you_ever_thought_possible">Welcome to ChefMate! The app that lets you do more with recipes and nutrition than you ever thought possible.</string>
+    <string name="browse_recipes">Browse recipes</string>
+    <string name="explore_hundreds_of_recipes_filter_by_categories_and_add_your_favorites">Explore hundreds of recipes, filter by categories, and add your favorites.</string>
+    <string name="shopping_list">Shopping list</string>
+    <string name="create_a_shopping_list_from_recipe_ingredients_customize_it_or_combine_ingredients_from_multiple_recipes">Create a shopping list from recipe ingredients, customize it, or combine ingredients from multiple recipes!</string>
+    <string name="virtual_assistant">Virtual assistant</string>
+    <string name="chat_with_our_virtual_assistant_for_inspiration_or_to_get_answers_to_your_questions">Chat with our virtual assistant for inspiration or to get answers to your questions.</string>
+    <string name="dietary_preferences">Dietary preferences</string>
+    <string name="set_your_dietary_preferences_to_find_recipes_that_suit_you_better_you_can_change_them_anytime_in_the_settings">Set your dietary preferences to find recipes that suit you better. You can change them anytime in the settings.</string>
+    <string name="finish">Finish</string>
+    <string name="chefmate">ChefMate</string>
 </resources>
