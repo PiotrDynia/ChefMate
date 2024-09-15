@@ -11,4 +11,8 @@
     <string name="set_your_dietary_preferences_to_find_recipes_that_suit_you_better_you_can_change_them_anytime_in_the_settings">Set your dietary preferences to find recipes that suit you better. You can change them anytime in the settings.</string>
     <string name="finish">Finish</string>
     <string name="chefmate">ChefMate</string>
+    <string name="animate_the_selected_item">Animate the selected item</string>
+    <string name="select_your_favourite_cuisines">Select your favourite cuisines</string>
+    <string name="select_your_diet">Select your diet</string>
+    <string name="select_your_intolerances">Select your intolerances</string>
 </resources>

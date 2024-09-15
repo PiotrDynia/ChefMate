@@ -40,7 +40,6 @@ fun PagerScreen(onBoardingPage: OnBoardingPage) {
         LottieAnimation(
             composition = composition,
             iterations = LottieConstants.IterateForever,
-            contentScale = ContentScale.Fit,
             modifier = Modifier
                 .fillMaxWidth(0.5f)
                 .fillMaxHeight(0.7f),
@@ -56,7 +55,7 @@ fun PagerScreen(onBoardingPage: OnBoardingPage) {
         Text(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 40.dp)
+                .padding(horizontal = 20.dp)
                 .padding(top = 20.dp),
             text = stringResource(onBoardingPage.description),
             fontSize = MaterialTheme.typography.bodyLarge.fontSize,

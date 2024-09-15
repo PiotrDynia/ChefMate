@@ -11,7 +11,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.chefmate.core.presentation.util.Screen
 import com.example.chefmate.featureOnboarding.domain.util.OnBoardingPage
-import com.example.chefmate.featureOnboarding.presentation.components.FinishButton
+import com.example.chefmate.featureOnboarding.presentation.components.DietaryPreferencesScreen
 import com.example.chefmate.featureOnboarding.presentation.components.PagerScreen
 import com.google.accompanist.pager.HorizontalPagerIndicator
 
@@ -31,21 +31,23 @@ fun WelcomeScreen(
         ) { position ->
             PagerScreen(onBoardingPage = viewModel.pages[position])
         }
-        HorizontalPagerIndicator(
-            modifier = Modifier
-                .align(Alignment.CenterHorizontally)
-                .weight(1f),
-            pageCount = OnBoardingPage.PAGES_COUNT,
-            pagerState = pagerState
-        )
-        FinishButton(
-            modifier = Modifier.weight(1f),
-            pagerState = pagerState
-        ) {
-            viewModel.saveOnBoardingState(completed = true)
-            navController.popBackStack()
-            navController.navigate(Screen.Home.route)
+        if (pagerState.currentPage == OnBoardingPage.LAST_SCREEN_INDEX) {
+            DietaryPreferencesScreen(
+                pagerState = pagerState,
+                onFinishClick = {
+                    viewModel.saveOnBoardingState(completed = true)
+                    navController.popBackStack()
+                    navController.navigate(Screen.Home.route)
+                }
+            )
+        } else {
+            HorizontalPagerIndicator(
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .weight(1f),
+                pageCount = OnBoardingPage.PAGES_COUNT,
+                pagerState = pagerState
+            )
         }
     }
-
 }
