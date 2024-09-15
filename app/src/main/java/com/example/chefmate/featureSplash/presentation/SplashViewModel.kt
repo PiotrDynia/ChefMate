@@ -1,16 +1,18 @@
-package com.example.chefmate.core.presentation.util
+package com.example.chefmate.featureSplash.presentation
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.chefmate.featureOnboarding.data.DataStoreRepository
+import com.example.chefmate.core.presentation.util.Screen
+import com.example.chefmate.core.data.repository.DataStoreRepository
+import com.example.chefmate.featureSplash.domain.usecase.SplashUseCases
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class SplashViewModel @Inject constructor(
-    private val repository: DataStoreRepository
+    private val useCases: SplashUseCases
 ) : ViewModel() {
     private val _isLoading: MutableState<Boolean> = mutableStateOf(true)
     val isLoading: State<Boolean> = _isLoading
@@ -20,7 +22,7 @@ class SplashViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            repository.readOnBoardingState().collect { completed ->
+            useCases.readOnBoardingState().collect { completed ->
                 if (completed) {
                     _startDestination.value = Screen.Home.route
                 } else {
@@ -30,5 +32,4 @@ class SplashViewModel @Inject constructor(
             _isLoading.value = false
         }
     }
-
 }

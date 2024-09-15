@@ -2,7 +2,8 @@ package com.example.chefmate.featureOnboarding.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.chefmate.featureOnboarding.data.DataStoreRepository
+import com.example.chefmate.core.data.repository.DataStoreRepository
+import com.example.chefmate.featureOnboarding.domain.usecase.WelcomeUseCases
 import com.example.chefmate.featureOnboarding.domain.util.OnBoardingPage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -11,10 +12,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class WelcomeViewModel @Inject constructor(
-    private val repository: DataStoreRepository
+    private val useCases: WelcomeUseCases
 ) : ViewModel() {
 
-    val pages = listOf(
+    val pages: List<OnBoardingPage> = listOf(
         OnBoardingPage.First,
         OnBoardingPage.Second,
         OnBoardingPage.Third,
@@ -24,7 +25,7 @@ class WelcomeViewModel @Inject constructor(
 
     fun saveOnBoardingState(completed: Boolean) {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.saveOnBoardingState(completed = completed)
+            useCases.saveOnBoardingState(completed = completed)
         }
     }
 

@@ -1,7 +1,7 @@
 package com.example.chefmate.di
 
 import android.content.Context
-import com.example.chefmate.featureOnboarding.data.DataStoreRepository
+import com.example.chefmate.core.data.repository.DataStoreRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

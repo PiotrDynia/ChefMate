@@ -26,7 +26,6 @@ import com.example.chefmate.R
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SelectableDropdownMenu(@StringRes placeholder: Int, values: List<String>, modifier: Modifier = Modifier) {
-
     var isExpanded by remember {
         mutableStateOf(false)
     }

@@ -1,4 +1,4 @@
-package com.example.chefmate.featureOnboarding.data
+package com.example.chefmate.core.data.repository
 
 import android.content.Context
 import androidx.datastore.core.DataStore
