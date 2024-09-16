@@ -37,11 +37,12 @@ fun DietaryPreferencesScreen(
             pagerState = pagerState
         )
 
-        FinishButton(
+        OnBoardingButton(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 16.dp),
             pagerState = pagerState,
+            buttonType = ButtonType.FINISH,
             onClick = onFinishClick
         )
     }

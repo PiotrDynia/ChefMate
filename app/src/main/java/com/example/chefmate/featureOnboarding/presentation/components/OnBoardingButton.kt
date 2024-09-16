@@ -1,5 +1,6 @@
 package com.example.chefmate.featureOnboarding.presentation.components
 
+import androidx.annotation.StringRes
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -19,12 +20,28 @@ import androidx.compose.ui.unit.dp
 import com.example.chefmate.R
 import com.example.chefmate.featureOnboarding.domain.util.OnBoardingPage
 
+enum class ButtonType {
+    FINISH,
+    SKIP
+}
+
 @Composable
-fun FinishButton(
+fun OnBoardingButton(
     pagerState: PagerState,
+    buttonType: ButtonType,
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val isVisible = when (buttonType) {
+        ButtonType.FINISH -> isFinishVisible(pagerState)
+        ButtonType.SKIP -> isSkipVisible(pagerState)
+    }
+
+    val buttonTextResId = when (buttonType) {
+        ButtonType.FINISH -> R.string.finish
+        ButtonType.SKIP -> R.string.skip
+    }
+
     Row(
         modifier = modifier
             .padding(horizontal = 40.dp),
@@ -33,7 +50,7 @@ fun FinishButton(
     ) {
         AnimatedVisibility(
             modifier = Modifier.fillMaxWidth(),
-            visible = pagerState.currentPage == OnBoardingPage.LAST_SCREEN_INDEX
+            visible = isVisible
         ) {
             Button(
                 onClick = onClick,
@@ -42,8 +59,18 @@ fun FinishButton(
                     contentColor = Color.White
                 )
             ) {
-                Text(text = stringResource(R.string.finish))
+                Text(
+                    text = stringResource(buttonTextResId)
+                )
             }
         }
     }
+}
+
+private fun isFinishVisible(pagerState: PagerState): Boolean {
+    return pagerState.currentPage == OnBoardingPage.LAST_SCREEN_INDEX
+}
+
+private fun isSkipVisible(pagerState: PagerState): Boolean {
+    return pagerState.currentPage < OnBoardingPage.LAST_SCREEN_INDEX
 }

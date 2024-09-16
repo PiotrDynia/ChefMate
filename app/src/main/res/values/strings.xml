@@ -15,4 +15,5 @@
     <string name="select_your_favourite_cuisines">Select your favourite cuisines</string>
     <string name="select_your_diet">Select your diet</string>
     <string name="select_your_intolerances">Select your intolerances</string>
+    <string name="skip">Skip</string>
 </resources>
