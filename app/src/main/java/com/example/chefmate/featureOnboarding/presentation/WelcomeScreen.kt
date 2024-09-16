@@ -31,6 +31,7 @@ fun WelcomeScreen(
     val pagerState = rememberPagerState(pageCount = { OnBoardingPage.PAGES_COUNT })
     val onButtonClick = {
         viewModel.saveOnBoardingState(completed = true)
+        viewModel.saveDietPreferences()
         navController.popBackStack()
         navController.navigate(Screen.Home.route)
     }
@@ -46,6 +47,8 @@ fun WelcomeScreen(
         if (pagerState.currentPage == OnBoardingPage.LAST_SCREEN_INDEX) {
             DietaryPreferencesScreen(
                 pagerState = pagerState,
+                onEvent = viewModel::onEvent,
+                selectedDietaryPreferences = viewModel.dietaryPreferences.value,
                 onFinishClick = onButtonClick
             )
         } else {

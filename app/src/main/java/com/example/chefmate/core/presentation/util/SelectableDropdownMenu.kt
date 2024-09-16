@@ -22,16 +22,20 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.example.chefmate.R
+import com.example.chefmate.core.domain.util.DietPreferences
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SelectableDropdownMenu(@StringRes placeholder: Int, values: List<String>, modifier: Modifier = Modifier) {
+fun SelectableDropdownMenu(
+    @StringRes placeholder: Int,
+    values: List<String>,
+    onAdd: (String) -> Unit,
+    onRemove: (String) -> Unit,
+    selectedValues: List<String>,
+    modifier: Modifier = Modifier
+) {
     var isExpanded by remember {
         mutableStateOf(false)
-    }
-
-    val selectedValues = remember {
-        mutableStateListOf<String>()
     }
 
     ExposedDropdownMenuBox(
@@ -69,7 +73,7 @@ fun SelectableDropdownMenu(@StringRes placeholder: Int, values: List<String>, mo
                                 Text(text = value)
                             },
                             onClick = {
-                                selectedValues.remove(value)
+                                onRemove(value)
                             },
                             leadingIcon = {
                                 Icon(
@@ -84,7 +88,7 @@ fun SelectableDropdownMenu(@StringRes placeholder: Int, values: List<String>, mo
                                 Text(text = value)
                             },
                             onClick = {
-                                selectedValues.add(value)
+                                onAdd(value)
                             },
                         )
                     }
