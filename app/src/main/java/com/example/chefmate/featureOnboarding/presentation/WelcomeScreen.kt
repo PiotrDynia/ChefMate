@@ -9,14 +9,11 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import com.example.chefmate.R
 import com.example.chefmate.core.presentation.util.Screen
 import com.example.chefmate.featureOnboarding.domain.util.OnBoardingPage
-import com.example.chefmate.featureOnboarding.presentation.components.ButtonType
 import com.example.chefmate.featureOnboarding.presentation.components.DietaryPreferencesScreen
 import com.example.chefmate.featureOnboarding.presentation.components.OnBoardingButton
 import com.example.chefmate.featureOnboarding.presentation.components.PagerScreen
@@ -49,7 +46,6 @@ fun WelcomeScreen(
                 pagerState = pagerState,
                 onEvent = viewModel::onEvent,
                 selectedDietaryPreferences = viewModel.dietaryPreferences.value,
-                onFinishClick = onButtonClick
             )
         } else {
             HorizontalPagerIndicator(
@@ -59,15 +55,14 @@ fun WelcomeScreen(
                 pageCount = OnBoardingPage.PAGES_COUNT,
                 pagerState = pagerState
             )
-            OnBoardingButton(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp)
-                    .padding(bottom = 16.dp),
-                pagerState = pagerState,
-                buttonType = ButtonType.SKIP,
-                onClick = onButtonClick
-            )
         }
+        OnBoardingButton(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp)
+                .padding(bottom = 16.dp),
+            pagerState = pagerState,
+            onClick = onButtonClick
+        )
     }
 }

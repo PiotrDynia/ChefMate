@@ -20,8 +20,7 @@ import com.google.accompanist.pager.HorizontalPagerIndicator
 fun DietaryPreferencesScreen(
     pagerState: PagerState,
     selectedDietaryPreferences: DietPreferences,
-    onEvent: (WelcomeEvent) -> Unit,
-    onFinishClick: () -> Unit
+    onEvent: (WelcomeEvent) -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -41,15 +40,6 @@ fun DietaryPreferencesScreen(
             modifier = Modifier.align(Alignment.CenterHorizontally),
             pageCount = OnBoardingPage.PAGES_COUNT,
             pagerState = pagerState
-        )
-
-        OnBoardingButton(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 16.dp),
-            pagerState = pagerState,
-            buttonType = ButtonType.FINISH,
-            onClick = onFinishClick
         )
     }
 }
