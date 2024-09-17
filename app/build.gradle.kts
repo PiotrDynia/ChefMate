@@ -12,12 +12,12 @@ android {
 
     defaultConfig {
         applicationId = "com.example.chefmate"
-        minSdk = 33
+        minSdk = 21
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "com.example.chefmate.HiltTestRunner"
         vectorDrawables {
             useSupportLibrary = true
         }
@@ -57,8 +57,22 @@ dependencies {
     implementation(libs.androidx.room.ktx)
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.lifecycle.runtime.compose.android)
-    implementation(libs.androidx.ui.text.google.fonts)
     ksp(libs.androidx.room.compiler)
+
+    // Datastore
+    implementation(libs.androidx.datastore.preferences)
+
+    // Accompanist
+    implementation(libs.accompanist.pager.indicators)
+
+    // Splash screen
+    implementation(libs.androidx.core.splashscreen)
+
+    // Lottie
+    implementation(libs.lottie.compose)
+
+    // Google fonts
+    implementation(libs.androidx.ui.text.google.fonts)
 
     // Navigation
     implementation(libs.androidx.navigation.compose)
