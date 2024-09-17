@@ -8,7 +8,7 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
-import com.example.chefmate.core.domain.util.Diet
+import com.example.chefmate.core.domain.repository.DataStoreRepository
 import com.example.chefmate.core.domain.util.DietPreferences
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -17,7 +17,7 @@ import java.io.IOException
 
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "preferences")
 
-class DataStoreRepository(context: Context) {
+class DataStoreRepositoryImpl(context: Context) : DataStoreRepository {
 
     companion object {
         val ON_BOARDING_KEY = booleanPreferencesKey(name = "on_boarding_completed")
@@ -28,13 +28,13 @@ class DataStoreRepository(context: Context) {
 
     private val dataStore = context.dataStore
 
-    suspend fun saveOnBoardingState(completed: Boolean) {
+    override suspend fun saveOnBoardingState(completed: Boolean) {
         dataStore.edit { preferences ->
             preferences[ON_BOARDING_KEY] = completed
         }
     }
 
-    fun readOnBoardingState(): Flow<Boolean> {
+    override fun readOnBoardingState(): Flow<Boolean> {
         return dataStore.data
             .catch { exception ->
                 if (exception is IOException) {
@@ -49,7 +49,7 @@ class DataStoreRepository(context: Context) {
             }
     }
 
-    suspend fun saveDietPreferences(dietPreferences: DietPreferences) {
+    override suspend fun saveDietPreferences(dietPreferences: DietPreferences) {
         dataStore.edit { preferences ->
             preferences[DIET_PREFERENCES_KEY] = dietPreferences.diets.joinToString(",")
             preferences[CUISINE_PREFERENCES_KEY] = dietPreferences.cuisines.joinToString(",")
@@ -57,7 +57,7 @@ class DataStoreRepository(context: Context) {
         }
     }
 
-    fun getDietPreferences(): Flow<DietPreferences> {
+    override fun getDietPreferences(): Flow<DietPreferences> {
         return dataStore.data
             .catch { exception ->
                 if (exception is IOException) {

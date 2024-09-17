@@ -1,7 +1,8 @@
 package com.example.chefmate.di
 
 import android.content.Context
-import com.example.chefmate.core.data.repository.DataStoreRepository
+import com.example.chefmate.core.data.repository.DataStoreRepositoryImpl
+import com.example.chefmate.core.domain.repository.DataStoreRepository
 import com.example.chefmate.featureOnboarding.domain.usecase.SaveDietPreferences
 import com.example.chefmate.featureOnboarding.domain.usecase.SaveOnBoardingState
 import com.example.chefmate.featureOnboarding.domain.usecase.WelcomeUseCases
@@ -22,7 +23,9 @@ object AppModule {
     @Singleton
     fun provideDataStoreRepository(
         @ApplicationContext context: Context
-    ) = DataStoreRepository(context = context)
+    ) : DataStoreRepository {
+        return DataStoreRepositoryImpl(context = context)
+    }
 
     @Provides
     @Singleton

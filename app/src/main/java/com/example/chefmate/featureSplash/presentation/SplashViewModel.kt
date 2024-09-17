@@ -6,7 +6,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.chefmate.core.presentation.util.Screen
-import com.example.chefmate.core.data.repository.DataStoreRepository
 import com.example.chefmate.featureSplash.domain.usecase.SplashUseCases
 import kotlinx.coroutines.launch
 import javax.inject.Inject

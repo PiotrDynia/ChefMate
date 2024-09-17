@@ -1,7 +1,6 @@
 package com.example.chefmate.featureSplash.domain.usecase
 
-import com.example.chefmate.core.data.repository.DataStoreRepository
-import com.example.chefmate.core.presentation.util.Screen
+import com.example.chefmate.core.domain.repository.DataStoreRepository
 import kotlinx.coroutines.flow.Flow
 
 class ReadOnBoardingState(

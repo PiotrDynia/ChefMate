@@ -1,6 +1,6 @@
 package com.example.chefmate.featureOnboarding.domain.usecase
 
-import com.example.chefmate.core.data.repository.DataStoreRepository
+import com.example.chefmate.core.domain.repository.DataStoreRepository
 
 class SaveOnBoardingState(
     private val repository: DataStoreRepository
