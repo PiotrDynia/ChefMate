@@ -28,17 +28,17 @@ class FakeDataStoreRepository : DataStoreRepository {
     }
 
     override suspend fun saveDietPreferences(dietPreferences: DietPreferences) {
-        preferencesMap[DIET_PREFERENCES_KEY] = dietPreferences.diets.joinToString(",")
-        preferencesMap[CUISINE_PREFERENCES_KEY] = dietPreferences.cuisines.joinToString(",")
-        preferencesMap[INTOLERANCES_KEY] = dietPreferences.intolerances.joinToString(",")
+        preferencesMap[DIET_PREFERENCES_KEY] = if (dietPreferences.diets.isEmpty()) "" else dietPreferences.diets.joinToString(",")
+        preferencesMap[CUISINE_PREFERENCES_KEY] = if (dietPreferences.cuisines.isEmpty()) "" else dietPreferences.cuisines.joinToString(",")
+        preferencesMap[INTOLERANCES_KEY] = if (dietPreferences.intolerances.isEmpty()) "" else dietPreferences.intolerances.joinToString(",")
     }
 
     override fun getDietPreferences(): Flow<DietPreferences> {
         return MutableStateFlow(
             DietPreferences(
-                diets = preferencesMap[DIET_PREFERENCES_KEY]?.split(",") ?: emptyList(),
-                cuisines = preferencesMap[CUISINE_PREFERENCES_KEY]?.split(",") ?: emptyList(),
-                intolerances = preferencesMap[INTOLERANCES_KEY]?.split(",") ?: emptyList()
+                diets = preferencesMap[DIET_PREFERENCES_KEY]?.takeIf { it.isNotEmpty() }?.split(",") ?: emptyList(),
+                cuisines = preferencesMap[CUISINE_PREFERENCES_KEY]?.takeIf { it.isNotEmpty() }?.split(",") ?: emptyList(),
+                intolerances = preferencesMap[INTOLERANCES_KEY]?.takeIf { it.isNotEmpty() }?.split(",") ?: emptyList()
             )
         )
     }

@@ -51,9 +51,9 @@ class DataStoreRepositoryImpl(context: Context) : DataStoreRepository {
 
     override suspend fun saveDietPreferences(dietPreferences: DietPreferences) {
         dataStore.edit { preferences ->
-            preferences[DIET_PREFERENCES_KEY] = dietPreferences.diets.joinToString(",")
-            preferences[CUISINE_PREFERENCES_KEY] = dietPreferences.cuisines.joinToString(",")
-            preferences[INTOLERANCES_KEY] = dietPreferences.intolerances.joinToString(",")
+            preferences[DIET_PREFERENCES_KEY] = if (dietPreferences.diets.isEmpty()) "" else dietPreferences.diets.joinToString(",")
+            preferences[CUISINE_PREFERENCES_KEY] = if (dietPreferences.cuisines.isEmpty()) "" else dietPreferences.cuisines.joinToString(",")
+            preferences[INTOLERANCES_KEY] = if (dietPreferences.intolerances.isEmpty()) "" else dietPreferences.intolerances.joinToString(",")
         }
     }
 
@@ -67,9 +67,9 @@ class DataStoreRepositoryImpl(context: Context) : DataStoreRepository {
                 }
             }
             .map { preferences ->
-                val diets = preferences[DIET_PREFERENCES_KEY]?.split(",") ?: emptyList()
-                val cuisines = preferences[CUISINE_PREFERENCES_KEY]?.split(",") ?: emptyList()
-                val intolerances = preferences[INTOLERANCES_KEY]?.split(",") ?: emptyList()
+                val diets = preferences[DIET_PREFERENCES_KEY]?.takeIf { it.isNotEmpty() }?.split(",") ?: emptyList()
+                val cuisines = preferences[CUISINE_PREFERENCES_KEY]?.takeIf { it.isNotEmpty() }?.split(",") ?: emptyList()
+                val intolerances = preferences[INTOLERANCES_KEY]?.takeIf { it.isNotEmpty() }?.split(",") ?: emptyList()
                 DietPreferences(diets, cuisines, intolerances)
             }
     }
