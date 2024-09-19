@@ -1,7 +1,9 @@
 package com.example.chefmate.core.presentation.navigation
 
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
@@ -22,7 +24,9 @@ fun SetupNavGraph(
             WelcomeScreen(navController = navController)
         }
         composable(route = Screen.Home.route) {
-            HomeScreen()
+            HomeScreen(
+                modifier = Modifier.padding(16.dp)
+            )
         }
     }
 }
