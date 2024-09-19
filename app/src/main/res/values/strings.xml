@@ -20,4 +20,7 @@
     <string name="what_would_you_like_to_cook_today">What would you like to cook today?</string>
     <string name="go_to_profile">Go to profile</string>
     <string name="search_for_recipes">Search for recipes</string>
+    <string name="search">Search</string>
+    <string name="advanced_search">Advanced search</string>
+    <string name="cuisines">Cuisines</string>
 </resources>

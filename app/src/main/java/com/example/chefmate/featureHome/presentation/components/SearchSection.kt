@@ -60,8 +60,8 @@ fun SearchSection(modifier: Modifier = Modifier) {
             }
         },
         colors = TextFieldDefaults.colors(
-            unfocusedContainerColor = MaterialTheme.colorScheme.surfaceContainer,
-            focusedContainerColor = MaterialTheme.colorScheme.surfaceContainer
+            unfocusedContainerColor = MaterialTheme.colorScheme.background,
+            focusedContainerColor = MaterialTheme.colorScheme.background
         ),
         placeholder = {
             Text(stringResource(R.string.search_for_recipes))
@@ -76,10 +76,10 @@ fun SearchSection(modifier: Modifier = Modifier) {
         modifier = modifier.fillMaxWidth()
     ) {
         Button(onClick = { /*TODO*/ }) {
-            Text(text = "Search")
+            Text(text = stringResource(R.string.search))
         }
         Button(onClick = { /*TODO*/ }) {
-            Text(text = "Advanced search")
+            Text(text = stringResource(R.string.advanced_search))
         }
     }
 }
