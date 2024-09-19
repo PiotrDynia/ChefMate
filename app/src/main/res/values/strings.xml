@@ -23,4 +23,6 @@
     <string name="search">Search</string>
     <string name="advanced_search">Advanced search</string>
     <string name="cuisines">Cuisines</string>
+    <string name="diets">Diets</string>
+    <string name="intolerances">Intolerances</string>
 </resources>

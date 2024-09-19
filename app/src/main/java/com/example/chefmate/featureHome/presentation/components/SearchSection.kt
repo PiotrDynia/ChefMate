@@ -27,12 +27,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.chefmate.R
+import com.example.chefmate.featureHome.presentation.HomeEvent
+import com.example.chefmate.featureHome.presentation.HomeState
 
 @Composable
-fun SearchSection(modifier: Modifier = Modifier) {
+fun SearchSection(state: HomeState, onEvent: (HomeEvent) -> Unit, modifier: Modifier = Modifier) {
     TextField(
-        value = "",
-        onValueChange = {},
+        value = state.searchInput,
+        onValueChange = { onEvent(HomeEvent.OnSearchInputChange(it)) },
         leadingIcon = {
             Icon(
                 imageVector = Icons.Default.Search,
