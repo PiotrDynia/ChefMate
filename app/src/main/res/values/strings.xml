@@ -19,4 +19,5 @@
     <string name="unexpected_pager_state_no_button_should_be_displayed">Unexpected pager state: No button should be displayed</string>
     <string name="what_would_you_like_to_cook_today">What would you like to cook today?</string>
     <string name="go_to_profile">Go to profile</string>
+    <string name="search_for_recipes">Search for recipes</string>
 </resources>

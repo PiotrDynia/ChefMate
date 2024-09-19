@@ -52,7 +52,7 @@ fun TopWelcomeRow(modifier: Modifier = Modifier) {
             modifier = Modifier
                 .size(48.dp)
                 .clip(CircleShape)
-                .clickable { }
+                .clickable { /*TODO*/ }
         )
     }
 }
