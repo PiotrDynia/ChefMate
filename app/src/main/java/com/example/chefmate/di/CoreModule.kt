@@ -1,20 +1,16 @@
 package com.example.chefmate.di
 
 import android.content.Context
+import com.example.chefmate.core.data.api.APIService
 import com.example.chefmate.core.data.repository.DataStoreRepositoryImpl
 import com.example.chefmate.core.domain.repository.DataStoreRepository
-import com.example.chefmate.featureHome.domain.usecase.HomeUseCases
-import com.example.chefmate.featureHome.domain.usecase.ReadDietPreferences
-import com.example.chefmate.featureOnboarding.domain.usecase.SaveDietPreferences
-import com.example.chefmate.featureOnboarding.domain.usecase.SaveOnBoardingState
-import com.example.chefmate.featureOnboarding.domain.usecase.WelcomeUseCases
-import com.example.chefmate.featureSplash.domain.usecase.ReadOnBoardingState
-import com.example.chefmate.featureSplash.domain.usecase.SplashUseCases
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
 @Module
@@ -27,5 +23,21 @@ object CoreModule {
         @ApplicationContext context: Context
     ) : DataStoreRepository {
         return DataStoreRepositoryImpl(context = context)
+    }
+
+    @Provides
+    fun provideBaseUrl(): String = "https://api.spoonacular.com/"
+
+    @Provides
+    @Singleton
+    fun provideRetrofit(baseUrl: String): Retrofit = Retrofit.Builder()
+        .baseUrl(baseUrl)
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
+
+    @Provides
+    @Singleton
+    fun provideAPIService(retrofit: Retrofit) : APIService {
+        return retrofit.create(APIService::class.java)
     }
 }

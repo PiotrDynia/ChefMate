@@ -36,6 +36,8 @@ class MainActivity : ComponentActivity() {
                 ) { _ ->
                     val navController = rememberNavController()
                     val screen by splashViewModel.startDestination
+                    val key = BuildConfig.API_KEY
+                    println("PLEASE FOR THE LOVE OF GOD - $key")
                     screen?.let { SetupNavGraph(navController = navController, startDestination = it) }
                 }
             }
