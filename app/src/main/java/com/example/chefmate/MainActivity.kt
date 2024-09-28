@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.material.Scaffold
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.Color
@@ -32,12 +32,10 @@ class MainActivity : ComponentActivity() {
         setContent {
             ChefMateTheme {
                 Scaffold(
-                    backgroundColor = Color(0xFFEAEAEA)
+                    containerColor = Color(0xFFEAEAEA)
                 ) { _ ->
                     val navController = rememberNavController()
                     val screen by splashViewModel.startDestination
-                    val key = BuildConfig.API_KEY
-                    println("PLEASE FOR THE LOVE OF GOD - $key")
                     screen?.let { SetupNavGraph(navController = navController, startDestination = it) }
                 }
             }

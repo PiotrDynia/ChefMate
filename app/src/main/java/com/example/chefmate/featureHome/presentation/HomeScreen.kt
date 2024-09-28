@@ -15,6 +15,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.chefmate.core.presentation.util.LoadingScreen
 import com.example.chefmate.featureHome.presentation.components.DietaryPreferencesRows
+import com.example.chefmate.featureHome.presentation.components.RecommendationsRow
 import com.example.chefmate.featureHome.presentation.components.SearchSection
 import com.example.chefmate.featureHome.presentation.components.TopWelcomeRow
 
@@ -44,6 +45,7 @@ fun HomeScreen(
                 state = state,
                 onEvent = viewModel::onEvent
             )
+            RecommendationsRow(items = state.recommendations)
         }
     }
 }

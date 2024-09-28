@@ -101,6 +101,9 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
 
+    // Coil
+    implementation(libs.coil.compose)
+
     // WorkManager
     implementation(libs.androidx.work.runtime.ktx)
 
@@ -115,9 +118,6 @@ dependencies {
     // Core AndroidX dependencies
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
-
-    // UI Components
-//    implementation(libs.numberpicker)
 
     // Unit testing dependencies
     testImplementation(libs.junit)
