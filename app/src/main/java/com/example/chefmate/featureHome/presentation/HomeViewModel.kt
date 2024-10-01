@@ -1,5 +1,6 @@
 package com.example.chefmate.featureHome.presentation
 
+import androidx.compose.runtime.snapshotFlow
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.chefmate.core.data.api.APIService
@@ -11,7 +12,12 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -39,7 +45,8 @@ class HomeViewModel @Inject constructor(
                 preferences.intolerances.contains(intolerance.displayName)
             }.toSet()
 
-            _state.update { it.copy(
+            _state.update {
+                it.copy(
                     selectedCuisines = selectedCuisines,
                     selectedDiets = selectedDiets,
                     selectedIntolerances = selectedIntolerances,
@@ -47,34 +54,37 @@ class HomeViewModel @Inject constructor(
                 )
             }
 
-//            _state.collectLatest { currentState ->
-//                println("Current state - $currentState")
-//                if (arePreferencesEmpty(currentState) && !currentState.areRandomRecipesLoaded) {
-//                    loadRandomRecipes()
-//                } else {
-//                    // TODO handle no internet connection/no api key/whatever
-//                    val recommendedRecipes = apiService.getRecipes(
-//                        cuisines = currentState.selectedCuisines.joinToString(separator = ",") { it.displayName },
-//                        diets = currentState.selectedDiets.joinToString(separator = ",") { it.displayName },
-//                        intolerances = currentState.selectedIntolerances.joinToString(separator = ",") { it.displayName }
-//                    )
-//
-//                    println("Recommended recipes - $recommendedRecipes")
-//
-//
-//                    if (recommendedRecipes.results.isEmpty() && !currentState.areRandomRecipesLoaded) {
-//                        println("Loading random recipes...")
-//                        loadRandomRecipes()
-//                    } else {
-//                        _state.update {
-//                            it.copy(
-//                                recommendations = recommendedRecipes.results,
-//                                isLoading = false
-//                            )
-//                        }
-//                    }
-//                }
-//            }
+            val selectedItemsFlow = _state.map { state ->
+                Triple(state.selectedCuisines, state.selectedDiets, state.selectedIntolerances)
+            }.distinctUntilChanged()
+
+            selectedItemsFlow.collectLatest { (cuisines, diets, intolerances) ->
+                if (arePreferencesEmpty(cuisines, diets, intolerances)) {
+                    loadRandomRecipes()
+                } else {
+                    // TODO handle no internet connection/no api key/whatever
+                    val recommendedRecipes = apiService.getRecipes(
+                        cuisines = cuisines.joinToString(separator = ",") { it.displayName },
+                        diets = diets.joinToString(separator = ",") { it.displayName },
+                        intolerances = intolerances.joinToString(separator = ",") { it.displayName }
+                    )
+
+                    println("Recommended recipes - $recommendedRecipes")
+
+                    if (recommendedRecipes.results.isEmpty()) {
+                        // TODO change to showing a text "Can't find recommendations for you, try narrowing your search"
+                        println("Loading random recipes...")
+                        loadRandomRecipes()
+                    } else {
+                        _state.update {
+                            it.copy(
+                                recommendations = recommendedRecipes.results,
+                                isLoading = false
+                            )
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -139,7 +149,7 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun arePreferencesEmpty(currentState: HomeState): Boolean {
-        return currentState.selectedCuisines.isEmpty() && currentState.selectedDiets.isEmpty() && currentState.selectedIntolerances.isEmpty()
+    private fun arePreferencesEmpty(cuisines: Set<Cuisine>, diets: Set<Diet>, intolerances: Set<Intolerance>): Boolean {
+        return cuisines.isEmpty() && diets.isEmpty() && intolerances.isEmpty()
     }
 }
