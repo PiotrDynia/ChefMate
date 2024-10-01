@@ -3,7 +3,6 @@ package com.example.chefmate.featureHome.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.chefmate.R
-import com.example.chefmate.core.data.api.APIService
 import com.example.chefmate.core.data.api.dto.GetRecipeResult
 import com.example.chefmate.core.domain.util.Cuisine
 import com.example.chefmate.core.domain.util.Diet
@@ -18,18 +17,14 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import retrofit2.HttpException
-import java.io.IOException
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val useCases: HomeUseCases,
-    private val apiService: APIService
+    private val useCases: HomeUseCases
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(HomeState())
@@ -43,24 +38,13 @@ class HomeViewModel @Inject constructor(
     }
 
     private suspend fun loadUserPreferences() {
-        val preferences = useCases.readDietPreferences().first()
-
-        val selectedCuisines = Cuisine.entries.filter { cuisine ->
-            preferences.cuisines.contains(cuisine.displayName)
-        }.toSet()
-        val selectedDiets = Diet.entries.filter { diet ->
-            preferences.diets.contains(diet.displayName)
-        }.toSet()
-        val selectedIntolerances = Intolerance.entries.filter { intolerance ->
-            preferences.intolerances.contains(intolerance.displayName)
-        }.toSet()
+        val preferences = useCases.readDietPreferences()
 
         _state.update {
             it.copy(
-                selectedCuisines = selectedCuisines,
-                selectedDiets = selectedDiets,
-                selectedIntolerances = selectedIntolerances,
-                isLoading = false
+                selectedCuisines = preferences.selectedCuisines,
+                selectedDiets = preferences.selectedDiets,
+                selectedIntolerances = preferences.selectedIntolerances
             )
         }
     }
@@ -100,7 +84,7 @@ class HomeViewModel @Inject constructor(
 
     private fun loadRandomRecipes() {
         viewModelScope.launch(Dispatchers.IO) {
-            val randomRecipes = apiService.getRandomRecipes()
+            val randomRecipes = useCases.fetchRandomRecipes()
 
             _state.update {
                 it.copy(
@@ -116,25 +100,7 @@ class HomeViewModel @Inject constructor(
         diets: Set<Diet>,
         intolerances: Set<Intolerance>
     ): Result<GetRecipeResult, DataError.Network> {
-        return try {
-            val recipes = apiService.getRecipes(
-                cuisines = cuisines.joinToString(separator = ",") { it.displayName },
-                diets = diets.joinToString(separator = ",") { it.displayName },
-                intolerances = intolerances.joinToString(separator = ",") { it.displayName }
-            )
-            Result.Success(recipes)
-        } catch (e: HttpException) {
-            val error = when (e.code()) {
-                408 -> DataError.Network.REQUEST_TIMEOUT
-                429 -> DataError.Network.TOO_MANY_REQUESTS
-                413 -> DataError.Network.PAYLOAD_TOO_LARGE
-                in 500..599 -> DataError.Network.SERVER_ERROR
-                else -> DataError.Network.UNKNOWN
-            }
-            Result.Error(error)
-        } catch (e: IOException) {
-            Result.Error(DataError.Network.NO_INTERNET)
-        }
+        return useCases.fetchRecipes(cuisines, diets, intolerances)
     }
 
     private fun updateRecommendations(recipes: GetRecipeResult) {
