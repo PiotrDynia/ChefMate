@@ -1,25 +1,29 @@
 package com.example.chefmate.featureHome.presentation
 
-import androidx.compose.runtime.snapshotFlow
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.chefmate.R
 import com.example.chefmate.core.data.api.APIService
+import com.example.chefmate.core.data.api.dto.GetRecipeResult
 import com.example.chefmate.core.domain.util.Cuisine
 import com.example.chefmate.core.domain.util.Diet
 import com.example.chefmate.core.domain.util.Intolerance
+import com.example.chefmate.core.domain.util.Result
+import com.example.chefmate.core.domain.util.error.DataError
 import com.example.chefmate.featureHome.domain.usecase.HomeUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import retrofit2.HttpException
+import java.io.IOException
 import javax.inject.Inject
 
 @HiltViewModel
@@ -33,73 +37,120 @@ class HomeViewModel @Inject constructor(
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
-            val preferences = useCases.readDietPreferences().first()
+            loadUserPreferences()
+            handleRecipeRecommendations()
+        }
+    }
 
-            val selectedCuisines = Cuisine.entries.filter { cuisine ->
-                preferences.cuisines.contains(cuisine.displayName)
-            }.toSet()
-            val selectedDiets = Diet.entries.filter { diet ->
-                preferences.diets.contains(diet.displayName)
-            }.toSet()
-            val selectedIntolerances = Intolerance.entries.filter { intolerance ->
-                preferences.intolerances.contains(intolerance.displayName)
-            }.toSet()
+    private suspend fun loadUserPreferences() {
+        val preferences = useCases.readDietPreferences().first()
 
-            _state.update {
-                it.copy(
-                    selectedCuisines = selectedCuisines,
-                    selectedDiets = selectedDiets,
-                    selectedIntolerances = selectedIntolerances,
-                    isLoading = false
-                )
-            }
+        val selectedCuisines = Cuisine.entries.filter { cuisine ->
+            preferences.cuisines.contains(cuisine.displayName)
+        }.toSet()
+        val selectedDiets = Diet.entries.filter { diet ->
+            preferences.diets.contains(diet.displayName)
+        }.toSet()
+        val selectedIntolerances = Intolerance.entries.filter { intolerance ->
+            preferences.intolerances.contains(intolerance.displayName)
+        }.toSet()
 
-            val selectedItemsFlow = _state.map { state ->
-                Triple(state.selectedCuisines, state.selectedDiets, state.selectedIntolerances)
-            }.distinctUntilChanged()
+        _state.update {
+            it.copy(
+                selectedCuisines = selectedCuisines,
+                selectedDiets = selectedDiets,
+                selectedIntolerances = selectedIntolerances,
+                isLoading = false
+            )
+        }
+    }
 
-            selectedItemsFlow.collectLatest { (cuisines, diets, intolerances) ->
-                if (arePreferencesEmpty(cuisines, diets, intolerances)) {
-                    loadRandomRecipes()
-                } else {
-                    // TODO handle no internet connection/no api key/whatever
-                    val recommendedRecipes = apiService.getRecipes(
-                        cuisines = cuisines.joinToString(separator = ",") { it.displayName },
-                        diets = diets.joinToString(separator = ",") { it.displayName },
-                        intolerances = intolerances.joinToString(separator = ",") { it.displayName }
-                    )
+    private suspend fun handleRecipeRecommendations() {
+        val selectedItemsFlow = createFlowFromSelectedItems()
 
-                    println("Recommended recipes - $recommendedRecipes")
+        selectedItemsFlow.collectLatest { (cuisines, diets, intolerances) ->
+            if (arePreferencesEmpty(cuisines, diets, intolerances)) {
+                loadRandomRecipes()
+            } else {
+                val recommendedRecipes = fetchRecommendedRecipes(cuisines, diets, intolerances)
 
-                    if (recommendedRecipes.results.isEmpty()) {
-                        // TODO change to showing a text "Can't find recommendations for you, try narrowing your search"
-                        println("Loading random recipes...")
-                        loadRandomRecipes()
-                    } else {
-                        _state.update {
-                            it.copy(
-                                recommendations = recommendedRecipes.results,
-                                isLoading = false
-                            )
+                when (recommendedRecipes) {
+                    is Result.Success -> {
+                        val recipes = recommendedRecipes.data
+                        if (recipes.results.isEmpty()) {
+                            setErrorMessage(R.string.can_t_find_any_recommendations_try_changing_your_filters)
+                        } else {
+                            updateRecommendations(recipes)
                         }
+                    }
+
+                    is Result.Error -> {
+                        setErrorMessage(recommendedRecipes.error.messageResId)
                     }
                 }
             }
         }
     }
 
+    private fun createFlowFromSelectedItems() : Flow<Triple<Set<Cuisine>, Set<Diet>, Set<Intolerance>>> {
+        return _state.map { state ->
+            Triple(state.selectedCuisines, state.selectedDiets, state.selectedIntolerances)
+        }.distinctUntilChanged()
+    }
+
     private fun loadRandomRecipes() {
         viewModelScope.launch(Dispatchers.IO) {
-            println("Inside random recipes...")
             val randomRecipes = apiService.getRandomRecipes()
 
             _state.update {
                 it.copy(
                     recommendations = randomRecipes.recipes,
-                    areRandomRecipesLoaded = true,
                     isLoading = false
                 )
             }
+        }
+    }
+
+    private suspend fun fetchRecommendedRecipes(
+        cuisines: Set<Cuisine>,
+        diets: Set<Diet>,
+        intolerances: Set<Intolerance>
+    ): Result<GetRecipeResult, DataError.Network> {
+        return try {
+            val recipes = apiService.getRecipes(
+                cuisines = cuisines.joinToString(separator = ",") { it.displayName },
+                diets = diets.joinToString(separator = ",") { it.displayName },
+                intolerances = intolerances.joinToString(separator = ",") { it.displayName }
+            )
+            Result.Success(recipes)
+        } catch (e: HttpException) {
+            val error = when (e.code()) {
+                408 -> DataError.Network.REQUEST_TIMEOUT
+                429 -> DataError.Network.TOO_MANY_REQUESTS
+                413 -> DataError.Network.PAYLOAD_TOO_LARGE
+                in 500..599 -> DataError.Network.SERVER_ERROR
+                else -> DataError.Network.UNKNOWN
+            }
+            Result.Error(error)
+        } catch (e: IOException) {
+            Result.Error(DataError.Network.NO_INTERNET)
+        }
+    }
+
+    private fun updateRecommendations(recipes: GetRecipeResult) {
+        _state.update {
+            it.copy(
+                recommendations = recipes.results,
+                isLoading = false
+            )
+        }
+    }
+
+    private fun setErrorMessage(errorMessageResId: Int) {
+        _state.update {
+            it.copy(
+                errorMessageResId = errorMessageResId
+            )
         }
     }
 

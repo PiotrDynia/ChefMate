@@ -29,23 +29,23 @@ fun HomeScreen(
         LoadingScreen()
     } else {
         Column(
-            modifier = modifier
+            modifier = Modifier
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.Top
         ) {
             Spacer(modifier = Modifier.height(16.dp))
-            TopWelcomeRow(modifier = modifier)
+            TopWelcomeRow()
             SearchSection(
                 state = state,
-                onEvent = viewModel::onEvent,
-                modifier = modifier
+                onEvent = viewModel::onEvent
             )
+            Spacer(modifier = Modifier.height(16.dp))
             DietaryPreferencesRows(
                 state = state,
                 onEvent = viewModel::onEvent
             )
-            RecommendationsRow(items = state.recommendations)
+            RecommendationsRow(state = state)
         }
     }
 }

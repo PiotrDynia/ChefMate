@@ -1,6 +1,8 @@
 package com.example.chefmate.core.data.api
 
 import com.example.chefmate.BuildConfig
+import com.example.chefmate.core.data.api.dto.GetRandomRecipeResult
+import com.example.chefmate.core.data.api.dto.GetRecipeResult
 import retrofit2.http.GET
 import retrofit2.http.Query
 

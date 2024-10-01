@@ -72,6 +72,7 @@ fun SearchSection(state: HomeState, onEvent: (HomeEvent) -> Unit, modifier: Modi
             .fillMaxWidth()
             .heightIn(min = 56.dp)
             .clip(RoundedCornerShape(8.dp))
+            .padding(16.dp)
     )
     Row(
         horizontalArrangement = Arrangement.SpaceAround,

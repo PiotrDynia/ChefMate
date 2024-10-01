@@ -23,16 +23,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.example.chefmate.R
-import com.example.chefmate.core.domain.util.RecipeSimple
+import com.example.chefmate.featureHome.presentation.HomeState
 
 @Composable
-fun RecommendationsRow(items: List<RecipeSimple>, modifier: Modifier = Modifier) {
+fun RecommendationsRow(state: HomeState, modifier: Modifier = Modifier) {
     Column(
         modifier = Modifier
             .padding(bottom = 16.dp)
@@ -55,6 +56,7 @@ fun RecommendationsRow(items: List<RecipeSimple>, modifier: Modifier = Modifier)
             Text(
                 text = stringResource(R.string.see_all),
                 modifier = Modifier
+                    .padding(horizontal = 8.dp)
                     .padding(bottom = 8.dp)
                     .clickable {
                         /*TODO*/
@@ -66,41 +68,54 @@ fun RecommendationsRow(items: List<RecipeSimple>, modifier: Modifier = Modifier)
                 )
             )
         }
-        LazyRow(
-            horizontalArrangement = Arrangement.spacedBy(16.dp),
-            contentPadding = PaddingValues(horizontal = 8.dp),
-            modifier = Modifier
-                .fillMaxWidth()
-        ) {
-            items(items) { item ->
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier
-                        .padding(vertical = 16.dp)
-                        .animateItem()
-                        .clickable {
-                            /*TODO*/
-                        }
-                ) {
-                    AsyncImage(
-                        model = item.image,
-                        contentDescription = stringResource(R.string.recipe_image),
-                        contentScale = ContentScale.Crop,
+        if (state.errorMessageResId != null) {
+            Text(
+                text = stringResource(state.errorMessageResId),
+                modifier = Modifier
+                    .padding(horizontal = 8.dp),
+                style = MaterialTheme.typography.headlineSmall.copy(
+                    fontSize = 14.sp,
+                    fontStyle = FontStyle.Italic,
+                    color = MaterialTheme.colorScheme.onBackground
+                )
+            )
+        } else {
+            LazyRow(
+                horizontalArrangement = Arrangement.spacedBy(16.dp),
+                contentPadding = PaddingValues(horizontal = 8.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+            ) {
+                items(state.recommendations) { item ->
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
                         modifier = Modifier
-                            .size(120.dp)
-                            .clip(RoundedCornerShape(16.dp))
-                            .aspectRatio(3f / 4f)
-                    )
-                    Spacer(modifier = Modifier.height(24.dp))
-                    Text(
-                        text = item.title,
-                        textAlign = TextAlign.Center,
-                        fontSize = 14.sp,
-                        fontWeight = FontWeight.Bold,
-                        modifier = Modifier
-                            .width(120.dp),
-                        maxLines = 4
-                    )
+                            .padding(vertical = 16.dp)
+                            .animateItem()
+                            .clickable {
+                                /*TODO*/
+                            }
+                    ) {
+                        AsyncImage(
+                            model = item.image,
+                            contentDescription = stringResource(R.string.recipe_image),
+                            contentScale = ContentScale.Crop,
+                            modifier = Modifier
+                                .size(120.dp)
+                                .clip(RoundedCornerShape(16.dp))
+                                .aspectRatio(3f / 4f)
+                        )
+                        Spacer(modifier = Modifier.height(24.dp))
+                        Text(
+                            text = item.title,
+                            textAlign = TextAlign.Center,
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight.Bold,
+                            modifier = Modifier
+                                .width(120.dp),
+                            maxLines = 4
+                        )
+                    }
                 }
             }
         }

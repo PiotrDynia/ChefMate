@@ -1,4 +1,4 @@
-package com.example.chefmate.core.domain.util
+package com.example.chefmate.core.data.api.dto
 
 data class RecipeSimple(
     val id: Int,
