@@ -1,79 +1,80 @@
 package com.example.chefmate.featureHome.presentation.components
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Button
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MenuAnchorType
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
-import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.chefmate.R
 import com.example.chefmate.featureHome.presentation.HomeEvent
 import com.example.chefmate.featureHome.presentation.HomeState
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchSection(state: HomeState, onEvent: (HomeEvent) -> Unit, modifier: Modifier = Modifier) {
-    TextField(
-        value = state.searchInput,
-        onValueChange = { onEvent(HomeEvent.OnSearchInputChange(it)) },
-        leadingIcon = {
-            Icon(
-                imageVector = Icons.Default.Search,
-                contentDescription = null
+    Box(modifier = Modifier.padding(16.dp)) {
+        ExposedDropdownMenuBox(
+            expanded = state.isSearchAutocompleteExpanded,
+            onExpandedChange = { }
+        ) {
+            TextField(
+                value = state.searchInput,
+                onValueChange = { onEvent(HomeEvent.OnSearchInputChange(it)) },
+                leadingIcon = {
+                    Icon(
+                        imageVector = Icons.Default.Search,
+                        contentDescription = null
+                    )
+                },
+                colors = TextFieldDefaults.colors(
+                    unfocusedContainerColor = MaterialTheme.colorScheme.background,
+                    focusedContainerColor = MaterialTheme.colorScheme.background
+                ),
+                placeholder = {
+                    Text(stringResource(R.string.search_for_recipes))
+                },
+                maxLines = 1,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .heightIn(min = 56.dp)
+                    .clip(RoundedCornerShape(8.dp))
+                    .menuAnchor(type = MenuAnchorType.PrimaryEditable)
             )
-        },
-        trailingIcon = {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.padding(end = 8.dp)
+            ExposedDropdownMenu(
+                expanded = state.isSearchAutocompleteExpanded,
+                onDismissRequest = { onEvent(HomeEvent.OnDismissAutocomplete) }
             ) {
-                VerticalDivider(
-                    modifier = Modifier
-                        .width(1.dp)
-                        .height(32.dp),
-                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
-                )
-                Spacer(modifier = Modifier.width(8.dp))
-                Icon(
-                    painter = painterResource(R.drawable.ic_filter),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .clickable { /*TODO*/ }
-                )
+                state.autocompletedResults.forEach { option ->
+                    DropdownMenuItem(
+                        text = { Text(option) },
+                        onClick = {
+                            onEvent(HomeEvent.OnAutocompleteItemClick)
+                        }
+                    )
+                }
             }
-        },
-        colors = TextFieldDefaults.colors(
-            unfocusedContainerColor = MaterialTheme.colorScheme.background,
-            focusedContainerColor = MaterialTheme.colorScheme.background
-        ),
-        placeholder = {
-            Text(stringResource(R.string.search_for_recipes))
-        },
-        modifier = Modifier
-            .fillMaxWidth()
-            .heightIn(min = 56.dp)
-            .clip(RoundedCornerShape(8.dp))
-            .padding(16.dp)
-    )
+        }
+    }
+
     Row(
         horizontalArrangement = Arrangement.SpaceAround,
         modifier = modifier.fillMaxWidth()

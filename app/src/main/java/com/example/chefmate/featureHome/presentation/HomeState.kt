@@ -8,9 +8,12 @@ import com.example.chefmate.core.data.api.dto.RecipeSimple
 data class HomeState(
     val searchInput: String = "",
     val isLoading: Boolean = true,
+    val isSearchAutocompleteExpanded: Boolean = false,
     val errorMessageResId: Int? = null,
+    val autocompleteErrorMessageResId: Int? = null,
     val selectedCuisines: Set<Cuisine> = emptySet(),
     val selectedDiets: Set<Diet> = emptySet(),
     val selectedIntolerances: Set<Intolerance> = emptySet(),
-    val recommendations: List<RecipeSimple> = emptyList()
+    val recommendations: List<RecipeSimple> = emptyList(),
+    val autocompletedResults: List<String> = emptyList()
 )

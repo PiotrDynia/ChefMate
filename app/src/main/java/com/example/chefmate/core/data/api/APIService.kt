@@ -3,6 +3,7 @@ package com.example.chefmate.core.data.api
 import com.example.chefmate.BuildConfig
 import com.example.chefmate.core.data.api.dto.GetRandomRecipeResult
 import com.example.chefmate.core.data.api.dto.GetRecipeResult
+import com.example.chefmate.core.data.api.dto.GetRecipesAutocompleteResult
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -27,4 +28,11 @@ interface APIService {
         @Query("number") resultsCount: Int = 10,
         @Query("apiKey") apiKey: String = API_KEY
     ) : GetRandomRecipeResult
+
+    @GET("recipes/autocomplete")
+    suspend fun getAutocompleteRecipes(
+        @Query("query") query: String = "",
+        @Query("number") resultsCount: Int = 5,
+        @Query("apiKey") apiKey: String = API_KEY
+    ) : GetRecipesAutocompleteResult
 }
