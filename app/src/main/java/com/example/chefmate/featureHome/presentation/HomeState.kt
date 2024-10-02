@@ -1,5 +1,6 @@
 package com.example.chefmate.featureHome.presentation
 
+import com.example.chefmate.core.data.api.dto.GetRecipesAutocompleteResult
 import com.example.chefmate.core.domain.util.Cuisine
 import com.example.chefmate.core.domain.util.Diet
 import com.example.chefmate.core.domain.util.Intolerance
@@ -15,5 +16,5 @@ data class HomeState(
     val selectedDiets: Set<Diet> = emptySet(),
     val selectedIntolerances: Set<Intolerance> = emptySet(),
     val recommendations: List<RecipeSimple> = emptyList(),
-    val autocompletedResults: List<String> = emptyList()
+    val autocompletedResults: GetRecipesAutocompleteResult = GetRecipesAutocompleteResult()
 )

@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.chefmate.R
 import com.example.chefmate.core.data.api.dto.GetRecipeResult
+import com.example.chefmate.core.data.api.dto.GetRecipesAutocompleteResult
 import com.example.chefmate.core.domain.util.Cuisine
 import com.example.chefmate.core.domain.util.Diet
 import com.example.chefmate.core.domain.util.Intolerance
@@ -121,7 +122,18 @@ class HomeViewModel @Inject constructor(
     private fun setErrorMessage(errorMessageResId: Int) {
         _state.update {
             it.copy(
-                errorMessageResId = errorMessageResId
+                errorMessageResId = errorMessageResId,
+                isLoading = false
+            )
+        }
+    }
+
+    private fun setAutocompleteErrorMessage(errorMessageResId: Int) {
+        _state.update {
+            it.copy(
+                autocompleteErrorMessageResId = errorMessageResId,
+                isSearchAutocompleteExpanded = true,
+                isLoading = false
             )
         }
     }
@@ -147,21 +159,24 @@ class HomeViewModel @Inject constructor(
     private fun handleAutocomplete(input: String) {
         if (input.length >= 3) {
             viewModelScope.launch(Dispatchers.IO) {
-                val autocompletedRecipes = useCases.getAutocompleteRecipes(input).map {
-                    it.title
-                }
-                _state.update {
-                    it.copy(
-                        isSearchAutocompleteExpanded = true,
-                        autocompletedResults = autocompletedRecipes
-                    )
+                when(val result = useCases.getAutocompleteRecipes(input)) {
+                    is Result.Success -> {
+                        val autocompleteRecipes = result.data
+                        _state.update { state ->
+                            state.copy(
+                                isSearchAutocompleteExpanded = true,
+                                autocompletedResults = autocompleteRecipes
+                            )
+                        }
+                    }
+                    is Result.Error -> setAutocompleteErrorMessage(result.error.messageResId)
                 }
             }
         } else {
             _state.update {
                 it.copy(
                     isSearchAutocompleteExpanded = false,
-                    autocompletedResults = emptyList()
+                    autocompletedResults = GetRecipesAutocompleteResult()
                 )
             }
         }

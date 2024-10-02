@@ -23,6 +23,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.unit.dp
 import com.example.chefmate.R
 import com.example.chefmate.featureHome.presentation.HomeEvent
@@ -63,13 +64,24 @@ fun SearchSection(state: HomeState, onEvent: (HomeEvent) -> Unit, modifier: Modi
                 expanded = state.isSearchAutocompleteExpanded,
                 onDismissRequest = { onEvent(HomeEvent.OnDismissAutocomplete) }
             ) {
-                state.autocompletedResults.forEach { option ->
+                if (state.autocompleteErrorMessageResId != null) {
                     DropdownMenuItem(
-                        text = { Text(option) },
-                        onClick = {
-                            onEvent(HomeEvent.OnAutocompleteItemClick)
-                        }
+                        text = { Text(
+                            text = stringResource(id = state.autocompleteErrorMessageResId),
+                            fontStyle = FontStyle.Italic
+                        ) },
+                        onClick = { },
+                        enabled = false
                     )
+                } else {
+                    state.autocompletedResults.forEach { option ->
+                        DropdownMenuItem(
+                            text = { Text(option.title) },
+                            onClick = {
+                                onEvent(HomeEvent.OnAutocompleteItemClick)
+                            }
+                        )
+                    }
                 }
             }
         }
