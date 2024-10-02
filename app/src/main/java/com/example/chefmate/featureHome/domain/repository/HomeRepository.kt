@@ -6,12 +6,12 @@ import com.example.chefmate.core.data.api.dto.GetRecipesAutocompleteResultItem
 
 interface HomeRepository {
     suspend fun getRecipes(
-        cuisines: String = "",
-        diets: String = "",
-        intolerances: String = ""
+        cuisines: String,
+        diets: String,
+        intolerances: String
     ): GetRecipeResult
 
     suspend fun getRandomRecipes(): GetRandomRecipeResult
 
-    suspend fun getAutocompleteRecipes(query: String = ""): ArrayList<GetRecipesAutocompleteResultItem>
+    suspend fun getAutocompleteRecipes(query: String): ArrayList<GetRecipesAutocompleteResultItem>
 }

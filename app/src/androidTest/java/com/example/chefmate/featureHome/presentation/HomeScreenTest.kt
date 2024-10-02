@@ -73,7 +73,7 @@ class HomeScreenTest {
     }
 
     @Test
-    fun checkSearchBarIsEditableDisplayed() {
+    fun checkSearchBarIsEditable() {
         composeRule
             .onNodeWithText(context.getString(R.string.search_for_recipes))
             .performTextInput("Hello")
