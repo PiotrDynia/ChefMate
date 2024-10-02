@@ -1,22 +1,22 @@
 package com.example.chefmate.featureHome.domain.usecase
 
-import com.example.chefmate.core.data.api.APIService
 import com.example.chefmate.core.data.api.dto.GetRecipeResult
 import com.example.chefmate.core.domain.util.Cuisine
 import com.example.chefmate.core.domain.util.Diet
 import com.example.chefmate.core.domain.util.Intolerance
 import com.example.chefmate.core.domain.util.Result
 import com.example.chefmate.core.domain.util.error.DataError
+import com.example.chefmate.featureHome.domain.repository.HomeRepository
 import retrofit2.HttpException
 import java.io.IOException
 
 class FetchRecipes(
-    private val apiService: APIService
+    private val homeRepository: HomeRepository
 ) {
 
     suspend operator fun invoke(cuisines: Set<Cuisine>, diets: Set<Diet>, intolerances: Set<Intolerance>) : Result<GetRecipeResult, DataError.Network> {
         return try {
-            val recipes = apiService.getRecipes(
+            val recipes = homeRepository.getRecipes(
                 cuisines = cuisines.joinToString(separator = ",") { it.displayName },
                 diets = diets.joinToString(separator = ",") { it.displayName },
                 intolerances = intolerances.joinToString(separator = ",") { it.displayName }

@@ -1,21 +1,20 @@
 package com.example.chefmate.featureHome.domain.usecase
 
-import com.example.chefmate.core.data.api.APIService
-import com.example.chefmate.core.data.api.dto.GetRandomRecipeResult
 import com.example.chefmate.core.data.api.dto.GetRecipesAutocompleteResult
 import com.example.chefmate.core.domain.util.Result
 import com.example.chefmate.core.domain.util.error.DataError
+import com.example.chefmate.featureHome.domain.repository.HomeRepository
 import retrofit2.HttpException
 import java.io.IOException
 
 class GetAutocompleteRecipes(
-    private val apiService: APIService
+    private val homeRepository: HomeRepository
 ) {
 
     suspend operator fun invoke(input: String) : Result<GetRecipesAutocompleteResult, DataError.Network> {
         return if(input.length >= 3) {
             try {
-                val recipes = apiService.getAutocompleteRecipes(input)
+                val recipes = homeRepository.getAutocompleteRecipes(input)
                 Result.Success(recipes)
             } catch (e: HttpException) {
                 val error = when (e.code()) {
