@@ -3,8 +3,8 @@ package com.example.chefmate.featureHome.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.chefmate.R
-import com.example.chefmate.core.data.api.dto.GetRecipeResult
 import com.example.chefmate.core.data.api.dto.GetRecipesAutocompleteResult
+import com.example.chefmate.core.data.api.dto.RecipeSimple
 import com.example.chefmate.core.domain.util.Cuisine
 import com.example.chefmate.core.domain.util.Diet
 import com.example.chefmate.core.domain.util.Intolerance
@@ -77,16 +77,7 @@ class HomeViewModel @Inject constructor(
 
     private suspend fun loadRandomRecipes() {
         when (val result = useCases.fetchRandomRecipes()) {
-            is Result.Success -> {
-                val data = result.data
-                _state.update {
-                    it.copy(
-                        recommendations = data.recipes,
-                        isLoading = false
-                    )
-                }
-            }
-
+            is Result.Success -> updateRecommendations(result.data.recipes)
             is Result.Error -> setErrorMessage(result.error.messageResId)
         }
     }
@@ -97,23 +88,23 @@ class HomeViewModel @Inject constructor(
         intolerances: Set<Intolerance>
     ) {
         when (val result = useCases.fetchRecipes(cuisines, diets, intolerances)) {
-            is Result.Success -> {
-                val recipes = result.data
-                if (recipes.results.isEmpty()) {
-                    setErrorMessage(R.string.can_t_find_any_recommendations_try_changing_your_filters)
-                } else {
-                    updateRecommendations(recipes)
-                }
-            }
-
+            is Result.Success -> handleFetchedRecommendations(result.data.results)
             is Result.Error -> setErrorMessage(result.error.messageResId)
         }
     }
 
-    private fun updateRecommendations(recipes: GetRecipeResult) {
+    private fun handleFetchedRecommendations(recipes: List<RecipeSimple>) {
+        if (recipes.isEmpty()) {
+            setErrorMessage(R.string.can_t_find_any_recommendations_try_changing_your_filters)
+        } else {
+            updateRecommendations(recipes)
+        }
+    }
+
+    private fun updateRecommendations(recipes: List<RecipeSimple>) {
         _state.update {
             it.copy(
-                recommendations = recipes.results,
+                recommendations = recipes,
                 isLoading = false
             )
         }
@@ -157,28 +148,20 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun handleAutocomplete(input: String) {
-        if (input.length >= 3) {
-            viewModelScope.launch(Dispatchers.IO) {
-                when(val result = useCases.getAutocompleteRecipes(input)) {
-                    is Result.Success -> {
-                        val autocompleteRecipes = result.data
-                        _state.update { state ->
-                            state.copy(
-                                isSearchAutocompleteExpanded = true,
-                                autocompletedResults = autocompleteRecipes
-                            )
-                        }
-                    }
-                    is Result.Error -> setAutocompleteErrorMessage(result.error.messageResId)
-                }
+        viewModelScope.launch(Dispatchers.IO) {
+            when (val result = useCases.getAutocompleteRecipes(input)) {
+                is Result.Success -> updateAutocompleteState(result.data)
+                is Result.Error -> setAutocompleteErrorMessage(result.error.messageResId)
             }
-        } else {
-            _state.update {
-                it.copy(
-                    isSearchAutocompleteExpanded = false,
-                    autocompletedResults = GetRecipesAutocompleteResult()
-                )
-            }
+        }
+    }
+
+    private fun updateAutocompleteState(result: GetRecipesAutocompleteResult) {
+        _state.update { state ->
+            state.copy(
+                isSearchAutocompleteExpanded = result.isNotEmpty(),
+                autocompletedResults = result
+            )
         }
     }
 
