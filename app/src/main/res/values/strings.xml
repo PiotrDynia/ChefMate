@@ -35,4 +35,7 @@
     <string name="an_error_occurred_on_the_server_please_try_again_later">An error occurred on the server. Please try again later.</string>
     <string name="an_unknown_error_occurred_please_try_again">An unknown error occurred. Please try again.</string>
     <string name="can_t_find_any_recommendations_try_changing_your_filters">Can\'t find any recommendations, try changing your filters</string>
+    <string name="home">Home</string>
+    <string name="saved">Saved</string>
+    <string name="ai_chatbot">AI Chatbot</string>
 </resources>

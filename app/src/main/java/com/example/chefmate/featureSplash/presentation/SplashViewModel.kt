@@ -22,13 +22,13 @@ class SplashViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             useCases.readOnBoardingState().collect { completed ->
-                if (completed) {
-                    _startDestination.value = Screen.Home.route
+                _startDestination.value = if (completed) {
+                    Screen.Home.route
                 } else {
-                    _startDestination.value = Screen.Welcome.route
+                    Screen.Welcome.route
                 }
+                _isLoading.value = false
             }
-            _isLoading.value = false
         }
     }
 }
