@@ -1,6 +1,6 @@
 package com.example.chefmate.featureHome.domain.usecase
 
-import com.example.chefmate.core.data.api.dto.GetRecipesAutocompleteResult
+import com.example.chefmate.core.data.api.dto.GetRecipesAutocompleteResultItem
 import com.example.chefmate.core.domain.util.Result
 import com.example.chefmate.core.domain.util.error.DataError
 import com.example.chefmate.featureHome.domain.repository.HomeRepository
@@ -11,7 +11,7 @@ class GetAutocompleteRecipes(
     private val homeRepository: HomeRepository
 ) {
 
-    suspend operator fun invoke(input: String) : Result<GetRecipesAutocompleteResult, DataError.Network> {
+    suspend operator fun invoke(input: String) : Result<ArrayList<GetRecipesAutocompleteResultItem>, DataError.Network> {
         return if(input.length >= 3) {
             try {
                 val recipes = homeRepository.getAutocompleteRecipes(input)
@@ -29,7 +29,7 @@ class GetAutocompleteRecipes(
                 Result.Error(DataError.Network.NO_INTERNET)
             }
         } else {
-          Result.Success(GetRecipesAutocompleteResult())
+          Result.Success(ArrayList())
         }
     }
 }

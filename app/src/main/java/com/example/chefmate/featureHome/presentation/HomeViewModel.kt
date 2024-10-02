@@ -3,7 +3,7 @@ package com.example.chefmate.featureHome.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.chefmate.R
-import com.example.chefmate.core.data.api.dto.GetRecipesAutocompleteResult
+import com.example.chefmate.core.data.api.dto.GetRecipesAutocompleteResultItem
 import com.example.chefmate.core.data.api.dto.RecipeSimple
 import com.example.chefmate.core.domain.util.Cuisine
 import com.example.chefmate.core.domain.util.Diet
@@ -156,7 +156,7 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun updateAutocompleteState(result: GetRecipesAutocompleteResult) {
+    private fun updateAutocompleteState(result: ArrayList<GetRecipesAutocompleteResultItem>) {
         _state.update { state ->
             state.copy(
                 isSearchAutocompleteExpanded = result.isNotEmpty(),

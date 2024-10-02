@@ -35,9 +35,3 @@ enum class Cuisine(val displayName: String, @DrawableRes val imageResId: Int) {
 }
 
 fun getAllCuisineNames() : List<String> = Cuisine.entries.map { it.displayName }
-
-fun getCuisineMap(): Map<String, Int> {
-    return Cuisine.entries.associate { cuisine ->
-        cuisine.displayName to cuisine.imageResId
-    }
-}

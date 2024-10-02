@@ -2,7 +2,7 @@ package com.example.chefmate.featureHome.data.repository
 
 import com.example.chefmate.core.data.api.dto.GetRandomRecipeResult
 import com.example.chefmate.core.data.api.dto.GetRecipeResult
-import com.example.chefmate.core.data.api.dto.GetRecipesAutocompleteResult
+import com.example.chefmate.core.data.api.dto.GetRecipesAutocompleteResultItem
 import com.example.chefmate.featureHome.domain.repository.HomeRepository
 import okhttp3.ResponseBody.Companion.toResponseBody
 import retrofit2.HttpException
@@ -15,15 +15,12 @@ class FakeHomeRepository : HomeRepository {
     var httpErrorCode: Int? = null
     var recipes: GetRecipeResult = GetRecipeResult(emptyList())
     var randomRecipes: GetRandomRecipeResult = GetRandomRecipeResult(emptyList())
-    var autocompleteResults: GetRecipesAutocompleteResult = GetRecipesAutocompleteResult()
+    var autocompleteResults: ArrayList<GetRecipesAutocompleteResultItem> = ArrayList()
 
     override suspend fun getRecipes(
-        query: String,
-        sortStrategy: String,
         cuisines: String,
         diets: String,
-        intolerances: String,
-        resultsCount: Int
+        intolerances: String
     ): GetRecipeResult {
         if (shouldReturnError) {
             if (httpErrorCode == 0) {
@@ -36,7 +33,7 @@ class FakeHomeRepository : HomeRepository {
         return recipes
     }
 
-    override suspend fun getRandomRecipes(resultsCount: Int): GetRandomRecipeResult {
+    override suspend fun getRandomRecipes(): GetRandomRecipeResult {
         if (shouldReturnError) {
             if (httpErrorCode == 0) {
                 throw IOException()
@@ -48,13 +45,10 @@ class FakeHomeRepository : HomeRepository {
         return randomRecipes
     }
 
-    override suspend fun getAutocompleteRecipes(
-        query: String,
-        resultsCount: Int
-    ): GetRecipesAutocompleteResult {
+    override suspend fun getAutocompleteRecipes(query: String): ArrayList<GetRecipesAutocompleteResultItem>  {
         if (shouldReturnError) {
             if (httpErrorCode == 0) {
-                throw IOException()  // Simulate a no internet error
+                throw IOException()
             }
             throw HttpException(
                 Response.error<String>(httpErrorCode ?: 500, "".toResponseBody(null))
