@@ -17,4 +17,22 @@
     <string name="select_your_intolerances">Select your intolerances</string>
     <string name="skip">Skip</string>
     <string name="unexpected_pager_state_no_button_should_be_displayed">Unexpected pager state: No button should be displayed</string>
+    <string name="what_would_you_like_to_cook_today">What would you like to cook today?</string>
+    <string name="go_to_profile">Go to profile</string>
+    <string name="search_for_recipes">Search for recipes</string>
+    <string name="search">Search</string>
+    <string name="advanced_search">Advanced search</string>
+    <string name="cuisines">Cuisines</string>
+    <string name="diets">Diets</string>
+    <string name="intolerances">Intolerances</string>
+    <string name="recommendations">Recommendations</string>
+    <string name="recipe_image">Recipe image</string>
+    <string name="see_all">See all</string>
+    <string name="the_request_took_too_long_to_complete_please_try_again">The request took too long to complete. Please try again.</string>
+    <string name="you_have_made_too_many_requests_in_a_short_time_please_wait_a_moment_and_try_again">You have made too many requests in a short time. Please wait a moment and try again.</string>
+    <string name="the_data_you_are_trying_to_send_is_too_large_please_try_sending_smaller_data">The data you are trying to send is too large. Please try sending smaller data.</string>
+    <string name="no_internet_connection_detected_please_check_your_network_settings_and_try_again">No internet connection detected. Please check your network settings and try again.</string>
+    <string name="an_error_occurred_on_the_server_please_try_again_later">An error occurred on the server. Please try again later.</string>
+    <string name="an_unknown_error_occurred_please_try_again">An unknown error occurred. Please try again.</string>
+    <string name="can_t_find_any_recommendations_try_changing_your_filters">Can\'t find any recommendations, try changing your filters</string>
 </resources>

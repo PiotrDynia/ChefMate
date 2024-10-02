@@ -17,7 +17,6 @@ import androidx.compose.ui.unit.dp
 import com.example.chefmate.R
 import com.example.chefmate.featureOnboarding.domain.util.OnBoardingPage
 
-@Throws(IllegalStateException::class)
 @Composable
 fun OnBoardingButton(
     pagerState: PagerState,

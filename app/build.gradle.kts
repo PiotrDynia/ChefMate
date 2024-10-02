@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
@@ -10,6 +12,15 @@ android {
     namespace = "com.example.chefmate"
     compileSdk = 34
 
+    val file = rootProject.file("local.properties")
+    val prop = Properties()
+    val apiKey = if (file.exists()) {
+        prop.load(file.inputStream())
+        prop["apiKey"]?.toString()
+    } else {
+        throw GradleException("apiKey is missing in the local.properties file.")
+    }
+
     defaultConfig {
         applicationId = "com.example.chefmate"
         minSdk = 21
@@ -21,6 +32,7 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+        buildConfigField("String", "API_KEY", "\"${apiKey}\"")
     }
 
     buildTypes {
@@ -41,6 +53,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.1"
@@ -84,6 +97,13 @@ dependencies {
     implementation(libs.androidx.hilt.work)
     ksp(libs.androidx.hilt.compiler)
 
+    // Retrofit
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+
+    // Coil
+    implementation(libs.coil.compose)
+
     // WorkManager
     implementation(libs.androidx.work.runtime.ktx)
 
@@ -98,9 +118,6 @@ dependencies {
     // Core AndroidX dependencies
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
-
-    // UI Components
-    implementation(libs.numberpicker)
 
     // Unit testing dependencies
     testImplementation(libs.junit)

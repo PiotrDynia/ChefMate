@@ -1,6 +1,7 @@
 [versions]
 accompanistPagerIndicators = "0.32.0"
 agp = "8.5.2"
+coilCompose = "2.7.0"
 core = "1.6.1"
 coreKtxVersion = "1.6.1"
 coreSplashscreen = "1.0.1"
@@ -30,6 +31,8 @@ hiltWork = "1.2.0"
 hiltCompiler = "1.2.0"
 lifecycleRuntimeComposeAndroid = "2.8.5"
 uiTextGoogleFonts = "1.7.1"
+retrofit = "2.9.0"
+converterGson = "2.9.0"
 
 [libraries]
 accompanist-pager-indicators = { module = "com.google.accompanist:accompanist-pager-indicators", version.ref = "accompanistPagerIndicators" }
@@ -45,6 +48,7 @@ androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomRunt
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomRuntime" }
 androidx-runner = { module = "androidx.test:runner", version.ref = "runner" }
 androidx-work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "workRuntimeKtx" }
+coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" }
 dexopener = { module = "com.github.tmurakami:dexopener", version.ref = "dexopener" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hiltAndroid" }
 hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hiltAndroid" }
@@ -71,6 +75,8 @@ test-core-ktx = { module = "androidx.test:core-ktx", version.ref = "coreKtxVersi
 truth = { module = "com.google.truth:truth", version.ref = "truth" }
 androidx-lifecycle-runtime-compose-android = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose-android", version.ref = "lifecycleRuntimeComposeAndroid" }
 androidx-ui-text-google-fonts = { group = "androidx.compose.ui", name = "ui-text-google-fonts", version.ref = "uiTextGoogleFonts" }
+retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
+converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "converterGson" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
