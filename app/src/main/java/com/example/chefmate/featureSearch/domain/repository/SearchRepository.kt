@@ -1,12 +1,8 @@
 package com.example.chefmate.featureSearch.domain.repository
 
 import com.example.chefmate.core.data.api.dto.GetRecipeResult
+import com.example.chefmate.featureSearch.domain.util.SearchFilterSelection
 
 interface SearchRepository {
-    suspend fun getRecipes(
-        query: String,
-        cuisines: String,
-        diets: String,
-        intolerances: String
-    ): GetRecipeResult
+    suspend fun getRecipes(searchFilters: SearchFilterSelection): GetRecipeResult
 }

@@ -32,7 +32,7 @@ class BottomNavigationViewModel @Inject constructor() : ViewModel() {
             titleResId = R.string.search,
             selectedIcon = Icons.Filled.Search,
             unselectedIcon = Icons.Outlined.Search,
-            route = Screen.Home.route
+            route = Screen.Search.route
         ),
         BottomNavigationItem(
             titleResId = R.string.saved,

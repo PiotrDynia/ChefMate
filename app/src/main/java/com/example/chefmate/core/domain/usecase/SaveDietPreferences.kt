@@ -1,4 +1,4 @@
-package com.example.chefmate.featureOnboarding.domain.usecase
+package com.example.chefmate.core.domain.usecase
 
 import com.example.chefmate.core.domain.repository.DataStoreRepository
 import com.example.chefmate.core.domain.util.DietPreferences

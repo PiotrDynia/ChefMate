@@ -14,12 +14,7 @@ class FetchRecipes(
 
     suspend operator fun invoke(preferencesSelection: PreferencesSelection) : Result<GetRecipeResult, DataError.Network> {
         return try {
-            val recipes = homeRepository.getRecipes(
-                cuisines = preferencesSelection.selectedCuisines.joinToString(separator = ",") { it.displayName },
-                diets = preferencesSelection.selectedDiets.joinToString(separator = ",") { it.displayName },
-                intolerances = preferencesSelection.selectedIntolerances.joinToString(separator = ",") { it.displayName },
-                mealTypes = preferencesSelection.selectedMealTypes.joinToString(separator = ",") { it.displayName }
-            )
+            val recipes = homeRepository.getRecipes(preferencesSelection)
             Result.Success(recipes)
         } catch (e: HttpException) {
             val error = when (e.code()) {

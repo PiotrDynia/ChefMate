@@ -8,6 +8,7 @@ import androidx.navigation.compose.composable
 import com.example.chefmate.core.presentation.util.Screen
 import com.example.chefmate.featureHome.presentation.HomeScreen
 import com.example.chefmate.featureOnboarding.presentation.WelcomeScreen
+import com.example.chefmate.featureSearch.presentation.SearchScreen
 
 @Composable
 fun SetupNavGraph(
@@ -23,6 +24,9 @@ fun SetupNavGraph(
         }
         composable(route = Screen.Home.route) {
             HomeScreen(modifier = modifier)
+        }
+        composable(route = Screen.Search.route) {
+            SearchScreen(modifier = modifier)
         }
     }
 }

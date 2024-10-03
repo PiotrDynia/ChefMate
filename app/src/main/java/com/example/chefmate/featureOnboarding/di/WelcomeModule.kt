@@ -1,7 +1,7 @@
 package com.example.chefmate.featureOnboarding.di
 
 import com.example.chefmate.core.domain.repository.DataStoreRepository
-import com.example.chefmate.featureOnboarding.domain.usecase.SaveDietPreferences
+import com.example.chefmate.core.domain.usecase.SaveDietPreferences
 import com.example.chefmate.featureOnboarding.domain.usecase.SaveOnBoardingState
 import com.example.chefmate.featureOnboarding.domain.usecase.WelcomeUseCases
 import dagger.Module

@@ -4,6 +4,7 @@ import com.example.chefmate.core.data.api.dto.GetRandomRecipeResult
 import com.example.chefmate.core.data.api.dto.GetRecipeResult
 import com.example.chefmate.core.data.api.dto.GetRecipesAutocompleteResultItem
 import com.example.chefmate.featureHome.domain.repository.HomeRepository
+import com.example.chefmate.featureHome.domain.util.PreferencesSelection
 import okhttp3.ResponseBody.Companion.toResponseBody
 import retrofit2.HttpException
 import retrofit2.Response
@@ -17,12 +18,7 @@ class FakeHomeRepository : HomeRepository {
     var randomRecipes: GetRandomRecipeResult = GetRandomRecipeResult(emptyList())
     var autocompleteResults: ArrayList<GetRecipesAutocompleteResultItem> = ArrayList()
 
-    override suspend fun getRecipes(
-        cuisines: String,
-        diets: String,
-        intolerances: String,
-        mealTypes: String
-    ): GetRecipeResult {
+    override suspend fun getRecipes(preferencesSelection: PreferencesSelection): GetRecipeResult {
         if (shouldReturnError) {
             if (httpErrorCode == 0) {
                 throw IOException()

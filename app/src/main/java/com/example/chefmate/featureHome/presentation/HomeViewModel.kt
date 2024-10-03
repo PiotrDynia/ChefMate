@@ -7,6 +7,7 @@ import com.example.chefmate.core.data.api.dto.GetRecipesAutocompleteResultItem
 import com.example.chefmate.core.data.api.dto.RecipeSimple
 import com.example.chefmate.core.domain.util.Cuisine
 import com.example.chefmate.core.domain.util.Diet
+import com.example.chefmate.core.domain.util.DietPreferences
 import com.example.chefmate.core.domain.util.Intolerance
 import com.example.chefmate.core.domain.util.MealType
 import com.example.chefmate.core.domain.util.Result
@@ -175,6 +176,17 @@ class HomeViewModel @Inject constructor(
             } else {
                 currentState.selectedCuisines + cuisine
             }
+            val currentDiets = currentState.selectedDiets
+            val currentIntolerances = currentState.selectedIntolerances
+            viewModelScope.launch {
+                useCases.saveDietPreferences(
+                    DietPreferences(
+                        diets = currentDiets.map { it.displayName },
+                        cuisines = updatedCuisines.map { it.displayName },
+                        intolerances = currentIntolerances.map { it.displayName }
+                    )
+                )
+            }
             currentState.copy(selectedCuisines = updatedCuisines)
         }
     }
@@ -186,6 +198,17 @@ class HomeViewModel @Inject constructor(
             } else {
                 currentState.selectedDiets + diet
             }
+            val currentCuisines = currentState.selectedCuisines
+            val currentIntolerances = currentState.selectedIntolerances
+            viewModelScope.launch {
+                useCases.saveDietPreferences(
+                    DietPreferences(
+                        diets = updatedDiets.map { it.displayName },
+                        cuisines = currentCuisines.map { it.displayName },
+                        intolerances = currentIntolerances.map { it.displayName }
+                    )
+                )
+            }
             currentState.copy(selectedDiets = updatedDiets)
         }
     }
@@ -196,6 +219,17 @@ class HomeViewModel @Inject constructor(
                 currentState.selectedIntolerances - intolerance
             } else {
                 currentState.selectedIntolerances + intolerance
+            }
+            val currentCuisines = currentState.selectedCuisines
+            val currentDiets = currentState.selectedDiets
+            viewModelScope.launch {
+                useCases.saveDietPreferences(
+                    DietPreferences(
+                        diets = currentDiets.map { it.displayName },
+                        cuisines = currentCuisines.map { it.displayName },
+                        intolerances = updatedIntolerances.map { it.displayName }
+                    )
+                )
             }
             currentState.copy(selectedIntolerances = updatedIntolerances)
         }

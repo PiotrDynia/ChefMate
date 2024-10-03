@@ -8,7 +8,8 @@ import com.example.chefmate.featureHome.domain.usecase.FetchRandomRecipes
 import com.example.chefmate.featureHome.domain.usecase.FetchRecipes
 import com.example.chefmate.featureHome.domain.usecase.GetAutocompleteRecipes
 import com.example.chefmate.featureHome.domain.usecase.HomeUseCases
-import com.example.chefmate.featureHome.domain.usecase.ReadDietPreferences
+import com.example.chefmate.core.domain.usecase.ReadDietPreferences
+import com.example.chefmate.core.domain.usecase.SaveDietPreferences
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -28,6 +29,7 @@ object HomeModule {
     fun provideHomeUseCases(dataStoreRepository: DataStoreRepository, homeRepository: HomeRepository) : HomeUseCases {
         return HomeUseCases(
             readDietPreferences = ReadDietPreferences(dataStoreRepository),
+            saveDietPreferences = SaveDietPreferences(dataStoreRepository),
             fetchRandomRecipes = FetchRandomRecipes(homeRepository),
             fetchRecipes = FetchRecipes(homeRepository),
             getAutocompleteRecipes = GetAutocompleteRecipes(homeRepository)
