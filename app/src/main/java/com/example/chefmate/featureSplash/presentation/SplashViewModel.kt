@@ -13,9 +13,6 @@ import javax.inject.Inject
 class SplashViewModel @Inject constructor(
     private val useCases: SplashUseCases
 ) : ViewModel() {
-    private val _isLoading: MutableState<Boolean> = mutableStateOf(true)
-    val isLoading: State<Boolean> = _isLoading
-
     private val _startDestination: MutableState<String?> = mutableStateOf(null)
     val startDestination: State<String?> = _startDestination
 
@@ -27,7 +24,6 @@ class SplashViewModel @Inject constructor(
                 } else {
                     Screen.Welcome.route
                 }
-                _isLoading.value = false
             }
         }
     }

@@ -27,9 +27,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        installSplashScreen().setKeepOnScreenCondition {
-            !splashViewModel.isLoading.value
-        }
+        installSplashScreen()
 
         enableEdgeToEdge()
         setContent {
@@ -41,7 +39,6 @@ class MainActivity : ComponentActivity() {
                     bottomBar = {
                         BottomNavigationBar(
                             navController = navController,
-                            isSplashScreenLoading = splashViewModel.isLoading.value,
                             viewModel = bottomNavigationViewModel
                         )
                     }
