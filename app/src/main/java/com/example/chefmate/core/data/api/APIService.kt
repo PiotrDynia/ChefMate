@@ -17,6 +17,8 @@ interface APIService {
         @Query("query") query: String = "",
         @Query("sort") sortStrategy: String = "popularity",
         @Query("cuisine") cuisines: String = "",
+        @Query("excludeCuisine") excludedCuisines: String = "",
+        @Query("type") mealTypes: String = "",
         @Query("diet") diets: String = "",
         @Query("intolerances") intolerances: String = "",
         @Query("number") resultsCount: Int = 10,

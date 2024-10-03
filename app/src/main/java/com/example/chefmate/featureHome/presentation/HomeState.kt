@@ -6,6 +6,7 @@ import com.example.chefmate.core.domain.util.Cuisine
 import com.example.chefmate.core.domain.util.Diet
 import com.example.chefmate.core.domain.util.Intolerance
 import com.example.chefmate.core.data.api.dto.RecipeSimple
+import com.example.chefmate.core.domain.util.MealType
 
 data class HomeState(
     val searchInput: String = "",
@@ -16,6 +17,7 @@ data class HomeState(
     val selectedCuisines: Set<Cuisine> = emptySet(),
     val selectedDiets: Set<Diet> = emptySet(),
     val selectedIntolerances: Set<Intolerance> = emptySet(),
+    val selectedMealTypes: Set<MealType> = emptySet(),
     val recommendations: List<RecipeSimple> = emptyList(),
     val autocompletedResults: ArrayList<GetRecipesAutocompleteResultItem> = ArrayList()
 )

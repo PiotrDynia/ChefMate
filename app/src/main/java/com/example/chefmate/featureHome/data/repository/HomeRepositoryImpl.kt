@@ -11,12 +11,14 @@ class HomeRepositoryImpl(private val apiService: APIService) : HomeRepository {
     override suspend fun getRecipes(
         cuisines: String,
         diets: String,
-        intolerances: String
+        intolerances: String,
+        mealTypes: String
     ): GetRecipeResult {
         return apiService.getRecipes(
             cuisines = cuisines,
             diets = diets,
-            intolerances = intolerances
+            intolerances = intolerances,
+            mealTypes = mealTypes
         )
     }
 

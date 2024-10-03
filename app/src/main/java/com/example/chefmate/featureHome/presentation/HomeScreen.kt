@@ -29,12 +29,11 @@ fun HomeScreen(
         LoadingScreen()
     } else {
         Column(
-            modifier = Modifier
+            modifier = modifier
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.Top
         ) {
-            Spacer(modifier = Modifier.height(16.dp))
             TopWelcomeRow()
             SearchSection(
                 state = state,

@@ -22,7 +22,7 @@ fun SetupNavGraph(
             WelcomeScreen(navController = navController)
         }
         composable(route = Screen.Home.route) {
-            HomeScreen()
+            HomeScreen(modifier = modifier)
         }
     }
 }

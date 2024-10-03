@@ -4,8 +4,10 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.compose.rememberNavController
@@ -42,12 +44,13 @@ class MainActivity : ComponentActivity() {
                             viewModel = bottomNavigationViewModel
                         )
                     }
-                ) { _ ->
+                ) { padding ->
                     val screen by splashViewModel.startDestination
                     screen?.let {
                         SetupNavGraph(
                             navController = navController,
-                            startDestination = it
+                            startDestination = it,
+                            modifier = Modifier.padding(padding)
                         )
                     }
                 }

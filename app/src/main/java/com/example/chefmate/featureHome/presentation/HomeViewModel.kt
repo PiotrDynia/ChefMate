@@ -8,8 +8,10 @@ import com.example.chefmate.core.data.api.dto.RecipeSimple
 import com.example.chefmate.core.domain.util.Cuisine
 import com.example.chefmate.core.domain.util.Diet
 import com.example.chefmate.core.domain.util.Intolerance
+import com.example.chefmate.core.domain.util.MealType
 import com.example.chefmate.core.domain.util.Result
 import com.example.chefmate.featureHome.domain.usecase.HomeUseCases
+import com.example.chefmate.featureHome.domain.util.PreferencesSelection
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -52,27 +54,31 @@ class HomeViewModel @Inject constructor(
     private suspend fun handleRecipeRecommendations() {
         val selectedItemsFlow = createFlowFromSelectedItems()
 
-        selectedItemsFlow.collectLatest { (cuisines, diets, intolerances) ->
-            if (arePreferencesEmpty(cuisines, diets, intolerances)) {
+        selectedItemsFlow.collectLatest { preferences ->
+            if (arePreferencesEmpty(preferences)) {
                 loadRandomRecipes()
             } else {
-                fetchRecommendedRecipes(cuisines, diets, intolerances)
+                fetchRecommendedRecipes(preferences)
             }
         }
     }
 
-    private fun createFlowFromSelectedItems(): Flow<Triple<Set<Cuisine>, Set<Diet>, Set<Intolerance>>> {
+    private fun createFlowFromSelectedItems(): Flow<PreferencesSelection> {
         return _state.map { state ->
-            Triple(state.selectedCuisines, state.selectedDiets, state.selectedIntolerances)
+            PreferencesSelection(
+                selectedCuisines = state.selectedCuisines,
+                selectedDiets = state.selectedDiets,
+                selectedIntolerances = state.selectedIntolerances,
+                selectedMealTypes = state.selectedMealTypes
+            )
         }.distinctUntilChanged()
     }
 
-    private fun arePreferencesEmpty(
-        cuisines: Set<Cuisine>,
-        diets: Set<Diet>,
-        intolerances: Set<Intolerance>
-    ): Boolean {
-        return cuisines.isEmpty() && diets.isEmpty() && intolerances.isEmpty()
+    private fun arePreferencesEmpty(preferencesSelection: PreferencesSelection): Boolean {
+        return preferencesSelection.selectedCuisines.isEmpty() &&
+                preferencesSelection.selectedDiets.isEmpty() &&
+                preferencesSelection.selectedIntolerances.isEmpty() &&
+                preferencesSelection.selectedMealTypes.isEmpty()
     }
 
     private suspend fun loadRandomRecipes() {
@@ -82,12 +88,8 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private suspend fun fetchRecommendedRecipes(
-        cuisines: Set<Cuisine>,
-        diets: Set<Diet>,
-        intolerances: Set<Intolerance>
-    ) {
-        when (val result = useCases.fetchRecipes(cuisines, diets, intolerances)) {
+    private suspend fun fetchRecommendedRecipes(preferencesSelection: PreferencesSelection) {
+        when (val result = useCases.fetchRecipes(preferencesSelection)) {
             is Result.Success -> handleFetchedRecommendations(result.data.results)
             is Result.Error -> setErrorMessage(result.error.messageResId)
         }
@@ -138,6 +140,7 @@ class HomeViewModel @Inject constructor(
             is HomeEvent.OnCuisineSelected -> onCuisineSelected(event.cuisine)
             is HomeEvent.OnDietSelected -> onDietSelected(event.diet)
             is HomeEvent.OnIntoleranceSelected -> onIntoleranceSelected(event.intolerance)
+            is HomeEvent.OnMealTypeSelected -> onMealTypeSelected(event.mealType)
             HomeEvent.OnDismissAutocomplete -> onDismissAutocomplete()
             HomeEvent.OnAutocompleteItemClick -> TODO()
         }
@@ -195,6 +198,17 @@ class HomeViewModel @Inject constructor(
                 currentState.selectedIntolerances + intolerance
             }
             currentState.copy(selectedIntolerances = updatedIntolerances)
+        }
+    }
+
+    private fun onMealTypeSelected(mealType: MealType) {
+        _state.update { currentState ->
+            val updatedMealTypes = if (currentState.selectedMealTypes.contains(mealType)) {
+                currentState.selectedMealTypes - mealType
+            } else {
+                currentState.selectedMealTypes + mealType
+            }
+            currentState.copy(selectedMealTypes = updatedMealTypes)
         }
     }
 

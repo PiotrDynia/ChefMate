@@ -8,7 +8,8 @@ interface HomeRepository {
     suspend fun getRecipes(
         cuisines: String,
         diets: String,
-        intolerances: String
+        intolerances: String,
+        mealTypes: String
     ): GetRecipeResult
 
     suspend fun getRandomRecipes(): GetRandomRecipeResult

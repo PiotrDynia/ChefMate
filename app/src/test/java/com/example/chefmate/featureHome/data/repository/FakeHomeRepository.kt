@@ -20,7 +20,8 @@ class FakeHomeRepository : HomeRepository {
     override suspend fun getRecipes(
         cuisines: String,
         diets: String,
-        intolerances: String
+        intolerances: String,
+        mealTypes: String
     ): GetRecipeResult {
         if (shouldReturnError) {
             if (httpErrorCode == 0) {
