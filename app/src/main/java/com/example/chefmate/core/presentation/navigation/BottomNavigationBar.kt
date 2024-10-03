@@ -19,17 +19,17 @@ import com.example.chefmate.core.presentation.util.Screen
 @Composable
 fun BottomNavigationBar(
     navController: NavHostController,
-    isSplashScreenLoading: Boolean,
     viewModel: BottomNavigationViewModel,
     modifier: Modifier = Modifier
 ) {
     val state = viewModel.state.value
     val navItems = viewModel.navItems
     val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = navBackStackEntry?.destination?.route
 
-    LaunchedEffect(navBackStackEntry?.destination?.route) {
-        if (!isSplashScreenLoading) {
-            val shouldShowBottomBar = navBackStackEntry?.destination?.route != Screen.Welcome.route
+    LaunchedEffect(currentRoute) {
+        currentRoute?.let {
+            val shouldShowBottomBar = it != Screen.Welcome.route
             viewModel.changeBottomBarVisibility(shouldShowBottomBar)
         }
     }
@@ -37,14 +37,22 @@ fun BottomNavigationBar(
     AnimatedVisibility(state.isBottomBarVisible) {
         NavigationBar {
             navItems.forEachIndexed { index, item ->
-                val icon = if (state.selectedItemIndex == index) item.selectedIcon else item.unselectedIcon
+                val icon =
+                    if (state.selectedItemIndex == index) item.selectedIcon else item.unselectedIcon
                 NavigationBarItem(
-                    icon = { Icon(imageVector = icon, contentDescription = stringResource(id = item.titleResId)) },
-                    label = { Text(
-                        text = stringResource(id = item.titleResId),
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
-                    ) },
+                    icon = {
+                        Icon(
+                            imageVector = icon,
+                            contentDescription = stringResource(id = item.titleResId)
+                        )
+                    },
+                    label = {
+                        Text(
+                            text = stringResource(id = item.titleResId),
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis
+                        )
+                    },
                     selected = state.selectedItemIndex == index,
                     onClick = {
                         viewModel.onItemClick(index)
