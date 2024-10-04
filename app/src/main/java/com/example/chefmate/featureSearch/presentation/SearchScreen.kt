@@ -85,40 +85,6 @@ fun SearchScreen(modifier: Modifier = Modifier) {
                     .clip(RoundedCornerShape(8.dp))
             )
         }
-        Text(
-            text = stringResource(id = R.string.cuisines),
-            modifier = Modifier.padding(horizontal = 8.dp),
-            style = MaterialTheme.typography.headlineSmall.copy(
-                fontWeight = FontWeight.ExtraBold,
-                fontSize = 18.sp,
-                color = MaterialTheme.colorScheme.primary
-            )
-        )
-        LazyRow(
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-            modifier = Modifier.fillMaxWidth(),
-            contentPadding = PaddingValues(horizontal = 8.dp)
-        ) {
-            items(Cuisine.entries) { item ->
-                var selected by remember { mutableStateOf(false) }
 
-                FilterChip(
-                    selected = selected,
-                    onClick = { selected = !selected },
-                    label = { Text(text = item.displayName) },
-                    leadingIcon = if (selected) {
-                        {
-                            Icon(
-                                imageVector = Icons.Filled.Done,
-                                contentDescription = "Done icon",
-                                modifier = Modifier.size(FilterChipDefaults.IconSize)
-                            )
-                        }
-                    } else {
-                        null
-                    },
-                )
-            }
-        }
     }
 }

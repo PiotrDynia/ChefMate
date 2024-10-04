@@ -1,8 +1,11 @@
 package com.example.chefmate.featureHome.presentation.components
 
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import com.example.chefmate.R
 import com.example.chefmate.core.domain.util.Cuisine
 import com.example.chefmate.core.domain.util.Diet
@@ -13,6 +16,12 @@ import com.example.chefmate.featureHome.presentation.HomeState
 
 @Composable
 fun DietaryPreferencesRows(state: HomeState, onEvent: (HomeEvent) -> Unit, modifier: Modifier = Modifier) {
+    Text(
+        text = stringResource(R.string.your_preferences),
+        style = MaterialTheme.typography.headlineSmall.copy(
+            fontWeight = FontWeight.Bold
+        )
+    )
     PreferencesRow(
         items = Cuisine.entries,
         title = stringResource(R.string.cuisines),
