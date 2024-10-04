@@ -1,6 +1,7 @@
 package com.example.chefmate.core.presentation.navigation
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.slideInVertically
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -34,7 +35,10 @@ fun BottomNavigationBar(
         }
     }
 
-    AnimatedVisibility(state.isBottomBarVisible) {
+    AnimatedVisibility(
+        visible = state.isBottomBarVisible,
+        enter = slideInVertically(initialOffsetY = { it })
+    ) {
         NavigationBar {
             navItems.forEachIndexed { index, item ->
                 val icon =

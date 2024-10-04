@@ -8,6 +8,7 @@ import com.example.chefmate.core.domain.util.Cuisine
 import com.example.chefmate.core.domain.util.Diet
 import com.example.chefmate.core.domain.util.Intolerance
 import com.example.chefmate.core.domain.util.MealType
+import com.example.chefmate.core.domain.util.SortType
 
 @Composable
 fun SearchFilterRows(modifier: Modifier = Modifier) {
@@ -46,5 +47,10 @@ fun SearchFilterRows(modifier: Modifier = Modifier) {
         selectedItems = emptySet(),
         onItemSelected = {}
     )
-
+    NumberRangeFilter(title = stringResource(R.string.calories))
+    NumberRangeFilter(title = stringResource(R.string.servings))
+    SortRow(
+        title = stringResource(R.string.sort),
+        selectedSortType = SortType.POPULARITY
+    )
 }
