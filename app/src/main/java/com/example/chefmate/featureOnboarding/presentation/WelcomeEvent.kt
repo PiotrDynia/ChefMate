@@ -7,4 +7,5 @@ sealed class WelcomeEvent {
     data class OnRemoveCuisine(val name: String) : WelcomeEvent()
     data class OnRemoveIntolerance(val name: String) : WelcomeEvent()
     data class OnRemoveDiet(val name: String) : WelcomeEvent()
+    data object OnButtonClick : WelcomeEvent()
 }

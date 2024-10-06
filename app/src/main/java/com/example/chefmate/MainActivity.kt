@@ -10,6 +10,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
 import com.example.chefmate.core.presentation.navigation.BottomNavigationBar
 import com.example.chefmate.core.presentation.navigation.BottomNavigationViewModel
@@ -21,12 +22,6 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-
-    @Inject
-    lateinit var splashViewModel: SplashViewModel
-    @Inject
-    lateinit var bottomNavigationViewModel: BottomNavigationViewModel
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         installSplashScreen()
@@ -35,6 +30,8 @@ class MainActivity : ComponentActivity() {
         setContent {
             ChefMateTheme {
                 val navController = rememberNavController()
+                val splashViewModel: SplashViewModel = hiltViewModel()
+                val bottomNavigationViewModel: BottomNavigationViewModel = hiltViewModel()
 
                 Scaffold(
                     containerColor = Color(0xFFEAEAEA),
@@ -50,7 +47,8 @@ class MainActivity : ComponentActivity() {
                         SetupNavGraph(
                             navController = navController,
                             startDestination = it,
-                            modifier = Modifier.padding(padding)
+                            modifier = Modifier.padding(padding),
+                            bottomNavigationViewModel = bottomNavigationViewModel
                         )
                     }
                 }

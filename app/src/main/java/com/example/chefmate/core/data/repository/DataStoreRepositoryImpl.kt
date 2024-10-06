@@ -28,9 +28,9 @@ class DataStoreRepositoryImpl(context: Context) : DataStoreRepository {
 
     private val dataStore = context.dataStore
 
-    override suspend fun saveOnBoardingState(completed: Boolean) {
+    override suspend fun saveOnBoardingState() {
         dataStore.edit { preferences ->
-            preferences[ON_BOARDING_KEY] = completed
+            preferences[ON_BOARDING_KEY] = true
         }
     }
 

@@ -20,18 +20,29 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.chefmate.R
+import com.example.chefmate.core.domain.util.navigateTo
+import com.example.chefmate.core.presentation.navigation.BottomNavigationViewModel
+import com.example.chefmate.core.presentation.util.Screen
+import com.example.chefmate.core.presentation.util.UiEvent
 import com.example.chefmate.featureHome.presentation.HomeEvent
 import com.example.chefmate.featureHome.presentation.HomeState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SearchSection(state: HomeState, onEvent: (HomeEvent) -> Unit, modifier: Modifier = Modifier) {
+fun SearchSection(
+    state: HomeState,
+    onEvent: (HomeEvent) -> Unit,
+    onAdvancedSearchClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
     Box(modifier = Modifier.padding(16.dp)) {
         ExposedDropdownMenuBox(
             expanded = state.isSearchAutocompleteExpanded,
@@ -94,7 +105,7 @@ fun SearchSection(state: HomeState, onEvent: (HomeEvent) -> Unit, modifier: Modi
         Button(onClick = { /*TODO*/ }) {
             Text(text = stringResource(R.string.search))
         }
-        Button(onClick = { /*TODO*/ }) {
+        Button(onClick = onAdvancedSearchClick) {
             Text(text = stringResource(R.string.advanced_search))
         }
     }

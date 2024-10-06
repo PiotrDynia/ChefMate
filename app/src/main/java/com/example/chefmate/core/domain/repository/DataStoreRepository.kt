@@ -4,7 +4,7 @@ import com.example.chefmate.core.domain.util.DietPreferences
 import kotlinx.coroutines.flow.Flow
 
 interface DataStoreRepository {
-    suspend fun saveOnBoardingState(completed: Boolean)
+    suspend fun saveOnBoardingState()
     fun readOnBoardingState() : Flow<Boolean>
     suspend fun saveDietPreferences(dietPreferences: DietPreferences)
     fun getDietPreferences() : Flow<DietPreferences>

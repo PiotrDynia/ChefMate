@@ -12,21 +12,32 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.example.chefmate.core.domain.util.navigateTo
 import com.example.chefmate.core.presentation.util.Screen
+import com.example.chefmate.core.presentation.util.UiEvent
 
 @Composable
 fun BottomNavigationBar(
     navController: NavHostController,
-    viewModel: BottomNavigationViewModel,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    viewModel: BottomNavigationViewModel
 ) {
     val state = viewModel.state.value
     val navItems = viewModel.navItems
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
+
+    LaunchedEffect(true) {
+        viewModel.uiEvent.collect { event ->
+            when (event) {
+                is UiEvent.Navigate -> navController.navigateTo(event.route)
+                else -> Unit
+            }
+        }
+    }
 
     LaunchedEffect(currentRoute) {
         currentRoute?.let {
@@ -58,16 +69,7 @@ fun BottomNavigationBar(
                         )
                     },
                     selected = state.selectedItemIndex == index,
-                    onClick = {
-                        viewModel.onItemClick(index)
-                        navController.navigate(item.route) {
-                            popUpTo(navController.graph.findStartDestination().id) {
-                                saveState = true
-                            }
-                            launchSingleTop = true
-                            restoreState = true
-                        }
-                    }
+                    onClick = { viewModel.onItemClick(index = index, navRoute = item.route) }
                 )
             }
         }

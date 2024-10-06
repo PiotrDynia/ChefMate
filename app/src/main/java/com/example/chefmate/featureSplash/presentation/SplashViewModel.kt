@@ -7,9 +7,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.chefmate.core.presentation.util.Screen
 import com.example.chefmate.featureSplash.domain.usecase.SplashUseCases
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@HiltViewModel
 class SplashViewModel @Inject constructor(
     private val useCases: SplashUseCases
 ) : ViewModel() {

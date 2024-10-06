@@ -14,7 +14,8 @@ import com.example.chefmate.featureSearch.presentation.SearchScreen
 fun SetupNavGraph(
     navController: NavHostController,
     startDestination: String,
-    modifier: Modifier = Modifier) {
+    modifier: Modifier = Modifier,
+    bottomNavigationViewModel: BottomNavigationViewModel) {
     NavHost(
         navController = navController,
         startDestination = startDestination
@@ -23,7 +24,7 @@ fun SetupNavGraph(
             WelcomeScreen(navController = navController)
         }
         composable(route = Screen.Home.route) {
-            HomeScreen(modifier = modifier)
+            HomeScreen(navController = navController, bottomNavigationViewModel = bottomNavigationViewModel, modifier = modifier)
         }
         composable(route = Screen.Search.route) {
             SearchScreen(modifier = modifier)
