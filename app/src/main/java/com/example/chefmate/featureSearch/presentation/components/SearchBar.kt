@@ -18,13 +18,19 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.chefmate.R
+import com.example.chefmate.featureSearch.presentation.SearchEvent
+import com.example.chefmate.featureSearch.presentation.SearchState
 
 @Composable
-fun SearchBar(modifier: Modifier = Modifier) {
+fun SearchBar(
+    state: SearchState,
+    onEvent: (SearchEvent) -> Unit,
+    modifier: Modifier = Modifier
+) {
     Box(modifier = Modifier.padding(16.dp)) {
         TextField(
-            value = "",
-            onValueChange = { },
+            value = state.searchInput,
+            onValueChange = { onEvent(SearchEvent.OnSearchInputChange(it)) },
             leadingIcon = {
                 Icon(
                     imageVector = Icons.Default.Search,

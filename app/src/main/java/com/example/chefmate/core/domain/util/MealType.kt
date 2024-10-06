@@ -19,3 +19,5 @@ enum class MealType(val displayName: String, @DrawableRes val imageResId: Int) {
     SNACK("Snack", R.drawable.meal_type_snack),
     DRINK("Drink", R.drawable.meal_type_drink),
 }
+
+fun getAllMealTypeNames() : List<String> = MealType.entries.map { it.displayName }

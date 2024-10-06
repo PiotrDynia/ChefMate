@@ -1,7 +1,6 @@
 package com.example.chefmate.featureSplash.presentation
 
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -16,7 +15,7 @@ class SplashViewModel @Inject constructor(
     private val useCases: SplashUseCases
 ) : ViewModel() {
     private val _startDestination: MutableState<String?> = mutableStateOf(null)
-    val startDestination: State<String?> = _startDestination
+    val startDestination = _startDestination
 
     init {
         viewModelScope.launch {

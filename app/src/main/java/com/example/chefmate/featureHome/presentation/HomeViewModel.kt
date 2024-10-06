@@ -165,8 +165,8 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun updateAutocompleteState(result: ArrayList<GetRecipesAutocompleteResultItem>) {
-        _state.update { state ->
-            state.copy(
+        _state.update {
+            it.copy(
                 isSearchAutocompleteExpanded = result.isNotEmpty(),
                 autocompletedResults = result
             )

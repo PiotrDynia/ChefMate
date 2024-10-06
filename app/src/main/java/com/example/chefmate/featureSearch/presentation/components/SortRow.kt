@@ -21,11 +21,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.chefmate.R
-import com.example.chefmate.core.domain.util.SortType
+import com.example.chefmate.core.domain.util.getAllSortTypes
 
 @Composable
 fun SortRow(title: String,
-            selectedSortType: SortType,
+            selectedSortType: String,
+            onSortSelected: (String) -> Unit,
             modifier: Modifier = Modifier) {
     Text(
         text = title,
@@ -41,13 +42,13 @@ fun SortRow(title: String,
         modifier = Modifier.fillMaxWidth(),
         contentPadding = PaddingValues(horizontal = 8.dp)
     ) {
-        items(SortType.entries) { item ->
+        items(getAllSortTypes()) { item ->
             val isSelected = selectedSortType == item
 
             FilterChip(
                 selected = isSelected,
-                onClick = {  },
-                label = { Text(text = item.sortName) },
+                onClick = { onSortSelected(item) },
+                label = { Text(text = item) },
                 leadingIcon = if (isSelected) {
                     {
                         Icon(

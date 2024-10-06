@@ -19,12 +19,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.chefmate.R
 import com.example.chefmate.featureSearch.presentation.components.SearchBar
 import com.example.chefmate.featureSearch.presentation.components.SearchFilterRows
 
 @Composable
-fun SearchScreen(modifier: Modifier = Modifier) {
+fun SearchScreen(
+    modifier: Modifier = Modifier,
+    viewModel: SearchViewModel = hiltViewModel()
+) {
+    val state = viewModel.state.collectAsStateWithLifecycle().value
+
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
             modifier = modifier
@@ -34,8 +41,8 @@ fun SearchScreen(modifier: Modifier = Modifier) {
             verticalArrangement = Arrangement.Top
         ) {
             Spacer(modifier = Modifier.height(32.dp))
-            SearchBar()
-            SearchFilterRows()
+            SearchBar(state = state, onEvent = viewModel::onEvent)
+            SearchFilterRows(state = state, onEvent = viewModel::onEvent)
         }
 
         Button(

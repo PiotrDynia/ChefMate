@@ -4,53 +4,53 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.example.chefmate.R
-import com.example.chefmate.core.domain.util.Cuisine
-import com.example.chefmate.core.domain.util.Diet
-import com.example.chefmate.core.domain.util.Intolerance
-import com.example.chefmate.core.domain.util.MealType
-import com.example.chefmate.core.domain.util.SortType
+import com.example.chefmate.core.domain.util.getAllCuisineNames
+import com.example.chefmate.core.domain.util.getAllDietNames
+import com.example.chefmate.core.domain.util.getAllIntoleranceNames
+import com.example.chefmate.core.domain.util.getAllMealTypeNames
+import com.example.chefmate.featureSearch.presentation.SearchEvent
+import com.example.chefmate.featureSearch.presentation.SearchState
 
 @Composable
-fun SearchFilterRows(modifier: Modifier = Modifier) {
+fun SearchFilterRows(
+    state: SearchState,
+    onEvent: (SearchEvent) -> Unit,
+    modifier: Modifier = Modifier) {
     FilterRow(
-        items = Cuisine.entries,
+        items = getAllCuisineNames(),
         title = stringResource(R.string.cuisines),
-        getDisplayName = { it.displayName },
-        selectedItems = emptySet(),
-        onItemSelected = {}
+        selectedItems = state.selectedCuisines,
+        onItemSelected = { onEvent(SearchEvent.OnCuisineSelected(it))}
     )
     FilterRow(
-        items = Cuisine.entries,
+        items = getAllCuisineNames(),
         title = stringResource(R.string.exclude_cuisines),
-        getDisplayName = { it.displayName },
-        selectedItems = emptySet(),
-        onItemSelected = {}
+        selectedItems = state.excludedCuisines,
+        onItemSelected = { onEvent(SearchEvent.OnExcludeCuisineSelected(it)) }
     )
     FilterRow(
-        items = Diet.entries,
+        items = getAllDietNames(),
         title = stringResource(R.string.diets),
-        getDisplayName = { it.displayName },
-        selectedItems = emptySet(),
-        onItemSelected = {}
+        selectedItems = state.selectedDiets,
+        onItemSelected = { onEvent(SearchEvent.OnDietSelected(it)) }
     )
     FilterRow(
-        items = Intolerance.entries,
+        items = getAllIntoleranceNames(),
         title = stringResource(R.string.intolerances),
-        getDisplayName = { it.displayName },
-        selectedItems = emptySet(),
-        onItemSelected = {}
+        selectedItems = state.selectedIntolerances,
+        onItemSelected = { onEvent(SearchEvent.OnIntoleranceSelected(it)) }
     )
     FilterRow(
-        items = MealType.entries,
+        items = getAllMealTypeNames(),
         title = stringResource(R.string.meal_types),
-        getDisplayName = { it.displayName },
-        selectedItems = emptySet(),
-        onItemSelected = {}
+        selectedItems = state.selectedMealTypes,
+        onItemSelected = { onEvent(SearchEvent.OnMealTypeSelected(it)) }
     )
     NumberRangeFilter(title = stringResource(R.string.calories))
     NumberRangeFilter(title = stringResource(R.string.servings))
     SortRow(
         title = stringResource(R.string.sort),
-        selectedSortType = SortType.POPULARITY
+        onSortSelected = { onEvent(SearchEvent.OnSortTypeSelected(it))},
+        selectedSortType = state.selectedSortType
     )
 }

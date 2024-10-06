@@ -15,25 +15,21 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.chefmate.R
-import com.example.chefmate.core.domain.util.Cuisine
 
 @Composable
-fun <T> FilterRow(items: List<T>,
-                  title: String,
-                  getDisplayName: (T) -> String,
-                  selectedItems: Set<T>,
-                  onItemSelected: (T) -> Unit,
-                  modifier: Modifier = Modifier) {
+fun FilterRow(
+    items: List<String>,
+    title: String,
+    selectedItems: Set<String>,
+    onItemSelected: (String) -> Unit,
+    modifier: Modifier = Modifier
+) {
     Text(
         text = title,
         modifier = Modifier.padding(horizontal = 8.dp),
@@ -54,7 +50,7 @@ fun <T> FilterRow(items: List<T>,
             FilterChip(
                 selected = isSelected,
                 onClick = { onItemSelected(item) },
-                label = { Text(text = getDisplayName(item)) },
+                label = { Text(text = item) },
                 leadingIcon = if (isSelected) {
                     {
                         Icon(
