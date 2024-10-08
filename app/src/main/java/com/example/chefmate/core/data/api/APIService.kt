@@ -17,6 +17,7 @@ interface APIService {
     suspend fun getRecipes(
         @Query("query") query: String = "",
         @Query("sort") sortStrategy: String = SortType.POPULARITY.sortName,
+        @Query("addRecipeInformation") addRecipeInformation: Boolean = true,
         @Query("cuisine") cuisines: String = "",
         @Query("excludeCuisine") excludedCuisines: String = "",
         @Query("diet") diets: String = "",

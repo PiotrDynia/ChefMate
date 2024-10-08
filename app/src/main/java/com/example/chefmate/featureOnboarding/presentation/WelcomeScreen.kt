@@ -34,6 +34,7 @@ fun WelcomeScreen(
             when (event) {
                 is UiEvent.Navigate -> navController.navigateTo(event.route)
                 UiEvent.PopBackStack -> navController.popBackStack()
+                else -> Unit
             }
         }
     }

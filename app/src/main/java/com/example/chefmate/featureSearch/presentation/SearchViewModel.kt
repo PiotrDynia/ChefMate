@@ -1,17 +1,32 @@
 package com.example.chefmate.featureSearch.presentation
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.chefmate.core.domain.util.Result
+import com.example.chefmate.core.presentation.util.UiEvent
+import com.example.chefmate.featureSearch.domain.usecase.SearchUseCases
+import com.example.chefmate.featureSearch.domain.util.SearchFilterSelection
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SearchViewModel @Inject constructor() : ViewModel() {
+class SearchViewModel @Inject constructor(
+    private val useCases: SearchUseCases
+) : ViewModel() {
 
     private val _state = MutableStateFlow(SearchState())
     val state = _state.asStateFlow()
+
+    private val _uiEvent = Channel<UiEvent>(Channel.BUFFERED)
+    val uiEvent: Flow<UiEvent> = _uiEvent.receiveAsFlow()
 
     fun onEvent(event: SearchEvent) {
         when(event) {
@@ -24,13 +39,42 @@ class SearchViewModel @Inject constructor() : ViewModel() {
             is SearchEvent.OnSortTypeSelected -> onSortTypeSelected(event.sortType)
             is SearchEvent.OnCaloriesSliderPositionChange -> onCaloriesSliderPositionChange(event.range)
             is SearchEvent.OnServingsSliderPositionChange -> onSliderSliderPositionChange(event.range)
+            SearchEvent.OnSearchClick -> searchRecipes()
+        }
+    }
+
+    private fun searchRecipes() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val filterSelection = SearchFilterSelection(
+                query = _state.value.searchInput,
+                cuisines = _state.value.selectedCuisines.joinToString(","),
+                excludedCuisines = _state.value.excludedCuisines.joinToString(","),
+                diets = _state.value.selectedDiets.joinToString(","),
+                intolerances = _state.value.selectedIntolerances.joinToString(","),
+                mealType = _state.value.selectedMealTypes.joinToString(","),
+                sort = _state.value.selectedSortType,
+                maxCalories = _state.value.caloriesSliderPosition.endInclusive.toInt(),
+                minCalories = _state.value.caloriesSliderPosition.start.toInt(),
+                maxServings = _state.value.servingsSliderPosition.endInclusive.toInt(),
+                minServings = _state.value.servingsSliderPosition.start.toInt(),
+            )
+            when (val result = useCases.searchRecipes(filterSelection)) {
+                is Result.Success -> {
+                    // TODO navigate to results screen
+                    println(result.data.results)
+                }
+
+                is Result.Error -> {
+                    viewModelScope.launch {
+                        _uiEvent.send(UiEvent.ShowSnackbar(result.error.getErrorMessageResId()))
+                    }
+                }
+            }
         }
     }
 
     private fun onSearchInputChange(input: String) {
-        _state.update {
-            it.copy(searchInput = input)
-        }
+        _state.update { it.copy(searchInput = input) }
     }
 
     private fun onCuisineSelected(cuisine: String) {
@@ -93,14 +137,10 @@ class SearchViewModel @Inject constructor() : ViewModel() {
     }
 
     private fun onCaloriesSliderPositionChange(value: ClosedFloatingPointRange<Float>) {
-        _state.update {
-            it.copy(caloriesSliderPosition = value)
-        }
+        _state.update { it.copy(caloriesSliderPosition = value) }
     }
 
     private fun onSliderSliderPositionChange(value: ClosedFloatingPointRange<Float>) {
-        _state.update {
-            it.copy(servingsSliderPosition = value)
-        }
+        _state.update { it.copy(servingsSliderPosition = value) }
     }
 }

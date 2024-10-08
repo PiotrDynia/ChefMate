@@ -11,20 +11,16 @@ import com.example.chefmate.core.domain.util.DietPreferences
 import com.example.chefmate.core.domain.util.Intolerance
 import com.example.chefmate.core.domain.util.MealType
 import com.example.chefmate.core.domain.util.Result
-import com.example.chefmate.core.presentation.util.Screen
-import com.example.chefmate.core.presentation.util.UiEvent
 import com.example.chefmate.featureHome.domain.usecase.HomeUseCases
 import com.example.chefmate.featureHome.domain.util.PreferencesSelection
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -89,14 +85,14 @@ class HomeViewModel @Inject constructor(
     private suspend fun loadRandomRecipes() {
         when (val result = useCases.fetchRandomRecipes()) {
             is Result.Success -> updateRecommendations(result.data.recipes)
-            is Result.Error -> setErrorMessage(result.error.messageResId)
+            is Result.Error -> setErrorMessage(result.error.getErrorMessageResId())
         }
     }
 
     private suspend fun fetchRecommendedRecipes(preferencesSelection: PreferencesSelection) {
         when (val result = useCases.fetchRecipes(preferencesSelection)) {
             is Result.Success -> handleFetchedRecommendations(result.data.results)
-            is Result.Error -> setErrorMessage(result.error.messageResId)
+            is Result.Error -> setErrorMessage(result.error.getErrorMessageResId())
         }
     }
 
@@ -159,7 +155,7 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             when (val result = useCases.getAutocompleteRecipes(input)) {
                 is Result.Success -> updateAutocompleteState(result.data)
-                is Result.Error -> setAutocompleteErrorMessage(result.error.messageResId)
+                is Result.Error -> setAutocompleteErrorMessage(result.error.getErrorMessageResId())
             }
         }
     }

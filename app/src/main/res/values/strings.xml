@@ -45,4 +45,6 @@
     <string name="calories_per_serving">Calories per serving</string>
     <string name="servings">Servings</string>
     <string name="sort">Sort</string>
+    <string name="query_cannot_be_empty_please_enter_a_keyword_or_phrase_to_perform_the_search">Query cannot be empty. Please enter a keyword or phrase to perform the search.</string>
+    <string name="enter_at_least_3_characters">Enter at least 3 characters!</string>
 </resources>
