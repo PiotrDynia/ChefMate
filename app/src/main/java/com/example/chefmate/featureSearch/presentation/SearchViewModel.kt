@@ -25,10 +25,25 @@ class SearchViewModel @Inject constructor() : ViewModel() {
             is SearchEvent.OnSortTypeSelected -> onSortTypeSelected(event.sortType)
             is SearchEvent.OnMaxCaloriesTextChange -> {
                 _state.update {
-                    it.copy(caloriesMin = event.minCalories)
+                    it.copy(caloriesMax = event.maxCalories,
+                            caloriesSliderPosition = it.caloriesSliderPosition.start..event.maxCalories.toFloat()
+                    )
                 }
             }
-            is SearchEvent.OnMinCaloriesTextChange -> TODO()
+            is SearchEvent.OnMinCaloriesTextChange -> {
+                _state.update {
+                    it.copy(caloriesMin = event.minCalories,
+                        caloriesSliderPosition = event.minCalories.toFloat()..it.caloriesSliderPosition.endInclusive)
+                }
+            }
+            is SearchEvent.OnCaloriesSliderPositionChange -> {
+                _state.update {
+                    it.copy(
+                        caloriesMin = event.range.start.toInt(),
+                        caloriesMax = event.range.endInclusive.toInt(),
+                        caloriesSliderPosition = event.range)
+                }
+            }
         }
     }
 

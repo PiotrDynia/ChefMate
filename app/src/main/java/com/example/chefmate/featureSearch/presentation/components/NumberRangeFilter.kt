@@ -1,5 +1,6 @@
 package com.example.chefmate.featureSearch.presentation.components
 
+import androidx.annotation.FloatRange
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -29,12 +30,17 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.chefmate.core.presentation.util.NumberRangeFilterState
+import com.example.chefmate.featureSearch.presentation.SearchEvent
+import com.example.chefmate.featureSearch.presentation.SearchState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun NumberRangeFilter(title: String, modifier: Modifier = Modifier) {
-    var sliderPosition by remember { mutableStateOf(0f..10000f) }
-
+fun NumberRangeFilter(
+    title: String,
+    numberRangeFilterState: NumberRangeFilterState,
+    modifier: Modifier = Modifier
+) {
     Text(
         text = title,
         modifier = Modifier.padding(horizontal = 8.dp),
@@ -48,10 +54,9 @@ fun NumberRangeFilter(title: String, modifier: Modifier = Modifier) {
         modifier = Modifier.padding(horizontal = 16.dp)
     ) {
         RangeSlider(
-            value = sliderPosition,
-            onValueChange = { range -> sliderPosition = range },
-            valueRange = 0f..10000f,
-            onValueChangeFinished = { },
+            value = numberRangeFilterState.sliderValue,
+            onValueChange = { numberRangeFilterState.onSliderChange(it) },
+            valueRange = numberRangeFilterState.sliderValueRange,
             startThumb = {
                 SliderDefaults.Thumb(
                     modifier = Modifier.size(16.dp),
@@ -73,8 +78,8 @@ fun NumberRangeFilter(title: String, modifier: Modifier = Modifier) {
                 .padding(8.dp)
         ) {
             TextField(
-                value = sliderPosition.start.toInt().toString(),
-                onValueChange = {},
+                value = numberRangeFilterState.minTextFieldValue,
+                onValueChange = { numberRangeFilterState.onMaxTextFieldChange(it) },
                 textStyle = LocalTextStyle.current.copy(
                     textAlign = TextAlign.Center
                 ),
@@ -87,8 +92,8 @@ fun NumberRangeFilter(title: String, modifier: Modifier = Modifier) {
             )
             Text(text = "-", style = MaterialTheme.typography.headlineLarge)
             TextField(
-                value = sliderPosition.endInclusive.toInt().toString(),
-                onValueChange = {},
+                value = numberRangeFilterState.maxTextFieldValue,
+                onValueChange = { numberRangeFilterState.onMaxTextFieldChange(it) },
                 textStyle = LocalTextStyle.current.copy(
                     textAlign = TextAlign.Center
                 ),
