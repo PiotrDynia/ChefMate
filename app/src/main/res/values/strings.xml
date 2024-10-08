@@ -42,7 +42,7 @@
     <string name="your_preferences">Your preferences</string>
     <string name="done_icon">Done icon</string>
     <string name="exclude_cuisines">Exclude cuisines</string>
-    <string name="calories">Calories</string>
+    <string name="calories_per_serving">Calories per serving</string>
     <string name="servings">Servings</string>
     <string name="sort">Sort</string>
 </resources>

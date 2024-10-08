@@ -8,7 +8,6 @@ import com.example.chefmate.core.domain.util.getAllCuisineNames
 import com.example.chefmate.core.domain.util.getAllDietNames
 import com.example.chefmate.core.domain.util.getAllIntoleranceNames
 import com.example.chefmate.core.domain.util.getAllMealTypeNames
-import com.example.chefmate.core.presentation.util.NumberRangeFilterState
 import com.example.chefmate.featureSearch.presentation.SearchEvent
 import com.example.chefmate.featureSearch.presentation.SearchState
 
@@ -48,22 +47,19 @@ fun SearchFilterRows(
         onItemSelected = { onEvent(SearchEvent.OnMealTypeSelected(it)) }
     )
     NumberRangeFilter(
-        title = stringResource(R.string.calories),
-        numberRangeFilterState = NumberRangeFilterState(
-            sliderValue = state.caloriesSliderPosition,
-            sliderValueRange = state.caloriesSliderRange,
-            minTextFieldValue = state.caloriesMin.toString(),
-            maxTextFieldValue = state.caloriesMax.toString(),
-            onSliderChange = { onEvent(SearchEvent.OnCaloriesSliderPositionChange(it)) },
-            onMinTextFieldChange = { onEvent(SearchEvent.OnMinCaloriesTextChange(it.toInt())) },
-            onMaxTextFieldChange = { onEvent(SearchEvent.OnMaxCaloriesTextChange(it.toInt())) }
-        )
+        title = stringResource(R.string.calories_per_serving),
+        sliderValue = state.caloriesSliderPosition,
+        sliderRange = state.caloriesSliderRange,
+        sliderSteps = 0,
+        onSliderChange = { onEvent(SearchEvent.OnCaloriesSliderPositionChange(it)) }
     )
-//    NumberRangeFilter(
-//        title = stringResource(R.string.servings),
-//        sliderPosition = state.caloriesSliderPosition,
-//        onEvent = onEvent
-//    )
+    NumberRangeFilter(
+        title = stringResource(R.string.servings),
+        sliderValue = state.servingsSliderPosition,
+        sliderRange = state.servingsSliderRange,
+        sliderSteps = (state.servingsSliderRange.endInclusive - 2).toInt(),
+        onSliderChange = { onEvent(SearchEvent.OnServingsSliderPositionChange(it)) }
+    )
     SortRow(
         title = stringResource(R.string.sort),
         onSortSelected = { onEvent(SearchEvent.OnSortTypeSelected(it))},

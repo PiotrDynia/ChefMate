@@ -1,7 +1,6 @@
 package com.example.chefmate.featureSearch.presentation
 
 import androidx.lifecycle.ViewModel
-import com.example.chefmate.featureHome.presentation.HomeState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -23,27 +22,8 @@ class SearchViewModel @Inject constructor() : ViewModel() {
             is SearchEvent.OnIntoleranceSelected -> onIntoleranceSelected(event.intolerance)
             is SearchEvent.OnMealTypeSelected -> onMealTypeSelected(event.mealType)
             is SearchEvent.OnSortTypeSelected -> onSortTypeSelected(event.sortType)
-            is SearchEvent.OnMaxCaloriesTextChange -> {
-                _state.update {
-                    it.copy(caloriesMax = event.maxCalories,
-                            caloriesSliderPosition = it.caloriesSliderPosition.start..event.maxCalories.toFloat()
-                    )
-                }
-            }
-            is SearchEvent.OnMinCaloriesTextChange -> {
-                _state.update {
-                    it.copy(caloriesMin = event.minCalories,
-                        caloriesSliderPosition = event.minCalories.toFloat()..it.caloriesSliderPosition.endInclusive)
-                }
-            }
-            is SearchEvent.OnCaloriesSliderPositionChange -> {
-                _state.update {
-                    it.copy(
-                        caloriesMin = event.range.start.toInt(),
-                        caloriesMax = event.range.endInclusive.toInt(),
-                        caloriesSliderPosition = event.range)
-                }
-            }
+            is SearchEvent.OnCaloriesSliderPositionChange -> onCaloriesSliderPositionChange(event.range)
+            is SearchEvent.OnServingsSliderPositionChange -> onSliderSliderPositionChange(event.range)
         }
     }
 
@@ -110,5 +90,17 @@ class SearchViewModel @Inject constructor() : ViewModel() {
 
     private fun onSortTypeSelected(sortType: String) {
         _state.update { it.copy(selectedSortType = sortType) }
+    }
+
+    private fun onCaloriesSliderPositionChange(value: ClosedFloatingPointRange<Float>) {
+        _state.update {
+            it.copy(caloriesSliderPosition = value)
+        }
+    }
+
+    private fun onSliderSliderPositionChange(value: ClosedFloatingPointRange<Float>) {
+        _state.update {
+            it.copy(servingsSliderPosition = value)
+        }
     }
 }

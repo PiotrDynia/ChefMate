@@ -8,7 +8,6 @@ sealed class SearchEvent {
     data class OnIntoleranceSelected(val intolerance: String) : SearchEvent()
     data class OnMealTypeSelected(val mealType: String) : SearchEvent()
     data class OnSortTypeSelected(val sortType: String) : SearchEvent()
-    data class OnMinCaloriesTextChange(val minCalories: Int) : SearchEvent()
-    data class OnMaxCaloriesTextChange(val maxCalories: Int) : SearchEvent()
     data class OnCaloriesSliderPositionChange(val range: ClosedFloatingPointRange<Float>) : SearchEvent()
+    data class OnServingsSliderPositionChange(val range: ClosedFloatingPointRange<Float>) : SearchEvent()
 }
