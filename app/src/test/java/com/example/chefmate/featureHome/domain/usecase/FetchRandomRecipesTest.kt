@@ -30,8 +30,8 @@ class FetchRandomRecipesTest {
     fun `Should return random recipes successfully`() = runBlocking {
         val fakeRecipes = GetRandomRecipeResult(
             listOf(
-                RecipeSimple(id = 1, title = "Recipe 1", image = "Dummy image"),
-                RecipeSimple(id = 2, title = "Recipe 2", image = "Dummy image")
+                RecipeSimple(id = 1, title = "Recipe 1", image = "Dummy image", summary = "Dummy summary"),
+                RecipeSimple(id = 2, title = "Recipe 2", image = "Dummy image", summary = "Dummy summary")
             )
         )
         repository.randomRecipes = fakeRecipes

@@ -54,6 +54,7 @@ fun WelcomeScreen(
                 selectedDietaryPreferences = viewModel.dietaryPreferences.value,
             )
         } else {
+            // TODO extract from else?
             HorizontalPagerIndicator(
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
