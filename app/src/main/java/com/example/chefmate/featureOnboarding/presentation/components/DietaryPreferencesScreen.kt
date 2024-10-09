@@ -35,11 +35,5 @@ fun DietaryPreferencesScreen(
             selectedDietaryPreferences = selectedDietaryPreferences,
             modifier = Modifier.fillMaxWidth()
         )
-
-        HorizontalPagerIndicator(
-            modifier = Modifier.align(Alignment.CenterHorizontally),
-            pageCount = OnBoardingPage.PAGES_COUNT,
-            pagerState = pagerState
-        )
     }
 }

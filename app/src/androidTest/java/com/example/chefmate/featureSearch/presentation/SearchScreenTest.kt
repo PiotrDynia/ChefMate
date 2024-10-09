@@ -1,16 +1,19 @@
-package com.example.chefmate.featureHome.presentation
+package com.example.chefmate.featureSearch.presentation
 
 import androidx.activity.compose.setContent
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.remember
-import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.assertHasClickAction
 import androidx.compose.ui.test.assertIsDisplayed
-import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.test.onAllNodesWithContentDescription
+import androidx.compose.ui.test.onFirst
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performTextInput
+import androidx.compose.ui.test.performTouchInput
+import androidx.compose.ui.test.swipeLeft
+import androidx.compose.ui.test.swipeRight
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
 import androidx.test.platform.app.InstrumentationRegistry
@@ -27,7 +30,7 @@ import org.junit.Rule
 import org.junit.Test
 
 @HiltAndroidTest
-class HomeScreenTest {
+class SearchScreenTest {
 
     @get:Rule(order = 0)
     val hiltRule = HiltAndroidRule(this)
@@ -37,7 +40,6 @@ class HomeScreenTest {
 
     private val context = InstrumentationRegistry.getInstrumentation().targetContext
 
-    @OptIn(ExperimentalTestApi::class)
     @Before
     fun setUp() {
         hiltRule.inject()
@@ -50,26 +52,22 @@ class HomeScreenTest {
                     navController = navController,
                     bottomNavigationViewModel = bottomNavigationViewModel,
                     snackbarHostState = remember { SnackbarHostState() },
-                    startDestination = Screen.Home.route
+                    startDestination = Screen.Search.route
                 )
             }
         }
-        composeRule.waitUntilAtLeastOneExists(
-            hasText(context.getString(R.string.what_would_you_like_to_cook_today)),
-            timeoutMillis = 3000
-        )
     }
 
     @Test
     fun checkEachSectionIsDisplayed() {
         composeRule
-            .onNodeWithText(context.getString(R.string.what_would_you_like_to_cook_today))
-            .assertIsDisplayed()
-        composeRule
             .onNodeWithText(context.getString(R.string.search_for_recipes))
             .assertIsDisplayed()
         composeRule
             .onNodeWithText(context.getString(R.string.cuisines))
+            .assertIsDisplayed()
+        composeRule
+            .onNodeWithText(context.getString(R.string.exclude_cuisines))
             .assertIsDisplayed()
         composeRule
             .onNodeWithText(context.getString(R.string.diets))
@@ -81,7 +79,16 @@ class HomeScreenTest {
             .onNodeWithText(context.getString(R.string.meal_types))
             .assertIsDisplayed()
         composeRule
-            .onNodeWithText(context.getString(R.string.recommendations))
+            .onNodeWithText(context.getString(R.string.calories_per_serving))
+            .assertIsDisplayed()
+        composeRule
+            .onNodeWithText(context.getString(R.string.servings))
+            .assertIsDisplayed()
+        composeRule
+            .onNodeWithText(context.getString(R.string.sort))
+            .assertIsDisplayed()
+        composeRule
+            .onNodeWithContentDescription(context.getString(R.string.search_filtered_recipes))
             .assertIsDisplayed()
     }
 
@@ -96,24 +103,31 @@ class HomeScreenTest {
     }
 
     @Test
-    fun checkAccountIconIsClickable() {
+    fun checkSliderIsDraggable() {
         composeRule
-            .onNodeWithContentDescription(context.getString(R.string.go_to_profile))
-            .assertHasClickAction()
+            .onAllNodesWithContentDescription("Range start")
+            .onFirst()
+            .performTouchInput {
+                swipeRight()
+            }
+
+        composeRule
+            .onAllNodesWithContentDescription("Range end")
+            .onFirst()
+            .performTouchInput {
+                swipeLeft()
+            }
     }
 
     @Test
-    fun checkSeeAllIsClickable() {
+    fun checkSearchButtonIsClickable() {
         composeRule
-            .onNodeWithText(context.getString(R.string.see_all))
+            .onNodeWithContentDescription(context.getString(R.string.search_filtered_recipes))
             .assertHasClickAction()
     }
 
     @Test
     fun checkPreferencesAreClickable() {
-        composeRule
-            .onNodeWithText("African")
-            .assertHasClickAction()
         composeRule
             .onNodeWithText("Ketogenic")
             .assertHasClickAction()
@@ -123,5 +137,9 @@ class HomeScreenTest {
         composeRule
             .onNodeWithText("Main course")
             .assertHasClickAction()
+        composeRule
+            .onNodeWithText("popularity")
+            .assertHasClickAction()
     }
+
 }

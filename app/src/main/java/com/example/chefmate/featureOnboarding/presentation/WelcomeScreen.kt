@@ -53,16 +53,14 @@ fun WelcomeScreen(
                 onEvent = viewModel::onEvent,
                 selectedDietaryPreferences = viewModel.dietaryPreferences.value,
             )
-        } else {
-            // TODO extract from else?
-            HorizontalPagerIndicator(
-                modifier = Modifier
-                    .align(Alignment.CenterHorizontally)
-                    .weight(1f),
-                pageCount = OnBoardingPage.PAGES_COUNT,
-                pagerState = pagerState
-            )
         }
+        HorizontalPagerIndicator(
+            modifier = Modifier
+                .align(Alignment.CenterHorizontally)
+                .weight(1f),
+            pageCount = OnBoardingPage.PAGES_COUNT,
+            pagerState = pagerState
+        )
         OnBoardingButton(
             modifier = Modifier
                 .fillMaxWidth()

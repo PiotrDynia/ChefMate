@@ -2,7 +2,9 @@ package com.example.chefmate.featureSearch.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.chefmate.core.data.api.dto.RecipeSimple
 import com.example.chefmate.core.domain.util.Result
+import com.example.chefmate.core.domain.util.error.Error
 import com.example.chefmate.core.presentation.util.UiEvent
 import com.example.chefmate.featureSearch.domain.usecase.SearchUseCases
 import com.example.chefmate.featureSearch.domain.util.SearchFilterSelection
@@ -59,18 +61,19 @@ class SearchViewModel @Inject constructor(
                 minServings = _state.value.servingsSliderPosition.start.toInt(),
             )
             when (val result = useCases.searchRecipes(filterSelection)) {
-                is Result.Success -> {
-                    // TODO navigate to results screen
-                    println(result.data.results)
-                }
-
-                is Result.Error -> {
-                    viewModelScope.launch {
-                        _uiEvent.send(UiEvent.ShowSnackbar(result.error.getErrorMessageResId()))
-                    }
-                }
+                is Result.Success -> navigateToResultsPage(result.data.results)
+                is Result.Error -> showErrorSnackbar(result.error)
             }
         }
+    }
+
+    private fun navigateToResultsPage(recipes: List<RecipeSimple>) {
+        // TODO navigate to results screen
+        println(recipes)
+    }
+
+    private suspend fun showErrorSnackbar(error: Error) {
+        _uiEvent.send(UiEvent.ShowSnackbar(error.getErrorMessageResId()))
     }
 
     private fun onSearchInputChange(input: String) {
