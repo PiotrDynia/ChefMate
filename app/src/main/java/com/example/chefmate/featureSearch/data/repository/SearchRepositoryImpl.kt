@@ -9,11 +9,11 @@ class SearchRepositoryImpl(private val apiService: APIService) : SearchRepositor
     override suspend fun getRecipes(searchFilters: SearchFilterSelection): GetRecipeResult {
         return apiService.getRecipes(
             query = searchFilters.query,
-            diets = searchFilters.diets,
-            cuisines = searchFilters.cuisines,
-            intolerances = searchFilters.intolerances,
-            mealTypes = searchFilters.mealType,
-            excludedCuisines = searchFilters.excludedCuisines,
+            diets = searchFilters.diets.joinToString(","),
+            cuisines = searchFilters.cuisines.joinToString(","),
+            intolerances = searchFilters.intolerances.joinToString(","),
+            mealTypes = searchFilters.mealType.joinToString(","),
+            excludedCuisines = searchFilters.excludedCuisines.joinToString(","),
             minCalories = searchFilters.minCalories,
             maxCalories = searchFilters.maxCalories,
             minServings = searchFilters.minServings,

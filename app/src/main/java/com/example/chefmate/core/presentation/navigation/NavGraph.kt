@@ -3,10 +3,12 @@ package com.example.chefmate.core.presentation.navigation
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.chefmate.core.presentation.util.Screen
+import com.example.chefmate.core.presentation.util.SharedSearchViewModel
 import com.example.chefmate.featureHome.presentation.HomeScreen
 import com.example.chefmate.featureOnboarding.presentation.WelcomeScreen
 import com.example.chefmate.featureResults.presentation.ResultsScreen
@@ -19,6 +21,8 @@ fun SetupNavGraph(
     startDestination: String,
     modifier: Modifier = Modifier,
     bottomNavigationViewModel: BottomNavigationViewModel) {
+    val sharedViewModel: SharedSearchViewModel = hiltViewModel()
+
     NavHost(
         navController = navController,
         startDestination = startDestination
@@ -37,11 +41,12 @@ fun SetupNavGraph(
             SearchScreen(
                 snackbarHostState = snackbarHostState,
                 navController = navController,
+                sharedViewModel = sharedViewModel,
                 modifier = modifier
             )
         }
         composable(route = Screen.Results.route) {
-            ResultsScreen()
+            ResultsScreen(sharedViewModel = sharedViewModel)
         }
     }
 }

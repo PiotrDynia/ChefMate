@@ -19,15 +19,26 @@ import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.chefmate.core.domain.util.userPreferences.FilterSelections
-import com.example.chefmate.core.domain.util.userPreferences.SortType
+import com.example.chefmate.core.presentation.util.SharedSearchViewModel
 
 @Composable
-fun ResultsScreen(modifier: Modifier = Modifier) {
+fun ResultsScreen(
+    sharedViewModel: SharedSearchViewModel,
+    modifier: Modifier = Modifier,
+    viewModel: ResultsViewModel = hiltViewModel()
+) {
+    val filterSelection by sharedViewModel.filterSelection.observeAsState()
+
+    println("Result - $filterSelection")
+
     Column(
         modifier = modifier
             .fillMaxSize()

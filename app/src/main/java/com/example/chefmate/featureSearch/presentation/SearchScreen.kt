@@ -29,7 +29,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.example.chefmate.R
 import com.example.chefmate.core.domain.util.navigateTo
+import com.example.chefmate.core.presentation.util.SharedSearchViewModel
 import com.example.chefmate.core.presentation.util.UiEvent
+import com.example.chefmate.featureSearch.domain.util.SearchFilterSelection
 import com.example.chefmate.featureSearch.presentation.components.SearchBar
 import com.example.chefmate.featureSearch.presentation.components.SearchFilterRows
 
@@ -37,6 +39,7 @@ import com.example.chefmate.featureSearch.presentation.components.SearchFilterRo
 fun SearchScreen(
     snackbarHostState: SnackbarHostState,
     navController: NavHostController,
+    sharedViewModel: SharedSearchViewModel,
     modifier: Modifier = Modifier,
     viewModel: SearchViewModel = hiltViewModel()
 ) {
@@ -50,7 +53,25 @@ fun SearchScreen(
                 is UiEvent.ShowSnackbar -> snackbarHostState.showSnackbar(
                     message = context.getString(event.message)
                 )
-                is UiEvent.Navigate -> navController.navigateTo(event.route)
+                is UiEvent.Navigate -> {
+                    val latestState = viewModel.state.value
+                    sharedViewModel.setFilterSelection(
+                        SearchFilterSelection(
+                            query = latestState.searchInput,
+                            cuisines = latestState.selectedCuisines,
+                            excludedCuisines = latestState.excludedCuisines,
+                            diets = latestState.selectedDiets,
+                            intolerances = latestState.selectedIntolerances,
+                            mealType = latestState.selectedMealTypes,
+                            sort = latestState.selectedSortType,
+                            maxCalories = latestState.caloriesSliderPosition.endInclusive.toInt(),
+                            minCalories = latestState.caloriesSliderPosition.start.toInt(),
+                            maxServings = latestState.servingsSliderPosition.endInclusive.toInt(),
+                            minServings = latestState.servingsSliderPosition.start.toInt(),
+                        )
+                    )
+                    navController.navigateTo(event.route)
+                }
                 else -> Unit
             }
         }

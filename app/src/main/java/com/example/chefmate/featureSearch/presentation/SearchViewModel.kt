@@ -2,9 +2,8 @@ package com.example.chefmate.featureSearch.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.chefmate.core.data.api.dto.RecipeSimple
-import com.example.chefmate.core.domain.util.Result
 import com.example.chefmate.core.domain.util.error.Error
+import com.example.chefmate.core.presentation.util.Screen
 import com.example.chefmate.core.presentation.util.UiEvent
 import com.example.chefmate.featureSearch.domain.usecase.SearchUseCases
 import com.example.chefmate.featureSearch.domain.util.SearchFilterSelection
@@ -46,30 +45,17 @@ class SearchViewModel @Inject constructor(
     }
 
     private fun searchRecipes() {
-        viewModelScope.launch(Dispatchers.IO) {
-            val filterSelection = SearchFilterSelection(
-                query = _state.value.searchInput,
-                cuisines = _state.value.selectedCuisines.joinToString(","),
-                excludedCuisines = _state.value.excludedCuisines.joinToString(","),
-                diets = _state.value.selectedDiets.joinToString(","),
-                intolerances = _state.value.selectedIntolerances.joinToString(","),
-                mealType = _state.value.selectedMealTypes.joinToString(","),
-                sort = _state.value.selectedSortType,
-                maxCalories = _state.value.caloriesSliderPosition.endInclusive.toInt(),
-                minCalories = _state.value.caloriesSliderPosition.start.toInt(),
-                maxServings = _state.value.servingsSliderPosition.endInclusive.toInt(),
-                minServings = _state.value.servingsSliderPosition.start.toInt(),
-            )
-            when (val result = useCases.searchRecipes(filterSelection)) {
-                is Result.Success -> navigateToResultsPage(result.data.results)
-                is Result.Error -> showErrorSnackbar(result.error)
-            }
+        viewModelScope.launch {
+            navigateToResultsPage()
+//            when (val result = useCases.searchRecipes(filterSelection)) {
+//                is Result.Success -> navigateToResultsPage(result.data.results)
+//                is Result.Error -> showErrorSnackbar(result.error)
+//            }
         }
     }
 
-    private fun navigateToResultsPage(recipes: List<RecipeSimple>) {
-        // TODO navigate to results screen
-        println(recipes)
+    private suspend fun navigateToResultsPage() {
+        _uiEvent.send(UiEvent.Navigate(route = Screen.Results.route))
     }
 
     private suspend fun showErrorSnackbar(error: Error) {
