@@ -1,9 +1,9 @@
 package com.example.chefmate.core.domain.usecase
 
 import com.example.chefmate.core.domain.repository.DataStoreRepository
-import com.example.chefmate.core.domain.util.Cuisine
-import com.example.chefmate.core.domain.util.Diet
-import com.example.chefmate.core.domain.util.Intolerance
+import com.example.chefmate.core.domain.util.userPreferences.Cuisine
+import com.example.chefmate.core.domain.util.userPreferences.Diet
+import com.example.chefmate.core.domain.util.userPreferences.Intolerance
 import kotlinx.coroutines.flow.first
 
 class ReadDietPreferences(

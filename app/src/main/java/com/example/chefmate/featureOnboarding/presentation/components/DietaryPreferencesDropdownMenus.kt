@@ -11,10 +11,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.chefmate.R
-import com.example.chefmate.core.domain.util.DietPreferences
-import com.example.chefmate.core.domain.util.getAllCuisineNames
-import com.example.chefmate.core.domain.util.getAllDietNames
-import com.example.chefmate.core.domain.util.getAllIntoleranceNames
+import com.example.chefmate.core.domain.util.userPreferences.Cuisine
+import com.example.chefmate.core.domain.util.userPreferences.Diet
+import com.example.chefmate.core.domain.util.userPreferences.DietPreferences
+import com.example.chefmate.core.domain.util.userPreferences.Intolerance
 import com.example.chefmate.core.presentation.util.SelectableDropdownMenu
 import com.example.chefmate.featureOnboarding.domain.util.OnBoardingPage
 import com.example.chefmate.featureOnboarding.presentation.WelcomeEvent
@@ -39,7 +39,7 @@ fun DietaryPreferencesDropdownMenus(
         ) {
             SelectableDropdownMenu(
                 placeholder = R.string.select_your_favourite_cuisines,
-                values = getAllCuisineNames(),
+                values = Cuisine.getAllCuisineNames(),
                 selectedValues = selectedDietaryPreferences.cuisines,
                 onAdd = { cuisine -> onEvent(WelcomeEvent.OnAddCuisine(cuisine))},
                 onRemove = { cuisine -> onEvent(WelcomeEvent.OnRemoveCuisine(cuisine))},
@@ -47,7 +47,7 @@ fun DietaryPreferencesDropdownMenus(
             )
             SelectableDropdownMenu(
                 placeholder = R.string.select_your_diet,
-                values = getAllDietNames(),
+                values = Diet.getAllDietNames(),
                 selectedValues = selectedDietaryPreferences.diets,
                 onAdd = { diet -> onEvent(WelcomeEvent.OnAddDiet(diet))},
                 onRemove = { diet -> onEvent(WelcomeEvent.OnRemoveDiet(diet))},
@@ -55,7 +55,7 @@ fun DietaryPreferencesDropdownMenus(
             )
             SelectableDropdownMenu(
                 placeholder = R.string.select_your_intolerances,
-                values = getAllIntoleranceNames(),
+                values = Intolerance.getAllIntoleranceNames(),
                 selectedValues = selectedDietaryPreferences.intolerances,
                 onAdd = { intolerance -> onEvent(WelcomeEvent.OnAddIntolerance(intolerance))},
                 onRemove = { intolerance -> onEvent(WelcomeEvent.OnRemoveIntolerance(intolerance))},

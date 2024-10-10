@@ -1,4 +1,4 @@
-package com.example.chefmate.core.domain.util
+package com.example.chefmate.core.domain.util.userPreferences
 
 import androidx.annotation.DrawableRes
 import com.example.chefmate.R
@@ -16,6 +16,9 @@ enum class Intolerance(val displayName: String, @DrawableRes val imageResId: Int
     SULFITE("Sulfite", R.drawable.intolerance_sulfite),
     TREE_NUT("Tree nut", R.drawable.intolerance_tree_nut),
     WHEAT("Wheat", R.drawable.intolerance_wheat);
-}
 
-fun getAllIntoleranceNames() : List<String> = Intolerance.entries.map { it.displayName }
+    companion object {
+        fun getAllIntoleranceNames() : List<String> = Intolerance.entries.map { it.displayName }
+
+    }
+}

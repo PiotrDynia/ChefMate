@@ -9,6 +9,7 @@ import androidx.navigation.compose.composable
 import com.example.chefmate.core.presentation.util.Screen
 import com.example.chefmate.featureHome.presentation.HomeScreen
 import com.example.chefmate.featureOnboarding.presentation.WelcomeScreen
+import com.example.chefmate.featureResults.presentation.ResultsScreen
 import com.example.chefmate.featureSearch.presentation.SearchScreen
 
 @Composable
@@ -38,6 +39,9 @@ fun SetupNavGraph(
                 navController = navController,
                 modifier = modifier
             )
+        }
+        composable(route = Screen.Results.route) {
+            ResultsScreen()
         }
     }
 }

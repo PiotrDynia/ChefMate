@@ -1,4 +1,4 @@
-package com.example.chefmate.core.domain.util
+package com.example.chefmate.core.domain.util.userPreferences
 
 import androidx.annotation.DrawableRes
 import com.example.chefmate.R
@@ -17,7 +17,9 @@ enum class MealType(val displayName: String, @DrawableRes val imageResId: Int) {
     MARINADE("Marinade", R.drawable.meal_type_marinade),
     FINGERFOOD("Fingerfood", R.drawable.meal_type_fingerfood),
     SNACK("Snack", R.drawable.meal_type_snack),
-    DRINK("Drink", R.drawable.meal_type_drink),
-}
+    DRINK("Drink", R.drawable.meal_type_drink);
 
-fun getAllMealTypeNames() : List<String> = MealType.entries.map { it.displayName }
+    companion object {
+        fun getAllMealTypeNames() : List<String> = MealType.entries.map { it.displayName }
+    }
+}

@@ -1,8 +1,7 @@
-package com.example.chefmate.core.domain.util
+package com.example.chefmate.core.domain.util.userPreferences
 
 import androidx.annotation.DrawableRes
 import com.example.chefmate.R
-import java.util.EnumMap
 
 enum class Cuisine(val displayName: String, @DrawableRes val imageResId: Int) {
     AFRICAN("African", R.drawable.cuisine_african),
@@ -32,6 +31,9 @@ enum class Cuisine(val displayName: String, @DrawableRes val imageResId: Int) {
     SPANISH("Spanish", R.drawable.cuisine_spanish),
     THAI("Thai", R.drawable.cuisine_thai),
     VIETNAMESE("Vietnamese", R.drawable.cuisine_vietnamese);
-}
 
-fun getAllCuisineNames() : List<String> = Cuisine.entries.map { it.displayName }
+    companion object {
+        fun getAllCuisineNames() : List<String> = Cuisine.entries.map { it.displayName }
+
+    }
+}

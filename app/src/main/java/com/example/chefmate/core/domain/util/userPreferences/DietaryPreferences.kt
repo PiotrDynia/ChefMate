@@ -1,4 +1,4 @@
-package com.example.chefmate.core.domain.util
+package com.example.chefmate.core.domain.util.userPreferences
 
 data class DietPreferences(
     val diets: List<String> = emptyList(),

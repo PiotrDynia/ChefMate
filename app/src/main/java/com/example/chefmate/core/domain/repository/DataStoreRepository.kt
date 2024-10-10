@@ -1,6 +1,6 @@
 package com.example.chefmate.core.domain.repository
 
-import com.example.chefmate.core.domain.util.DietPreferences
+import com.example.chefmate.core.domain.util.userPreferences.DietPreferences
 import kotlinx.coroutines.flow.Flow
 
 interface DataStoreRepository {

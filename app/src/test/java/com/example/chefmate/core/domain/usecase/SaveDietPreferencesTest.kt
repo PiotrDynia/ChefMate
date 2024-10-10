@@ -1,8 +1,8 @@
 package com.example.chefmate.core.domain.usecase
 
-import com.example.chefmate.core.domain.util.Cuisine
-import com.example.chefmate.core.domain.util.DietPreferences
-import com.example.chefmate.core.domain.util.Intolerance
+import com.example.chefmate.core.domain.util.userPreferences.Cuisine
+import com.example.chefmate.core.domain.util.userPreferences.DietPreferences
+import com.example.chefmate.core.domain.util.userPreferences.Intolerance
 import com.example.chefmate.data.repository.FakeDataStoreRepository
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking

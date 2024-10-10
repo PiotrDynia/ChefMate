@@ -5,7 +5,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.chefmate.core.domain.util.DietPreferences
+import com.example.chefmate.core.domain.util.userPreferences.DietPreferences
 import com.example.chefmate.core.presentation.util.Screen
 import com.example.chefmate.core.presentation.util.UiEvent
 import com.example.chefmate.featureOnboarding.domain.usecase.WelcomeUseCases

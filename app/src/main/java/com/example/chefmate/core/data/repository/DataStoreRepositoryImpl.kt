@@ -9,7 +9,7 @@ import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.example.chefmate.core.domain.repository.DataStoreRepository
-import com.example.chefmate.core.domain.util.DietPreferences
+import com.example.chefmate.core.domain.util.userPreferences.DietPreferences
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map

@@ -1,9 +1,9 @@
 package com.example.chefmate.core.domain.usecase
 
-import com.example.chefmate.core.domain.util.Cuisine
-import com.example.chefmate.core.domain.util.Diet
-import com.example.chefmate.core.domain.util.DietPreferences
-import com.example.chefmate.core.domain.util.Intolerance
+import com.example.chefmate.core.domain.util.userPreferences.Cuisine
+import com.example.chefmate.core.domain.util.userPreferences.Diet
+import com.example.chefmate.core.domain.util.userPreferences.DietPreferences
+import com.example.chefmate.core.domain.util.userPreferences.Intolerance
 import com.example.chefmate.data.repository.FakeDataStoreRepository
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.*

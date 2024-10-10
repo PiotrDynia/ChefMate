@@ -4,7 +4,7 @@ import com.example.chefmate.BuildConfig
 import com.example.chefmate.core.data.api.dto.GetRandomRecipeResult
 import com.example.chefmate.core.data.api.dto.GetRecipeResult
 import com.example.chefmate.core.data.api.dto.GetRecipesAutocompleteResultItem
-import com.example.chefmate.core.domain.util.SortType
+import com.example.chefmate.core.domain.util.userPreferences.SortType
 import retrofit2.http.GET
 import retrofit2.http.Query
 

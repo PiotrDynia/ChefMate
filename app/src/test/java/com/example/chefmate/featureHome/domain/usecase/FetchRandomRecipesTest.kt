@@ -1,11 +1,7 @@
 package com.example.chefmate.featureHome.domain.usecase
 
 import com.example.chefmate.core.data.api.dto.GetRandomRecipeResult
-import com.example.chefmate.core.data.api.dto.GetRecipeResult
 import com.example.chefmate.core.data.api.dto.RecipeSimple
-import com.example.chefmate.core.domain.util.Cuisine
-import com.example.chefmate.core.domain.util.Diet
-import com.example.chefmate.core.domain.util.Intolerance
 import com.example.chefmate.core.domain.util.Result
 import com.example.chefmate.core.domain.util.error.DataError
 import com.example.chefmate.featureHome.data.repository.FakeHomeRepository

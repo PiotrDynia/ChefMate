@@ -1,12 +1,9 @@
 package com.example.chefmate.data.repository
 
 import com.example.chefmate.core.domain.repository.DataStoreRepository
-import com.example.chefmate.core.domain.util.DietPreferences
+import com.example.chefmate.core.domain.util.userPreferences.DietPreferences
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.runBlocking
 
 class FakeDataStoreRepository : DataStoreRepository {
 

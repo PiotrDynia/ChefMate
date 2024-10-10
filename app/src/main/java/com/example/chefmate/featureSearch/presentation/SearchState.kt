@@ -1,6 +1,6 @@
 package com.example.chefmate.featureSearch.presentation
 
-import com.example.chefmate.core.domain.util.SortType
+import com.example.chefmate.core.domain.util.userPreferences.SortType
 
 data class SearchState(
     val searchInput: String = "",
