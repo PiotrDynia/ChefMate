@@ -12,9 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.chefmate.core.domain.util.DietPreferences
-import com.example.chefmate.featureOnboarding.domain.util.OnBoardingPage
 import com.example.chefmate.featureOnboarding.presentation.WelcomeEvent
-import com.google.accompanist.pager.HorizontalPagerIndicator
 
 @Composable
 fun DietaryPreferencesScreen(
@@ -34,12 +32,6 @@ fun DietaryPreferencesScreen(
             onEvent = onEvent,
             selectedDietaryPreferences = selectedDietaryPreferences,
             modifier = Modifier.fillMaxWidth()
-        )
-
-        HorizontalPagerIndicator(
-            modifier = Modifier.align(Alignment.CenterHorizontally),
-            pageCount = OnBoardingPage.PAGES_COUNT,
-            pagerState = pagerState
         )
     }
 }

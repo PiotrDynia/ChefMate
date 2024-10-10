@@ -7,9 +7,12 @@ import com.example.chefmate.core.data.api.dto.GetRecipesAutocompleteResultItem
 import com.example.chefmate.core.data.api.dto.RecipeSimple
 import com.example.chefmate.core.domain.util.Cuisine
 import com.example.chefmate.core.domain.util.Diet
+import com.example.chefmate.core.domain.util.DietPreferences
 import com.example.chefmate.core.domain.util.Intolerance
+import com.example.chefmate.core.domain.util.MealType
 import com.example.chefmate.core.domain.util.Result
 import com.example.chefmate.featureHome.domain.usecase.HomeUseCases
+import com.example.chefmate.featureHome.domain.util.PreferencesSelection
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -52,44 +55,44 @@ class HomeViewModel @Inject constructor(
     private suspend fun handleRecipeRecommendations() {
         val selectedItemsFlow = createFlowFromSelectedItems()
 
-        selectedItemsFlow.collectLatest { (cuisines, diets, intolerances) ->
-            if (arePreferencesEmpty(cuisines, diets, intolerances)) {
+        selectedItemsFlow.collectLatest { preferences ->
+            if (arePreferencesEmpty(preferences)) {
                 loadRandomRecipes()
             } else {
-                fetchRecommendedRecipes(cuisines, diets, intolerances)
+                fetchRecommendedRecipes(preferences)
             }
         }
     }
 
-    private fun createFlowFromSelectedItems(): Flow<Triple<Set<Cuisine>, Set<Diet>, Set<Intolerance>>> {
+    private fun createFlowFromSelectedItems(): Flow<PreferencesSelection> {
         return _state.map { state ->
-            Triple(state.selectedCuisines, state.selectedDiets, state.selectedIntolerances)
+            PreferencesSelection(
+                selectedCuisines = state.selectedCuisines,
+                selectedDiets = state.selectedDiets,
+                selectedIntolerances = state.selectedIntolerances,
+                selectedMealTypes = state.selectedMealTypes
+            )
         }.distinctUntilChanged()
     }
 
-    private fun arePreferencesEmpty(
-        cuisines: Set<Cuisine>,
-        diets: Set<Diet>,
-        intolerances: Set<Intolerance>
-    ): Boolean {
-        return cuisines.isEmpty() && diets.isEmpty() && intolerances.isEmpty()
+    private fun arePreferencesEmpty(preferencesSelection: PreferencesSelection): Boolean {
+        return preferencesSelection.selectedCuisines.isEmpty() &&
+                preferencesSelection.selectedDiets.isEmpty() &&
+                preferencesSelection.selectedIntolerances.isEmpty() &&
+                preferencesSelection.selectedMealTypes.isEmpty()
     }
 
     private suspend fun loadRandomRecipes() {
         when (val result = useCases.fetchRandomRecipes()) {
             is Result.Success -> updateRecommendations(result.data.recipes)
-            is Result.Error -> setErrorMessage(result.error.messageResId)
+            is Result.Error -> setErrorMessage(result.error.getErrorMessageResId())
         }
     }
 
-    private suspend fun fetchRecommendedRecipes(
-        cuisines: Set<Cuisine>,
-        diets: Set<Diet>,
-        intolerances: Set<Intolerance>
-    ) {
-        when (val result = useCases.fetchRecipes(cuisines, diets, intolerances)) {
+    private suspend fun fetchRecommendedRecipes(preferencesSelection: PreferencesSelection) {
+        when (val result = useCases.fetchRecipes(preferencesSelection)) {
             is Result.Success -> handleFetchedRecommendations(result.data.results)
-            is Result.Error -> setErrorMessage(result.error.messageResId)
+            is Result.Error -> setErrorMessage(result.error.getErrorMessageResId())
         }
     }
 
@@ -138,6 +141,7 @@ class HomeViewModel @Inject constructor(
             is HomeEvent.OnCuisineSelected -> onCuisineSelected(event.cuisine)
             is HomeEvent.OnDietSelected -> onDietSelected(event.diet)
             is HomeEvent.OnIntoleranceSelected -> onIntoleranceSelected(event.intolerance)
+            is HomeEvent.OnMealTypeSelected -> onMealTypeSelected(event.mealType)
             HomeEvent.OnDismissAutocomplete -> onDismissAutocomplete()
             HomeEvent.OnAutocompleteItemClick -> TODO()
         }
@@ -151,14 +155,14 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             when (val result = useCases.getAutocompleteRecipes(input)) {
                 is Result.Success -> updateAutocompleteState(result.data)
-                is Result.Error -> setAutocompleteErrorMessage(result.error.messageResId)
+                is Result.Error -> setAutocompleteErrorMessage(result.error.getErrorMessageResId())
             }
         }
     }
 
     private fun updateAutocompleteState(result: ArrayList<GetRecipesAutocompleteResultItem>) {
-        _state.update { state ->
-            state.copy(
+        _state.update {
+            it.copy(
                 isSearchAutocompleteExpanded = result.isNotEmpty(),
                 autocompletedResults = result
             )
@@ -172,6 +176,17 @@ class HomeViewModel @Inject constructor(
             } else {
                 currentState.selectedCuisines + cuisine
             }
+            val currentDiets = currentState.selectedDiets
+            val currentIntolerances = currentState.selectedIntolerances
+            viewModelScope.launch {
+                useCases.saveDietPreferences(
+                    DietPreferences(
+                        diets = currentDiets.map { it.displayName },
+                        cuisines = updatedCuisines.map { it.displayName },
+                        intolerances = currentIntolerances.map { it.displayName }
+                    )
+                )
+            }
             currentState.copy(selectedCuisines = updatedCuisines)
         }
     }
@@ -182,6 +197,17 @@ class HomeViewModel @Inject constructor(
                 currentState.selectedDiets - diet
             } else {
                 currentState.selectedDiets + diet
+            }
+            val currentCuisines = currentState.selectedCuisines
+            val currentIntolerances = currentState.selectedIntolerances
+            viewModelScope.launch {
+                useCases.saveDietPreferences(
+                    DietPreferences(
+                        diets = updatedDiets.map { it.displayName },
+                        cuisines = currentCuisines.map { it.displayName },
+                        intolerances = currentIntolerances.map { it.displayName }
+                    )
+                )
             }
             currentState.copy(selectedDiets = updatedDiets)
         }
@@ -194,7 +220,29 @@ class HomeViewModel @Inject constructor(
             } else {
                 currentState.selectedIntolerances + intolerance
             }
+            val currentCuisines = currentState.selectedCuisines
+            val currentDiets = currentState.selectedDiets
+            viewModelScope.launch {
+                useCases.saveDietPreferences(
+                    DietPreferences(
+                        diets = currentDiets.map { it.displayName },
+                        cuisines = currentCuisines.map { it.displayName },
+                        intolerances = updatedIntolerances.map { it.displayName }
+                    )
+                )
+            }
             currentState.copy(selectedIntolerances = updatedIntolerances)
+        }
+    }
+
+    private fun onMealTypeSelected(mealType: MealType) {
+        _state.update { currentState ->
+            val updatedMealTypes = if (currentState.selectedMealTypes.contains(mealType)) {
+                currentState.selectedMealTypes - mealType
+            } else {
+                currentState.selectedMealTypes + mealType
+            }
+            currentState.copy(selectedMealTypes = updatedMealTypes)
         }
     }
 

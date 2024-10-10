@@ -6,10 +6,15 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.chefmate.core.domain.util.DietPreferences
+import com.example.chefmate.core.presentation.util.Screen
+import com.example.chefmate.core.presentation.util.UiEvent
 import com.example.chefmate.featureOnboarding.domain.usecase.WelcomeUseCases
 import com.example.chefmate.featureOnboarding.domain.util.OnBoardingPage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -26,8 +31,12 @@ class WelcomeViewModel @Inject constructor(
         OnBoardingPage.Fifth,
     )
 
-    private val _dietaryPreferences: MutableState<DietPreferences> = mutableStateOf(DietPreferences())
+    private val _dietaryPreferences: MutableState<DietPreferences> =
+        mutableStateOf(DietPreferences())
     val dietaryPreferences: State<DietPreferences> = _dietaryPreferences
+
+    private val _uiEvent = Channel<UiEvent>(Channel.BUFFERED)
+    val uiEvent: Flow<UiEvent> = _uiEvent.receiveAsFlow()
 
     fun onEvent(event: WelcomeEvent) {
         when (event) {
@@ -37,6 +46,15 @@ class WelcomeViewModel @Inject constructor(
             is WelcomeEvent.OnRemoveCuisine -> removeCuisine(event.name)
             is WelcomeEvent.OnRemoveDiet -> removeDiet(event.name)
             is WelcomeEvent.OnRemoveIntolerance -> removeIntolerance(event.name)
+            WelcomeEvent.OnButtonClick -> onButtonClick()
+        }
+    }
+
+    private fun onButtonClick() {
+        viewModelScope.launch(Dispatchers.IO) {
+            saveOnBoardingState()
+            saveDietPreferences()
+            navigate()
         }
     }
 
@@ -76,16 +94,17 @@ class WelcomeViewModel @Inject constructor(
         )
     }
 
-    fun saveOnBoardingState(completed: Boolean) {
-        viewModelScope.launch(Dispatchers.IO) {
-            useCases.saveOnBoardingState(completed = completed)
-        }
+    private suspend fun saveOnBoardingState() {
+        useCases.saveOnBoardingState()
     }
 
-    fun saveDietPreferences() {
-        viewModelScope.launch(Dispatchers.IO) {
-            useCases.saveDietPreferences(dietPreferences = _dietaryPreferences.value)
-        }
+    private suspend fun saveDietPreferences() {
+        useCases.saveDietPreferences(dietPreferences = _dietaryPreferences.value)
+    }
+
+    private suspend fun navigate() {
+        _uiEvent.send(UiEvent.PopBackStack)
+        _uiEvent.send(UiEvent.Navigate(Screen.Home.route))
     }
 
 }

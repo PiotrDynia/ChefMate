@@ -1,6 +1,8 @@
 package com.example.chefmate.featureHome.presentation
 
 import androidx.activity.compose.setContent
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.assertHasClickAction
 import androidx.compose.ui.test.assertIsDisplayed
@@ -9,10 +11,12 @@ import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performTextInput
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
 import androidx.test.platform.app.InstrumentationRegistry
 import com.example.chefmate.MainActivity
 import com.example.chefmate.R
+import com.example.chefmate.core.presentation.navigation.BottomNavigationViewModel
 import com.example.chefmate.core.presentation.navigation.SetupNavGraph
 import com.example.chefmate.core.presentation.util.Screen
 import com.example.chefmate.ui.theme.ChefMateTheme
@@ -40,8 +44,14 @@ class HomeScreenTest {
 
         composeRule.activity.setContent {
             val navController = rememberNavController()
+            val bottomNavigationViewModel: BottomNavigationViewModel = hiltViewModel()
             ChefMateTheme {
-                SetupNavGraph(navController = navController, startDestination = Screen.Home.route)
+                SetupNavGraph(
+                    navController = navController,
+                    bottomNavigationViewModel = bottomNavigationViewModel,
+                    snackbarHostState = remember { SnackbarHostState() },
+                    startDestination = Screen.Home.route
+                )
             }
         }
         composeRule.waitUntilAtLeastOneExists(
@@ -51,7 +61,7 @@ class HomeScreenTest {
     }
 
     @Test
-    fun checkScreenIsDisplayed() {
+    fun checkEachSectionIsDisplayed() {
         composeRule
             .onNodeWithText(context.getString(R.string.what_would_you_like_to_cook_today))
             .assertIsDisplayed()
@@ -66,6 +76,9 @@ class HomeScreenTest {
             .assertIsDisplayed()
         composeRule
             .onNodeWithText(context.getString(R.string.intolerances))
+            .assertIsDisplayed()
+        composeRule
+            .onNodeWithText(context.getString(R.string.meal_types))
             .assertIsDisplayed()
         composeRule
             .onNodeWithText(context.getString(R.string.recommendations))
@@ -106,6 +119,9 @@ class HomeScreenTest {
             .assertHasClickAction()
         composeRule
             .onNodeWithText("Dairy")
+            .assertHasClickAction()
+        composeRule
+            .onNodeWithText("Main course")
             .assertHasClickAction()
     }
 }

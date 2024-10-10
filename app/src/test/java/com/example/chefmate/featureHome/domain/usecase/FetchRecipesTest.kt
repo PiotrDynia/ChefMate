@@ -5,9 +5,11 @@ import com.example.chefmate.core.data.api.dto.RecipeSimple
 import com.example.chefmate.core.domain.util.Cuisine
 import com.example.chefmate.core.domain.util.Diet
 import com.example.chefmate.core.domain.util.Intolerance
+import com.example.chefmate.core.domain.util.MealType
 import com.example.chefmate.core.domain.util.Result
 import com.example.chefmate.core.domain.util.error.DataError
 import com.example.chefmate.featureHome.data.repository.FakeHomeRepository
+import com.example.chefmate.featureHome.domain.util.PreferencesSelection
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.*
 
@@ -29,16 +31,19 @@ class FetchRecipesTest {
     fun `Should return recipes successfully`() = runBlocking {
         val fakeRecipes = GetRecipeResult(
             results = listOf(
-                RecipeSimple(id = 1, title = "Recipe 1", image = "Dummy image"),
-                RecipeSimple(id = 2, title = "Recipe 2", image = "Dummy image")
+                RecipeSimple(id = 1, title = "Recipe 1", image = "Dummy image", summary = "Dummy summary"),
+                RecipeSimple(id = 2, title = "Recipe 2", image = "Dummy image", summary = "Dummy summary")
             )
         )
         repository.recipes = fakeRecipes
 
         val result = fetchRecipes(
-            cuisines = setOf(Cuisine.ITALIAN, Cuisine.ASIAN),
-            diets = setOf(Diet.VEGAN),
-            intolerances = setOf(Intolerance.GLUTEN)
+            PreferencesSelection(
+                selectedCuisines = setOf(Cuisine.ITALIAN, Cuisine.ASIAN),
+                selectedDiets = setOf(Diet.VEGAN),
+                selectedIntolerances = setOf(Intolerance.GLUTEN),
+                selectedMealTypes = setOf(MealType.SOUP, MealType.BREAD)
+            )
         )
 
         assertTrue(result is Result.Success)
@@ -53,9 +58,12 @@ class FetchRecipesTest {
         repository.httpErrorCode = 500
 
         val result = fetchRecipes(
-            cuisines = setOf(Cuisine.ITALIAN),
-            diets = setOf(Diet.VEGAN),
-            intolerances = setOf(Intolerance.GLUTEN)
+            PreferencesSelection(
+                selectedCuisines = setOf(Cuisine.ITALIAN, Cuisine.ASIAN),
+                selectedDiets = setOf(Diet.VEGAN),
+                selectedIntolerances = setOf(Intolerance.GLUTEN),
+                selectedMealTypes = setOf(MealType.SOUP, MealType.BREAD)
+            )
         )
 
         assertTrue(result is Result.Error)
@@ -69,9 +77,12 @@ class FetchRecipesTest {
         repository.httpErrorCode = 0
 
         val result = fetchRecipes(
-            cuisines = setOf(Cuisine.ITALIAN),
-            diets = setOf(Diet.VEGAN),
-            intolerances = setOf(Intolerance.GLUTEN)
+            PreferencesSelection(
+                selectedCuisines = setOf(Cuisine.ITALIAN, Cuisine.ASIAN),
+                selectedDiets = setOf(Diet.VEGAN),
+                selectedIntolerances = setOf(Intolerance.GLUTEN),
+                selectedMealTypes = setOf(MealType.SOUP, MealType.BREAD)
+            )
         )
 
         assertTrue(result is Result.Error)
@@ -85,9 +96,12 @@ class FetchRecipesTest {
         repository.httpErrorCode = 429
 
         val result = fetchRecipes(
-            cuisines = setOf(Cuisine.ITALIAN),
-            diets = setOf(Diet.VEGAN),
-            intolerances = setOf(Intolerance.GLUTEN)
+            PreferencesSelection(
+                selectedCuisines = setOf(Cuisine.ITALIAN, Cuisine.ASIAN),
+                selectedDiets = setOf(Diet.VEGAN),
+                selectedIntolerances = setOf(Intolerance.GLUTEN),
+                selectedMealTypes = setOf(MealType.SOUP, MealType.BREAD)
+            )
         )
 
         assertTrue(result is Result.Error)

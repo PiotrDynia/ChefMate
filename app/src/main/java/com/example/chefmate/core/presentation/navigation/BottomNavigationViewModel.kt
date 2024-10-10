@@ -12,13 +12,24 @@ import androidx.compose.material.icons.outlined.Search
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.chefmate.R
 import com.example.chefmate.core.presentation.util.Screen
+import com.example.chefmate.core.presentation.util.UiEvent
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@HiltViewModel
 class BottomNavigationViewModel @Inject constructor() : ViewModel() {
     private val _state = mutableStateOf(BottomNavigationState())
     val state: State<BottomNavigationState> = _state
+
+    private val _uiEvent = Channel<UiEvent>(Channel.BUFFERED)
+    val uiEvent: Flow<UiEvent> = _uiEvent.receiveAsFlow()
 
     // TODO change routes when we have them
     val navItems = listOf(
@@ -32,7 +43,7 @@ class BottomNavigationViewModel @Inject constructor() : ViewModel() {
             titleResId = R.string.search,
             selectedIcon = Icons.Filled.Search,
             unselectedIcon = Icons.Outlined.Search,
-            route = Screen.Home.route
+            route = Screen.Search.route
         ),
         BottomNavigationItem(
             titleResId = R.string.saved,
@@ -48,10 +59,13 @@ class BottomNavigationViewModel @Inject constructor() : ViewModel() {
         )
     )
 
-    fun onItemClick(index: Int) {
+    fun onItemClick(index: Int, navRoute: String) {
         _state.value = _state.value.copy(
             selectedItemIndex = index
         )
+        viewModelScope.launch {
+            _uiEvent.send(UiEvent.Navigate(navRoute))
+        }
     }
 
     fun changeBottomBarVisibility(value: Boolean) {

@@ -19,8 +19,8 @@ class FakeDataStoreRepository : DataStoreRepository {
         const val INTOLERANCES_KEY = "intolerances"
     }
 
-    override suspend fun saveOnBoardingState(completed: Boolean) {
-        onBoardingStateFlow.value = completed
+    override suspend fun saveOnBoardingState() {
+        onBoardingStateFlow.value = true
     }
 
     override fun readOnBoardingState(): Flow<Boolean> {

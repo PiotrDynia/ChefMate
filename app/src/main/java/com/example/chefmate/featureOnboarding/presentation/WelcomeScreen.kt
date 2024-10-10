@@ -7,12 +7,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import com.example.chefmate.core.presentation.util.Screen
+import com.example.chefmate.core.domain.util.navigateTo
+import com.example.chefmate.core.presentation.util.UiEvent
 import com.example.chefmate.featureOnboarding.domain.util.OnBoardingPage
 import com.example.chefmate.featureOnboarding.presentation.components.DietaryPreferencesScreen
 import com.example.chefmate.featureOnboarding.presentation.components.OnBoardingButton
@@ -26,11 +28,15 @@ fun WelcomeScreen(
     viewModel: WelcomeViewModel = hiltViewModel()
 ) {
     val pagerState = rememberPagerState(pageCount = { OnBoardingPage.PAGES_COUNT })
-    val onButtonClick = {
-        viewModel.saveOnBoardingState(completed = true)
-        viewModel.saveDietPreferences()
-        navController.popBackStack()
-        navController.navigate(Screen.Home.route)
+
+    LaunchedEffect(true) {
+        viewModel.uiEvent.collect { event ->
+            when (event) {
+                is UiEvent.Navigate -> navController.navigateTo(event.route)
+                UiEvent.PopBackStack -> navController.popBackStack()
+                else -> Unit
+            }
+        }
     }
 
     Column(modifier = Modifier.fillMaxSize()) {
@@ -47,22 +53,21 @@ fun WelcomeScreen(
                 onEvent = viewModel::onEvent,
                 selectedDietaryPreferences = viewModel.dietaryPreferences.value,
             )
-        } else {
-            HorizontalPagerIndicator(
-                modifier = Modifier
-                    .align(Alignment.CenterHorizontally)
-                    .weight(1f),
-                pageCount = OnBoardingPage.PAGES_COUNT,
-                pagerState = pagerState
-            )
         }
+        HorizontalPagerIndicator(
+            modifier = Modifier
+                .align(Alignment.CenterHorizontally)
+                .weight(1f),
+            pageCount = OnBoardingPage.PAGES_COUNT,
+            pagerState = pagerState
+        )
         OnBoardingButton(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp)
                 .padding(bottom = 16.dp),
             pagerState = pagerState,
-            onClick = onButtonClick
+            onClick = { viewModel.onEvent(WelcomeEvent.OnButtonClick) }
         )
     }
 }

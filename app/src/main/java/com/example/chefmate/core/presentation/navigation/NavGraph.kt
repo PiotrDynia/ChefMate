@@ -1,5 +1,6 @@
 package com.example.chefmate.core.presentation.navigation
 
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
@@ -8,12 +9,15 @@ import androidx.navigation.compose.composable
 import com.example.chefmate.core.presentation.util.Screen
 import com.example.chefmate.featureHome.presentation.HomeScreen
 import com.example.chefmate.featureOnboarding.presentation.WelcomeScreen
+import com.example.chefmate.featureSearch.presentation.SearchScreen
 
 @Composable
 fun SetupNavGraph(
     navController: NavHostController,
+    snackbarHostState: SnackbarHostState,
     startDestination: String,
-    modifier: Modifier = Modifier) {
+    modifier: Modifier = Modifier,
+    bottomNavigationViewModel: BottomNavigationViewModel) {
     NavHost(
         navController = navController,
         startDestination = startDestination
@@ -22,7 +26,18 @@ fun SetupNavGraph(
             WelcomeScreen(navController = navController)
         }
         composable(route = Screen.Home.route) {
-            HomeScreen()
+            HomeScreen(
+                navController = navController,
+                bottomNavigationViewModel = bottomNavigationViewModel,
+                modifier = modifier
+            )
+        }
+        composable(route = Screen.Search.route) {
+            SearchScreen(
+                snackbarHostState = snackbarHostState,
+                navController = navController,
+                modifier = modifier
+            )
         }
     }
 }

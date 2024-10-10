@@ -4,6 +4,7 @@ import com.example.chefmate.BuildConfig
 import com.example.chefmate.core.data.api.dto.GetRandomRecipeResult
 import com.example.chefmate.core.data.api.dto.GetRecipeResult
 import com.example.chefmate.core.data.api.dto.GetRecipesAutocompleteResultItem
+import com.example.chefmate.core.domain.util.SortType
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -15,11 +16,18 @@ interface APIService {
     @GET("recipes/complexSearch")
     suspend fun getRecipes(
         @Query("query") query: String = "",
-        @Query("sort") sortStrategy: String = "popularity",
+        @Query("sort") sortStrategy: String = SortType.POPULARITY.sortName,
+        @Query("addRecipeInformation") addRecipeInformation: Boolean = true,
         @Query("cuisine") cuisines: String = "",
+        @Query("excludeCuisine") excludedCuisines: String = "",
         @Query("diet") diets: String = "",
         @Query("intolerances") intolerances: String = "",
+        @Query("type") mealTypes: String = "",
+        @Query("minServings") minServings: Int = 0,
+        @Query("maxServings") maxServings: Int = Int.MAX_VALUE,
         @Query("number") resultsCount: Int = 10,
+        @Query("minCalories") minCalories: Int = 0,
+        @Query("maxCalories") maxCalories: Int = Int.MAX_VALUE,
         @Query("apiKey") apiKey: String = API_KEY
     ) : GetRecipeResult
 

@@ -20,7 +20,7 @@ class ReadOnBoardingStateTest {
 
     @Test
     fun `Get correct onBoardingState`() = runBlocking {
-        dataStoreRepository.saveOnBoardingState(true)
+        dataStoreRepository.saveOnBoardingState()
 
         val onboardingState = readOnBoardingState().first()
 

@@ -31,7 +31,12 @@ import com.example.chefmate.featureHome.presentation.HomeState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SearchSection(state: HomeState, onEvent: (HomeEvent) -> Unit, modifier: Modifier = Modifier) {
+fun SearchSection(
+    state: HomeState,
+    onEvent: (HomeEvent) -> Unit,
+    onAdvancedSearchClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
     Box(modifier = Modifier.padding(16.dp)) {
         ExposedDropdownMenuBox(
             expanded = state.isSearchAutocompleteExpanded,
@@ -53,7 +58,7 @@ fun SearchSection(state: HomeState, onEvent: (HomeEvent) -> Unit, modifier: Modi
                 placeholder = {
                     Text(stringResource(R.string.search_for_recipes))
                 },
-                maxLines = 1,
+                singleLine = true,
                 modifier = Modifier
                     .fillMaxWidth()
                     .heightIn(min = 56.dp)
@@ -94,7 +99,7 @@ fun SearchSection(state: HomeState, onEvent: (HomeEvent) -> Unit, modifier: Modi
         Button(onClick = { /*TODO*/ }) {
             Text(text = stringResource(R.string.search))
         }
-        Button(onClick = { /*TODO*/ }) {
+        Button(onClick = onAdvancedSearchClick) {
             Text(text = stringResource(R.string.advanced_search))
         }
     }
