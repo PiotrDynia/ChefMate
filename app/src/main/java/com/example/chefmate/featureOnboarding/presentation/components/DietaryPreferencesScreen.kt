@@ -12,9 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.chefmate.core.domain.util.DietPreferences
-import com.example.chefmate.featureOnboarding.domain.util.OnBoardingPage
 import com.example.chefmate.featureOnboarding.presentation.WelcomeEvent
-import com.google.accompanist.pager.HorizontalPagerIndicator
 
 @Composable
 fun DietaryPreferencesScreen(

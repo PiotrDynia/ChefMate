@@ -40,7 +40,7 @@ class SearchViewModel @Inject constructor(
             is SearchEvent.OnMealTypeSelected -> onMealTypeSelected(event.mealType)
             is SearchEvent.OnSortTypeSelected -> onSortTypeSelected(event.sortType)
             is SearchEvent.OnCaloriesSliderPositionChange -> onCaloriesSliderPositionChange(event.range)
-            is SearchEvent.OnServingsSliderPositionChange -> onSliderSliderPositionChange(event.range)
+            is SearchEvent.OnServingsSliderPositionChange -> onServingsSliderPositionChange(event.range)
             SearchEvent.OnSearchClick -> searchRecipes()
         }
     }
@@ -143,7 +143,7 @@ class SearchViewModel @Inject constructor(
         _state.update { it.copy(caloriesSliderPosition = value) }
     }
 
-    private fun onSliderSliderPositionChange(value: ClosedFloatingPointRange<Float>) {
+    private fun onServingsSliderPositionChange(value: ClosedFloatingPointRange<Float>) {
         _state.update { it.copy(servingsSliderPosition = value) }
     }
 }

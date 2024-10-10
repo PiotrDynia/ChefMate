@@ -44,7 +44,7 @@ fun SearchBar(
             placeholder = {
                 Text(stringResource(R.string.search_for_recipes))
             },
-            maxLines = 1,
+            singleLine = true,
             modifier = Modifier
                 .fillMaxWidth()
                 .heightIn(min = 56.dp)
