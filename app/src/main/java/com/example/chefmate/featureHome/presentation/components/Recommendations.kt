@@ -26,6 +26,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
@@ -114,7 +115,8 @@ fun RecommendationsRow(state: HomeState, modifier: Modifier = Modifier) {
                             fontWeight = FontWeight.Bold,
                             modifier = Modifier
                                 .width(120.dp),
-                            maxLines = 4
+                            maxLines = 4,
+                            overflow = TextOverflow.Ellipsis
                         )
                     }
                 }
