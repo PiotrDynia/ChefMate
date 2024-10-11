@@ -23,13 +23,13 @@ import com.example.chefmate.featureSearch.presentation.SearchState
 
 @Composable
 fun SearchBar(
-    state: SearchState,
+    value: String,
     onEvent: (SearchEvent) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Box(modifier = Modifier.padding(16.dp)) {
         TextField(
-            value = state.searchInput,
+            value = value,
             onValueChange = { onEvent(SearchEvent.OnSearchInputChange(it)) },
             leadingIcon = {
                 Icon(

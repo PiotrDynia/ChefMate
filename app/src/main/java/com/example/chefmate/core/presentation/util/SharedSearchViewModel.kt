@@ -9,8 +9,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SharedSearchViewModel @Inject constructor() : ViewModel() {
-    private val _filterSelection = MutableLiveData<SearchFilterSelection?>()
-    val filterSelection: LiveData<SearchFilterSelection?> = _filterSelection
+    private val _filterSelection = MutableLiveData<SearchFilterSelection>()
+    val filterSelection: LiveData<SearchFilterSelection> = _filterSelection
 
     fun setFilterSelection(selection: SearchFilterSelection) {
         _filterSelection.value = selection
