@@ -46,6 +46,7 @@ fun ResultsScreen(
         FilterSearchBar(
             searchState = searchState,
             filterSets = viewModel.getFilterSets(searchState),
+            onSearchFilterEvent = sharedViewModel::onEvent,
             onFilterChipClick = { viewModel.onFilterChipClick() }
         )
         ResultsContent()

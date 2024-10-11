@@ -66,7 +66,7 @@ fun SearchScreen(
             verticalArrangement = Arrangement.Top
         ) {
             Spacer(modifier = Modifier.height(32.dp))
-            SearchBar(value = state.searchInput, onEvent = sharedViewModel::onEvent)
+            SearchBar(value = state.searchInput, onTextChange = { sharedViewModel.onEvent(SearchEvent.OnSearchInputChange(it)) })
             SearchFilterRows(state = state, onEvent = sharedViewModel::onEvent)
         }
 
