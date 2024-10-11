@@ -19,8 +19,7 @@ fun SetupNavGraph(
     navController: NavHostController,
     snackbarHostState: SnackbarHostState,
     startDestination: String,
-    modifier: Modifier = Modifier,
-    bottomNavigationViewModel: BottomNavigationViewModel) {
+    modifier: Modifier = Modifier) {
     val sharedViewModel: SharedSearchViewModel = hiltViewModel()
 
     NavHost(
@@ -33,7 +32,6 @@ fun SetupNavGraph(
         composable(route = Screen.Home.route) {
             HomeScreen(
                 navController = navController,
-                bottomNavigationViewModel = bottomNavigationViewModel,
                 modifier = modifier
             )
         }

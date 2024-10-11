@@ -12,6 +12,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.chefmate.core.domain.util.navigateTo
@@ -22,7 +23,7 @@ import com.example.chefmate.core.presentation.util.UiEvent
 fun BottomNavigationBar(
     navController: NavHostController,
     modifier: Modifier = Modifier,
-    viewModel: BottomNavigationViewModel
+    viewModel: BottomNavigationViewModel = hiltViewModel()
 ) {
     val state = viewModel.state.value
     val navItems = viewModel.navItems
@@ -39,6 +40,7 @@ fun BottomNavigationBar(
     }
 
     LaunchedEffect(currentRoute) {
+        viewModel.updateSelectedIndex(currentRoute)
         currentRoute?.let {
             val shouldShowBottomBar = it != Screen.Welcome.route
             viewModel.changeBottomBarVisibility(shouldShowBottomBar)

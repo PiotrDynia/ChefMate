@@ -51,13 +51,15 @@ class BottomNavigationViewModel @Inject constructor() : ViewModel() {
             unselectedIcon = Icons.Outlined.BookmarkBorder,
             route = Screen.Results.route
         ),
-        BottomNavigationItem(
-            titleResId = R.string.ai_chatbot,
-            selectedIcon = Icons.Filled.AutoAwesome,
-            unselectedIcon = Icons.Outlined.AutoAwesome,
-            route = Screen.Home.route
-        )
+//        BottomNavigationItem(
+//            titleResId = R.string.ai_chatbot,
+//            selectedIcon = Icons.Filled.AutoAwesome,
+//            unselectedIcon = Icons.Outlined.AutoAwesome,
+//            route = Screen.Home.route
+//        )
     )
+
+    private val routeToIndex = navItems.mapIndexed { index, item -> item.route to index }.toMap()
 
     fun onItemClick(index: Int, navRoute: String) {
         _state.value = _state.value.copy(
@@ -72,5 +74,13 @@ class BottomNavigationViewModel @Inject constructor() : ViewModel() {
         _state.value = _state.value.copy(
             isBottomBarVisible = value
         )
+    }
+
+    fun updateSelectedIndex(route: String?) {
+        route?.let {
+            if (routeToIndex.containsKey(it)) {
+                _state.value = _state.value.copy(selectedItemIndex = routeToIndex[it] ?: 0)
+            }
+        }
     }
 }

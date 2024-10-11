@@ -44,12 +44,10 @@ class WelcomeScreenTest {
         composeRule.activity.setContent {
             val navController = rememberNavController()
             ChefMateTheme {
-                val bottomNavigationViewModel: BottomNavigationViewModel = hiltViewModel()
                 val splashViewModel: SplashViewModel = hiltViewModel()
                 val screen by splashViewModel.startDestination
                 screen?.let { SetupNavGraph(
                     navController = navController,
-                    bottomNavigationViewModel = bottomNavigationViewModel,
                     snackbarHostState = remember { SnackbarHostState() },
                     startDestination = it
                 ) }

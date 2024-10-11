@@ -11,16 +11,20 @@ import com.example.chefmate.core.domain.util.userPreferences.DietPreferences
 import com.example.chefmate.core.domain.util.userPreferences.Intolerance
 import com.example.chefmate.core.domain.util.userPreferences.MealType
 import com.example.chefmate.core.domain.util.Result
+import com.example.chefmate.core.presentation.util.Screen
+import com.example.chefmate.core.presentation.util.UiEvent
 import com.example.chefmate.featureHome.domain.usecase.HomeUseCases
 import com.example.chefmate.featureHome.domain.util.PreferencesSelection
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -32,6 +36,9 @@ class HomeViewModel @Inject constructor(
 
     private val _state = MutableStateFlow(HomeState())
     val state = _state.asStateFlow()
+
+    private val _uiEvent = Channel<UiEvent>(Channel.BUFFERED)
+    val uiEvent: Flow<UiEvent> = _uiEvent.receiveAsFlow()
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
@@ -144,6 +151,11 @@ class HomeViewModel @Inject constructor(
             is HomeEvent.OnMealTypeSelected -> onMealTypeSelected(event.mealType)
             HomeEvent.OnDismissAutocomplete -> onDismissAutocomplete()
             HomeEvent.OnAutocompleteItemClick -> TODO()
+            HomeEvent.OnAdvancedSearchClick -> {
+                viewModelScope.launch {
+                    _uiEvent.send(UiEvent.Navigate(Screen.Search.route))
+                }
+            }
         }
     }
 

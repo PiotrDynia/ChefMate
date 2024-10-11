@@ -34,7 +34,6 @@ import com.example.chefmate.featureHome.presentation.HomeState
 fun SearchSection(
     state: HomeState,
     onEvent: (HomeEvent) -> Unit,
-    onAdvancedSearchClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Box(modifier = Modifier.padding(16.dp)) {
@@ -99,7 +98,7 @@ fun SearchSection(
         Button(onClick = { /*TODO*/ }) {
             Text(text = stringResource(R.string.search))
         }
-        Button(onClick = onAdvancedSearchClick) {
+        Button(onClick = { onEvent(HomeEvent.OnAdvancedSearchClick) }) {
             Text(text = stringResource(R.string.advanced_search))
         }
     }

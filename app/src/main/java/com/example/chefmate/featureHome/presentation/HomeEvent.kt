@@ -13,4 +13,5 @@ sealed class HomeEvent {
     data class OnMealTypeSelected(val mealType: MealType) : HomeEvent()
     data object OnDismissAutocomplete : HomeEvent()
     data object OnAutocompleteItemClick : HomeEvent()
+    data object OnAdvancedSearchClick : HomeEvent()
 }

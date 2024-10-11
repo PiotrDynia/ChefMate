@@ -30,14 +30,13 @@ import com.example.chefmate.featureHome.presentation.components.TopWelcomeRow
 @Composable
 fun HomeScreen(
     navController: NavHostController,
-    bottomNavigationViewModel: BottomNavigationViewModel,
     modifier: Modifier = Modifier,
     homeViewModel: HomeViewModel = hiltViewModel()
 ) {
     val state = homeViewModel.state.collectAsStateWithLifecycle().value
 
     LaunchedEffect(true) {
-        bottomNavigationViewModel.uiEvent.collect { event ->
+        homeViewModel.uiEvent.collect { event ->
             when (event) {
                 is UiEvent.Navigate -> navController.navigateTo(event.route)
                 else -> Unit
@@ -58,12 +57,7 @@ fun HomeScreen(
             TopWelcomeRow()
             SearchSection(
                 state = state,
-                onEvent = homeViewModel::onEvent,
-                onAdvancedSearchClick = {
-                    bottomNavigationViewModel.onItemClick(
-                        index = 1,
-                        navRoute = Screen.Search.route
-                    ) }
+                onEvent = homeViewModel::onEvent
             )
             Spacer(modifier = Modifier.height(16.dp))
             DietaryPreferencesRows(
@@ -78,5 +72,5 @@ fun HomeScreen(
 @Preview(showBackground = true)
 @Composable
 private fun HomeScreenPreview() {
-    HomeScreen(navController = rememberNavController(), bottomNavigationViewModel = hiltViewModel())
+    HomeScreen(navController = rememberNavController())
 }

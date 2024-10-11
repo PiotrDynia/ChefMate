@@ -34,16 +34,12 @@ class MainActivity : ComponentActivity() {
                 val navController = rememberNavController()
                 val snackbarHostState = remember { SnackbarHostState() }
                 val splashViewModel: SplashViewModel = hiltViewModel()
-                val bottomNavigationViewModel: BottomNavigationViewModel = hiltViewModel()
 
                 Scaffold(
                     containerColor = Color(0xFFEAEAEA),
                     snackbarHost = { SnackbarHost(snackbarHostState) },
                     bottomBar = {
-                        BottomNavigationBar(
-                            navController = navController,
-                            viewModel = bottomNavigationViewModel
-                        )
+                        BottomNavigationBar(navController = navController)
                     }
                 ) { padding ->
                     val screen by splashViewModel.startDestination
@@ -52,8 +48,7 @@ class MainActivity : ComponentActivity() {
                             snackbarHostState = snackbarHostState,
                             navController = navController,
                             startDestination = it,
-                            modifier = Modifier.padding(padding),
-                            bottomNavigationViewModel = bottomNavigationViewModel
+                            modifier = Modifier.padding(padding)
                         )
                     }
                 }

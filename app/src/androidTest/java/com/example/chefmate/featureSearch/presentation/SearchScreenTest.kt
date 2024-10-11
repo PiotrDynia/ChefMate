@@ -46,11 +46,9 @@ class SearchScreenTest {
 
         composeRule.activity.setContent {
             val navController = rememberNavController()
-            val bottomNavigationViewModel: BottomNavigationViewModel = hiltViewModel()
             ChefMateTheme {
                 SetupNavGraph(
                     navController = navController,
-                    bottomNavigationViewModel = bottomNavigationViewModel,
                     snackbarHostState = remember { SnackbarHostState() },
                     startDestination = Screen.Search.route
                 )

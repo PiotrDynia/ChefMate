@@ -2,6 +2,7 @@ package com.example.chefmate.featureSearch.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.chefmate.core.domain.util.Result
 import com.example.chefmate.core.domain.util.error.Error
 import com.example.chefmate.core.presentation.util.Screen
 import com.example.chefmate.core.presentation.util.UiEvent
@@ -46,11 +47,10 @@ class SearchViewModel @Inject constructor(
 
     private fun searchRecipes() {
         viewModelScope.launch {
-            navigateToResultsPage()
-//            when (val result = useCases.searchRecipes(filterSelection)) {
-//                is Result.Success -> navigateToResultsPage(result.data.results)
-//                is Result.Error -> showErrorSnackbar(result.error)
-//            }
+            when (val result = useCases.searchRecipes(_state.value.searchInput)) {
+                is Result.Success -> navigateToResultsPage()
+                is Result.Error -> showErrorSnackbar(result.error)
+            }
         }
     }
 
