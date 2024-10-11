@@ -12,16 +12,17 @@ import com.example.chefmate.R
 import com.example.chefmate.core.presentation.util.FilterChipWithCount
 import com.example.chefmate.core.presentation.util.FilterChipWithRange
 import com.example.chefmate.core.presentation.util.FilterChipWithValue
-import com.example.chefmate.featureSearch.domain.util.SearchFilterSelection
+import com.example.chefmate.featureSearch.presentation.SearchState
 import com.example.chefmate.featureSearch.presentation.components.SearchBar
 
 @Composable
 fun FilterSearchBar(
-    filterSelection: SearchFilterSelection,
+    searchState: SearchState,
     filterSets: List<Pair<Int, Int>>,
+    onFilterChipClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    SearchBar(value = filterSelection.query, onEvent = {})
+    SearchBar(value = searchState.searchInput, onEvent = {})
     LazyRow(
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         modifier = Modifier.fillMaxWidth(),
@@ -31,28 +32,32 @@ fun FilterSearchBar(
             item {
                 FilterChipWithCount(
                     label = stringResource(label),
-                    count = count
+                    count = count,
+                    onClick = onFilterChipClick
                 )
             }
         }
         item {
             FilterChipWithRange(
                 label = stringResource(R.string.servings_lowercase),
-                range = "${filterSelection.minServings}-${filterSelection.maxServings}"
+                range = "${searchState.servingsSliderPosition.start.toInt()}-${searchState.servingsSliderPosition.endInclusive.toInt()}",
+                onClick = onFilterChipClick
             )
         }
 
         item {
             FilterChipWithRange(
                 label = stringResource(R.string.calories),
-                range = "${filterSelection.minCalories}-${filterSelection.maxCalories}"
+                range = "${searchState.caloriesSliderPosition.start.toInt()}-${searchState.caloriesSliderPosition.endInclusive.toInt()}",
+                onClick = onFilterChipClick
             )
         }
 
         item {
             FilterChipWithValue(
                 label = stringResource(R.string.sort_lowercase),
-                value = filterSelection.sort
+                value = searchState.selectedSortType,
+                onClick = onFilterChipClick
             )
         }
     }

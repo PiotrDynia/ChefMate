@@ -10,5 +10,6 @@ sealed class SearchEvent {
     data class OnSortTypeSelected(val sortType: String) : SearchEvent()
     data class OnCaloriesSliderPositionChange(val range: ClosedFloatingPointRange<Float>) : SearchEvent()
     data class OnServingsSliderPositionChange(val range: ClosedFloatingPointRange<Float>) : SearchEvent()
+    data class OnHomeScreenSearchClick(val searchFilters: SearchState) : SearchEvent()
     data object OnSearchClick : SearchEvent()
 }

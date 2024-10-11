@@ -14,10 +14,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 
 @Composable
-fun FilterChipWithCount(label: String, count: Int) {
+fun FilterChipWithCount(label: String, count: Int, onClick: () -> Unit) {
     FilterChip(
         selected = false,
-        onClick = { },
+        onClick = onClick,
         label = { Text(text = label) },
         leadingIcon = if (count > 0) {
             {
@@ -43,10 +43,10 @@ fun FilterChipWithCount(label: String, count: Int) {
 }
 
 @Composable
-fun FilterChipWithRange(label: String, range: String) {
+fun FilterChipWithRange(label: String, range: String, onClick: () -> Unit) {
     FilterChip(
         selected = false,
-        onClick = { },
+        onClick = onClick,
         label = {
             Text(text = "$label: ")
             Text(
@@ -58,10 +58,10 @@ fun FilterChipWithRange(label: String, range: String) {
 }
 
 @Composable
-fun FilterChipWithValue(label: String, value: String) {
+fun FilterChipWithValue(label: String, value: String, onClick: () -> Unit) {
     FilterChip(
         selected = false,
-        onClick = { },
+        onClick = onClick,
         label = {
             Text(text = "$label: ")
             Text(

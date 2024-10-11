@@ -7,9 +7,7 @@ import com.example.chefmate.core.domain.util.error.Error
 import com.example.chefmate.core.presentation.util.Screen
 import com.example.chefmate.core.presentation.util.UiEvent
 import com.example.chefmate.featureSearch.domain.usecase.SearchUseCases
-import com.example.chefmate.featureSearch.domain.util.SearchFilterSelection
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -42,6 +40,19 @@ class SearchViewModel @Inject constructor(
             is SearchEvent.OnCaloriesSliderPositionChange -> onCaloriesSliderPositionChange(event.range)
             is SearchEvent.OnServingsSliderPositionChange -> onServingsSliderPositionChange(event.range)
             SearchEvent.OnSearchClick -> searchRecipes()
+            is SearchEvent.OnHomeScreenSearchClick -> updateStateFromHomeScreen(event)
+        }
+    }
+
+    private fun updateStateFromHomeScreen(event: SearchEvent.OnHomeScreenSearchClick) {
+        _state.update {
+            it.copy(
+                searchInput = event.searchFilters.searchInput,
+                selectedCuisines = event.searchFilters.selectedCuisines,
+                selectedIntolerances = event.searchFilters.selectedIntolerances,
+                selectedDiets = event.searchFilters.selectedDiets,
+                selectedMealTypes = event.searchFilters.selectedMealTypes
+            )
         }
     }
 

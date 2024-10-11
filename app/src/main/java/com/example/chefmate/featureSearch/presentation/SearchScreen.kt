@@ -24,14 +24,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.example.chefmate.R
 import com.example.chefmate.core.domain.util.navigateTo
-import com.example.chefmate.core.presentation.util.SharedSearchViewModel
 import com.example.chefmate.core.presentation.util.UiEvent
-import com.example.chefmate.featureSearch.domain.util.SearchFilterSelection
 import com.example.chefmate.featureSearch.presentation.components.SearchBar
 import com.example.chefmate.featureSearch.presentation.components.SearchFilterRows
 
@@ -39,39 +36,20 @@ import com.example.chefmate.featureSearch.presentation.components.SearchFilterRo
 fun SearchScreen(
     snackbarHostState: SnackbarHostState,
     navController: NavHostController,
-    sharedViewModel: SharedSearchViewModel,
-    modifier: Modifier = Modifier,
-    viewModel: SearchViewModel = hiltViewModel()
+    sharedViewModel: SearchViewModel,
+    modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
-    val state = viewModel.state.collectAsStateWithLifecycle().value
+    val state = sharedViewModel.state.collectAsStateWithLifecycle().value
     val isSnackbarVisible = snackbarHostState.currentSnackbarData != null
 
     LaunchedEffect(true) {
-        viewModel.uiEvent.collect { event ->
+        sharedViewModel.uiEvent.collect { event ->
             when (event) {
                 is UiEvent.ShowSnackbar -> snackbarHostState.showSnackbar(
                     message = context.getString(event.message)
                 )
-                is UiEvent.Navigate -> {
-                    val latestState = viewModel.state.value
-                    sharedViewModel.setFilterSelection(
-                        SearchFilterSelection(
-                            query = latestState.searchInput,
-                            cuisines = latestState.selectedCuisines,
-                            excludedCuisines = latestState.excludedCuisines,
-                            diets = latestState.selectedDiets,
-                            intolerances = latestState.selectedIntolerances,
-                            mealType = latestState.selectedMealTypes,
-                            sort = latestState.selectedSortType,
-                            maxCalories = latestState.caloriesSliderPosition.endInclusive.toInt(),
-                            minCalories = latestState.caloriesSliderPosition.start.toInt(),
-                            maxServings = latestState.servingsSliderPosition.endInclusive.toInt(),
-                            minServings = latestState.servingsSliderPosition.start.toInt(),
-                        )
-                    )
-                    navController.navigateTo(event.route)
-                }
+                is UiEvent.Navigate -> navController.navigateTo(event.route)
                 else -> Unit
             }
         }
@@ -88,12 +66,12 @@ fun SearchScreen(
             verticalArrangement = Arrangement.Top
         ) {
             Spacer(modifier = Modifier.height(32.dp))
-            SearchBar(value = state.searchInput, onEvent = viewModel::onEvent)
-            SearchFilterRows(state = state, onEvent = viewModel::onEvent)
+            SearchBar(value = state.searchInput, onEvent = sharedViewModel::onEvent)
+            SearchFilterRows(state = state, onEvent = sharedViewModel::onEvent)
         }
 
         Button(
-            onClick = { viewModel.onEvent(SearchEvent.OnSearchClick) },
+            onClick = { sharedViewModel.onEvent(SearchEvent.OnSearchClick) },
             colors = ButtonColors(
                 containerColor = MaterialTheme.colorScheme.onBackground,
                 contentColor = MaterialTheme.colorScheme.background,

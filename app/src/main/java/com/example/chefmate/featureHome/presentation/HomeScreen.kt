@@ -11,34 +11,46 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.example.chefmate.core.domain.util.navigateTo
-import com.example.chefmate.core.presentation.navigation.BottomNavigationViewModel
 import com.example.chefmate.core.presentation.util.LoadingScreen
-import com.example.chefmate.core.presentation.util.Screen
 import com.example.chefmate.core.presentation.util.UiEvent
 import com.example.chefmate.featureHome.presentation.components.DietaryPreferencesRows
 import com.example.chefmate.featureHome.presentation.components.RecommendationsRow
 import com.example.chefmate.featureHome.presentation.components.SearchSection
 import com.example.chefmate.featureHome.presentation.components.TopWelcomeRow
+import com.example.chefmate.featureSearch.presentation.SearchEvent
+import com.example.chefmate.featureSearch.presentation.SearchState
+import com.example.chefmate.featureSearch.presentation.SearchViewModel
 
 @Composable
 fun HomeScreen(
     navController: NavHostController,
+    sharedViewModel: SearchViewModel,
     modifier: Modifier = Modifier,
-    homeViewModel: HomeViewModel = hiltViewModel()
+    viewModel: HomeViewModel = hiltViewModel()
 ) {
-    val state = homeViewModel.state.collectAsStateWithLifecycle().value
+    val state = viewModel.state.collectAsStateWithLifecycle().value
 
     LaunchedEffect(true) {
-        homeViewModel.uiEvent.collect { event ->
+        viewModel.uiEvent.collect { event ->
             when (event) {
-                is UiEvent.Navigate -> navController.navigateTo(event.route)
+                is UiEvent.Navigate -> {
+                    val latestState = viewModel.state.value
+                    sharedViewModel.onEvent(SearchEvent.OnHomeScreenSearchClick(
+                        SearchState(
+                            searchInput = latestState.searchInput,
+                            selectedCuisines = latestState.selectedCuisines.map { it.displayName }.toSet(),
+                            selectedDiets = latestState.selectedDiets.map { it.displayName }.toSet(),
+                            selectedIntolerances = latestState.selectedIntolerances.map { it.displayName }.toSet(),
+                            selectedMealTypes = latestState.selectedMealTypes.map { it.displayName }.toSet(),
+                        )
+                    ))
+                    navController.navigateTo(event.route)
+                }
                 else -> Unit
             }
         }
@@ -57,20 +69,14 @@ fun HomeScreen(
             TopWelcomeRow()
             SearchSection(
                 state = state,
-                onEvent = homeViewModel::onEvent
+                onEvent = viewModel::onEvent
             )
             Spacer(modifier = Modifier.height(16.dp))
             DietaryPreferencesRows(
                 state = state,
-                onEvent = homeViewModel::onEvent
+                onEvent = viewModel::onEvent
             )
             RecommendationsRow(state = state)
         }
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun HomeScreenPreview() {
-    HomeScreen(navController = rememberNavController())
 }

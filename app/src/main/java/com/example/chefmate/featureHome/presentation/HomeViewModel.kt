@@ -151,11 +151,13 @@ class HomeViewModel @Inject constructor(
             is HomeEvent.OnMealTypeSelected -> onMealTypeSelected(event.mealType)
             HomeEvent.OnDismissAutocomplete -> onDismissAutocomplete()
             HomeEvent.OnAutocompleteItemClick -> TODO()
-            HomeEvent.OnAdvancedSearchClick -> {
-                viewModelScope.launch {
-                    _uiEvent.send(UiEvent.Navigate(Screen.Search.route))
-                }
-            }
+            HomeEvent.OnAdvancedSearchClick -> navigateToSearch()
+        }
+    }
+
+    private fun navigateToSearch() {
+        viewModelScope.launch {
+            _uiEvent.send(UiEvent.Navigate(Screen.Search.route))
         }
     }
 

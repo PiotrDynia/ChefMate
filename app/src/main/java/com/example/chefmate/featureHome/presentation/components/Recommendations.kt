@@ -97,7 +97,7 @@ fun RecommendationsRow(state: HomeState, modifier: Modifier = Modifier) {
                                 /*TODO*/
                             }
                     ) {
-                        // TODO try to fix this little bug with the clickable area
+                        // TODO try to fix this little bug with the clickable area, copy from ResultsScreen?
                         AsyncImage(
                             model = item.image,
                             contentDescription = stringResource(R.string.recipe_image),
