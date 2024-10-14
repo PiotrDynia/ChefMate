@@ -46,7 +46,7 @@ class BottomNavigationViewModel @Inject constructor() : ViewModel() {
             titleResId = R.string.saved,
             selectedIcon = Icons.Filled.Bookmark,
             unselectedIcon = Icons.Outlined.BookmarkBorder,
-            route = Screen.Results.route
+            route = ""
         )
     )
 
@@ -71,6 +71,8 @@ class BottomNavigationViewModel @Inject constructor() : ViewModel() {
         route?.let {
             if (routeToIndex.containsKey(it)) {
                 _state.value = _state.value.copy(selectedItemIndex = routeToIndex[it] ?: 0)
+            } else {
+                _state.value = _state.value.copy(selectedItemIndex = -1)
             }
         }
     }
