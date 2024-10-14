@@ -26,10 +26,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.example.chefmate.R
-import com.example.chefmate.core.data.api.dto.sampleRecipes
+import com.example.chefmate.core.data.api.dto.RecipeSimple
 
 @Composable
-fun ResultsContent(modifier: Modifier = Modifier) {
+fun ResultsContent(results: List<RecipeSimple>, modifier: Modifier = Modifier) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
         horizontalArrangement = Arrangement.spacedBy(16.dp),
@@ -37,7 +37,7 @@ fun ResultsContent(modifier: Modifier = Modifier) {
         contentPadding = PaddingValues(horizontal = 8.dp),
         modifier = Modifier.padding(bottom = 100.dp)
     ) {
-        items(sampleRecipes) { item ->
+        items(results) { item ->
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
@@ -61,11 +61,12 @@ fun ResultsContent(modifier: Modifier = Modifier) {
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
                     maxLines = 4,
-                    overflow = TextOverflow.Ellipsis
+                    overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier.height(48.dp)
                 )
                 Text(
-                    text = item.summary,
-                    textAlign = TextAlign.Center,
+                    text = item.getCleanSummary(),
+                    textAlign = TextAlign.Justify,
                     fontSize = 12.sp,
                     fontStyle = FontStyle.Italic,
                     maxLines = 4,

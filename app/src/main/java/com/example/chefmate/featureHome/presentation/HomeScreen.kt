@@ -39,6 +39,7 @@ fun HomeScreen(
         viewModel.uiEvent.collect { event ->
             when (event) {
                 is UiEvent.Navigate -> {
+                    // TODO delete and move the logic to data store or figure this shit out some other way
                     val latestState = viewModel.state.value
                     sharedViewModel.onEvent(SearchEvent.OnHomeScreenSearchClick(
                         SearchState(

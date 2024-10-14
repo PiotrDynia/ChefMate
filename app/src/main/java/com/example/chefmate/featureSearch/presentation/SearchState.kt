@@ -1,5 +1,6 @@
 package com.example.chefmate.featureSearch.presentation
 
+import com.example.chefmate.core.data.api.dto.RecipeSimple
 import com.example.chefmate.core.domain.util.userPreferences.SortType
 
 data class SearchState(
@@ -13,5 +14,7 @@ data class SearchState(
     val selectedDiets: Set<String> = emptySet(),
     val selectedIntolerances: Set<String> = emptySet(),
     val selectedMealTypes: Set<String> = emptySet(),
-    val selectedSortType: String = SortType.POPULARITY.sortName
+    val selectedSortType: String = SortType.POPULARITY.sortName,
+    val areSearchResultsLoading: Boolean = false,
+    val searchResults: List<RecipeSimple> = emptyList()
 )

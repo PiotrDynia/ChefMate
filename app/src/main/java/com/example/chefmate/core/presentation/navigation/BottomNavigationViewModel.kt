@@ -1,11 +1,9 @@
 package com.example.chefmate.core.presentation.navigation
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.Bookmark
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.outlined.AutoAwesome
 import androidx.compose.material.icons.outlined.BookmarkBorder
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Search
@@ -31,7 +29,6 @@ class BottomNavigationViewModel @Inject constructor() : ViewModel() {
     private val _uiEvent = Channel<UiEvent>(Channel.BUFFERED)
     val uiEvent: Flow<UiEvent> = _uiEvent.receiveAsFlow()
 
-    // TODO change routes when we have them
     val navItems = listOf(
         BottomNavigationItem(
             titleResId = R.string.home,
@@ -50,13 +47,7 @@ class BottomNavigationViewModel @Inject constructor() : ViewModel() {
             selectedIcon = Icons.Filled.Bookmark,
             unselectedIcon = Icons.Outlined.BookmarkBorder,
             route = Screen.Results.route
-        ),
-//        BottomNavigationItem(
-//            titleResId = R.string.ai_chatbot,
-//            selectedIcon = Icons.Filled.AutoAwesome,
-//            unselectedIcon = Icons.Outlined.AutoAwesome,
-//            route = Screen.Home.route
-//        )
+        )
     )
 
     private val routeToIndex = navItems.mapIndexed { index, item -> item.route to index }.toMap()

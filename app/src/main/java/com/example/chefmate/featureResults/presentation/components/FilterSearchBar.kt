@@ -3,6 +3,7 @@ package com.example.chefmate.featureResults.presentation.components
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
@@ -30,9 +31,6 @@ fun FilterSearchBar(
         value = searchState.searchInput,
         onTextChange = { onSearchFilterEvent(SearchEvent.OnSearchInputChange(it)) }
     )
-    Button(onClick = { /*TODO*/ }) {
-        Text(text = stringResource(R.string.search))
-    }
     LazyRow(
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         modifier = Modifier.fillMaxWidth(),
@@ -70,5 +68,13 @@ fun FilterSearchBar(
                 onClick = onFilterChipClick
             )
         }
+    }
+    Button(
+        onClick = { onSearchFilterEvent(SearchEvent.OnSearchClick) },
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp)
+    ) {
+        Text(text = stringResource(R.string.search))
     }
 }

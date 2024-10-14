@@ -2,12 +2,14 @@ package com.example.chefmate.featureSearch.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.chefmate.core.data.api.dto.RecipeSimple
 import com.example.chefmate.core.domain.util.Result
 import com.example.chefmate.core.domain.util.error.Error
 import com.example.chefmate.core.presentation.util.Screen
 import com.example.chefmate.core.presentation.util.UiEvent
 import com.example.chefmate.featureSearch.domain.usecase.SearchUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -57,20 +59,30 @@ class SearchViewModel @Inject constructor(
     }
 
     private fun searchRecipes() {
-        viewModelScope.launch {
-            when (val result = useCases.searchRecipes(_state.value.searchInput)) {
-                is Result.Success -> navigateToResultsPage()
+        _state.update {
+            it.copy(areSearchResultsLoading = true)
+        }
+        viewModelScope.launch(Dispatchers.IO) {
+            when (val result = useCases.searchRecipes(_state.value)) {
+                is Result.Success -> loadResults(result.data.results)
                 is Result.Error -> showErrorSnackbar(result.error)
             }
         }
     }
 
-    private suspend fun navigateToResultsPage() {
+    private suspend fun loadResults(results: List<RecipeSimple>) {
         _uiEvent.send(UiEvent.Navigate(route = Screen.Results.route))
+        _state.update {
+            it.copy(
+                searchResults = results,
+                areSearchResultsLoading = false
+            )
+        }
     }
 
     private suspend fun showErrorSnackbar(error: Error) {
         _uiEvent.send(UiEvent.ShowSnackbar(error.getErrorMessageResId()))
+        _state.update { it.copy(areSearchResultsLoading = false) }
     }
 
     private fun onSearchInputChange(input: String) {

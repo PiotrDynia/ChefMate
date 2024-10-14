@@ -1,5 +1,8 @@
 package com.example.chefmate.featureSearch.di
 
+import com.example.chefmate.core.data.api.APIService
+import com.example.chefmate.featureSearch.data.repository.SearchRepositoryImpl
+import com.example.chefmate.featureSearch.domain.repository.SearchRepository
 import com.example.chefmate.featureSearch.domain.usecase.SearchRecipes
 import com.example.chefmate.featureSearch.domain.usecase.SearchUseCases
 import dagger.Module
@@ -12,7 +15,14 @@ import dagger.hilt.components.SingletonComponent
 object SearchModule {
 
     @Provides
-    fun provideSearchUseCases() : SearchUseCases {
-        return SearchUseCases(searchRecipes = SearchRecipes())
+    fun provideSearchRepository(apiService: APIService): SearchRepository {
+        return SearchRepositoryImpl(apiService)
+    }
+
+    @Provides
+    fun provideSearchUseCases(repository: SearchRepository): SearchUseCases {
+        return SearchUseCases(
+            searchRecipes = SearchRecipes(repository)
+        )
     }
 }

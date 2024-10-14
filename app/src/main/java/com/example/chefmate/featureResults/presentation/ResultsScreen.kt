@@ -49,6 +49,6 @@ fun ResultsScreen(
             onSearchFilterEvent = sharedViewModel::onEvent,
             onFilterChipClick = { viewModel.onFilterChipClick() }
         )
-        ResultsContent()
+        ResultsContent(results = searchState.searchResults)
     }
 }

@@ -28,6 +28,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.example.chefmate.R
 import com.example.chefmate.core.domain.util.navigateTo
+import com.example.chefmate.core.presentation.util.LoadingScreen
 import com.example.chefmate.core.presentation.util.UiEvent
 import com.example.chefmate.featureSearch.presentation.components.SearchBar
 import com.example.chefmate.featureSearch.presentation.components.SearchFilterRows
@@ -55,38 +56,42 @@ fun SearchScreen(
         }
     }
 
-    Box(modifier = Modifier
-        .fillMaxSize()
-        .padding(bottom = if (isSnackbarVisible) 80.dp else 0.dp)) {
-        Column(
-            modifier = modifier
-                .fillMaxSize()
-                .verticalScroll(rememberScrollState())
-                .padding(bottom = 64.dp),
-            verticalArrangement = Arrangement.Top
-        ) {
-            Spacer(modifier = Modifier.height(32.dp))
-            SearchBar(value = state.searchInput, onTextChange = { sharedViewModel.onEvent(SearchEvent.OnSearchInputChange(it)) })
-            SearchFilterRows(state = state, onEvent = sharedViewModel::onEvent)
-        }
+    if (state.areSearchResultsLoading) {
+        LoadingScreen()
+    } else {
+        Box(modifier = Modifier
+            .fillMaxSize()
+            .padding(bottom = if (isSnackbarVisible) 80.dp else 0.dp)) {
+            Column(
+                modifier = modifier
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState())
+                    .padding(bottom = 64.dp),
+                verticalArrangement = Arrangement.Top
+            ) {
+                Spacer(modifier = Modifier.height(32.dp))
+                SearchBar(value = state.searchInput, onTextChange = { sharedViewModel.onEvent(SearchEvent.OnSearchInputChange(it)) })
+                SearchFilterRows(state = state, onEvent = sharedViewModel::onEvent)
+            }
 
-        Button(
-            onClick = { sharedViewModel.onEvent(SearchEvent.OnSearchClick) },
-            colors = ButtonColors(
-                containerColor = MaterialTheme.colorScheme.onBackground,
-                contentColor = MaterialTheme.colorScheme.background,
-                disabledContentColor = MaterialTheme.colorScheme.background,
-                disabledContainerColor = MaterialTheme.colorScheme.onBackground
-            ),
-            modifier = modifier
-                .fillMaxWidth()
-                .padding(horizontal = 8.dp)
-                .align(Alignment.BottomCenter)
-                .semantics {
-                    contentDescription = context.getString(R.string.search_filtered_recipes)
-                }
-        ) {
-            Text(text = stringResource(R.string.search))
+            Button(
+                onClick = { sharedViewModel.onEvent(SearchEvent.OnSearchClick) },
+                colors = ButtonColors(
+                    containerColor = MaterialTheme.colorScheme.onBackground,
+                    contentColor = MaterialTheme.colorScheme.background,
+                    disabledContentColor = MaterialTheme.colorScheme.background,
+                    disabledContainerColor = MaterialTheme.colorScheme.onBackground
+                ),
+                modifier = modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 8.dp)
+                    .align(Alignment.BottomCenter)
+                    .semantics {
+                        contentDescription = context.getString(R.string.search_filtered_recipes)
+                    }
+            ) {
+                Text(text = stringResource(R.string.search))
+            }
         }
     }
 }
