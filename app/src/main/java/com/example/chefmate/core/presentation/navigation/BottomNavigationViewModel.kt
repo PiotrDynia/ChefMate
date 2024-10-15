@@ -1,9 +1,11 @@
 package com.example.chefmate.core.presentation.navigation
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.Bookmark
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.outlined.AutoAwesome
 import androidx.compose.material.icons.outlined.BookmarkBorder
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Search
@@ -46,6 +48,12 @@ class BottomNavigationViewModel @Inject constructor() : ViewModel() {
             titleResId = R.string.saved,
             selectedIcon = Icons.Filled.Bookmark,
             unselectedIcon = Icons.Outlined.BookmarkBorder,
+            route = ""
+        ),
+        BottomNavigationItem(
+            titleResId = R.string.ai_chatbot,
+            selectedIcon = Icons.Filled.AutoAwesome,
+            unselectedIcon = Icons.Outlined.AutoAwesome,
             route = ""
         )
     )

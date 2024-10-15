@@ -22,14 +22,10 @@ import com.example.chefmate.featureHome.presentation.components.DietaryPreferenc
 import com.example.chefmate.featureHome.presentation.components.RecommendationsRow
 import com.example.chefmate.featureHome.presentation.components.SearchSection
 import com.example.chefmate.featureHome.presentation.components.TopWelcomeRow
-import com.example.chefmate.featureSearch.presentation.SearchEvent
-import com.example.chefmate.featureSearch.presentation.SearchState
-import com.example.chefmate.featureSearch.presentation.SearchViewModel
 
 @Composable
 fun HomeScreen(
     navController: NavHostController,
-    sharedViewModel: SearchViewModel,
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
@@ -39,17 +35,6 @@ fun HomeScreen(
         viewModel.uiEvent.collect { event ->
             when (event) {
                 is UiEvent.Navigate -> {
-                    // TODO delete and move the logic to data store or figure this shit out some other way
-                    val latestState = viewModel.state.value
-                    sharedViewModel.onEvent(SearchEvent.OnHomeScreenSearchClick(
-                        SearchState(
-                            searchInput = latestState.searchInput,
-                            selectedCuisines = latestState.selectedCuisines.map { it.displayName }.toSet(),
-                            selectedDiets = latestState.selectedDiets.map { it.displayName }.toSet(),
-                            selectedIntolerances = latestState.selectedIntolerances.map { it.displayName }.toSet(),
-                            selectedMealTypes = latestState.selectedMealTypes.map { it.displayName }.toSet(),
-                        )
-                    ))
                     navController.navigateTo(event.route)
                 }
                 else -> Unit

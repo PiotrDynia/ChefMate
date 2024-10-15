@@ -27,6 +27,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -43,19 +44,23 @@ class HomeViewModel @Inject constructor(
     init {
         viewModelScope.launch(Dispatchers.IO) {
             loadUserPreferences()
-            handleRecipeRecommendations()
+            withContext(Dispatchers.Main) {
+                handleRecipeRecommendations()
+            }
         }
     }
 
     private suspend fun loadUserPreferences() {
         val preferences = useCases.readDietPreferences()
 
-        _state.update {
-            it.copy(
-                selectedCuisines = preferences.selectedCuisines,
-                selectedDiets = preferences.selectedDiets,
-                selectedIntolerances = preferences.selectedIntolerances
-            )
+        withContext(Dispatchers.Main) {
+            _state.update {
+                it.copy(
+                    selectedCuisines = preferences.selectedCuisines,
+                    selectedDiets = preferences.selectedDiets,
+                    selectedIntolerances = preferences.selectedIntolerances
+                )
+            }
         }
     }
 

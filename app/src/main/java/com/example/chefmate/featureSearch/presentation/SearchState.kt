@@ -15,6 +15,7 @@ data class SearchState(
     val selectedIntolerances: Set<String> = emptySet(),
     val selectedMealTypes: Set<String> = emptySet(),
     val selectedSortType: String = SortType.POPULARITY.sortName,
+    val areUserPreferencesLoaded: Boolean = false,
     val areSearchResultsLoading: Boolean = false,
     val searchResults: List<RecipeSimple> = emptyList()
 )
