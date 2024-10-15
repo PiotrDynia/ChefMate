@@ -32,6 +32,8 @@ fun SetupNavGraph(
         composable(route = Screen.Home.route) {
             HomeScreen(
                 navController = navController,
+                snackbarHostState = snackbarHostState,
+                sharedViewModel = sharedSearchViewModel,
                 modifier = modifier
             )
         }

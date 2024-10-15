@@ -60,7 +60,7 @@ fun RecommendationsRow(state: HomeState, modifier: Modifier = Modifier) {
                     .padding(horizontal = 8.dp)
                     .padding(bottom = 8.dp)
                     .clickable {
-                        /*TODO*/
+                        /*TODO this branch*/
                     },
                 style = MaterialTheme.typography.headlineSmall.copy(
                     fontWeight = FontWeight.ExtraBold,

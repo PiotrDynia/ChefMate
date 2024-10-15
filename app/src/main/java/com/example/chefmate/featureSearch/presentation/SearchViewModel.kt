@@ -3,11 +3,11 @@ package com.example.chefmate.featureSearch.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.chefmate.core.data.api.dto.RecipeSimple
-import com.example.chefmate.core.domain.repository.DataStoreRepository
 import com.example.chefmate.core.domain.util.Result
 import com.example.chefmate.core.domain.util.error.Error
 import com.example.chefmate.core.presentation.util.Screen
 import com.example.chefmate.core.presentation.util.UiEvent
+import com.example.chefmate.featureHome.presentation.HomeState
 import com.example.chefmate.featureSearch.domain.usecase.SearchUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -15,7 +15,6 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -24,8 +23,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-    private val useCases: SearchUseCases,
-    private val dataStoreRepository: DataStoreRepository
+    private val useCases: SearchUseCases
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(SearchState())
@@ -37,13 +35,13 @@ class SearchViewModel @Inject constructor(
     fun loadUserPreferences() {
         if (!_state.value.areUserPreferencesLoaded) {
             viewModelScope.launch(Dispatchers.IO) {
-                val userDietPreferences = dataStoreRepository.getDietPreferences().first()
+                val userDietPreferences = useCases.readDietPreferences()
                 withContext(Dispatchers.Main) {
-                    _state.update {
-                        it.copy(
-                            selectedDiets = userDietPreferences.diets.toSet(),
-                            selectedCuisines = userDietPreferences.cuisines.toSet(),
-                            selectedIntolerances = userDietPreferences.intolerances.toSet(),
+                    _state.update { state ->
+                        state.copy(
+                            selectedDiets = userDietPreferences.selectedDiets.map { it.displayName }.toSet(),
+                            selectedCuisines = userDietPreferences.selectedCuisines.map { it.displayName }.toSet(),
+                            selectedIntolerances = userDietPreferences.selectedIntolerances.map { it.displayName }.toSet(),
                             areUserPreferencesLoaded = true
                         )
                     }
@@ -64,7 +62,21 @@ class SearchViewModel @Inject constructor(
             is SearchEvent.OnCaloriesSliderPositionChange -> onCaloriesSliderPositionChange(event.range)
             is SearchEvent.OnServingsSliderPositionChange -> onServingsSliderPositionChange(event.range)
             SearchEvent.OnSearchClick -> searchRecipes()
+            is SearchEvent.OnHomeSearchClick -> searchFromHomeSearchBar(event.homeUserPreferences)
         }
+    }
+
+    private fun searchFromHomeSearchBar(homeState: HomeState) {
+        _state.update { state ->
+            state.copy(
+                searchInput = homeState.searchInput,
+                selectedCuisines = homeState.selectedCuisines.map { it.displayName }.toSet(),
+                selectedDiets = homeState.selectedDiets.map { it.displayName }.toSet(),
+                selectedIntolerances = homeState.selectedIntolerances.map { it.displayName }.toSet(),
+                selectedMealTypes = homeState.selectedMealTypes.map { it.displayName }.toSet(),
+            )
+        }
+        searchRecipes()
     }
 
     private fun searchRecipes() {

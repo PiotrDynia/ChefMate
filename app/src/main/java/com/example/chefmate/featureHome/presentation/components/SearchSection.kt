@@ -34,6 +34,7 @@ import com.example.chefmate.featureHome.presentation.HomeState
 fun SearchSection(
     state: HomeState,
     onEvent: (HomeEvent) -> Unit,
+    onSearchClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Box(modifier = Modifier.padding(16.dp)) {
@@ -70,10 +71,12 @@ fun SearchSection(
             ) {
                 if (state.autocompleteErrorMessageResId != null) {
                     DropdownMenuItem(
-                        text = { Text(
-                            text = stringResource(id = state.autocompleteErrorMessageResId),
-                            fontStyle = FontStyle.Italic
-                        ) },
+                        text = {
+                            Text(
+                                text = stringResource(id = state.autocompleteErrorMessageResId),
+                                fontStyle = FontStyle.Italic
+                            )
+                        },
                         onClick = { },
                         enabled = false
                     )
@@ -95,7 +98,7 @@ fun SearchSection(
         horizontalArrangement = Arrangement.SpaceAround,
         modifier = modifier.fillMaxWidth()
     ) {
-        Button(onClick = { /*TODO*/ }) {
+        Button(onClick = onSearchClick) {
             Text(text = stringResource(R.string.search))
         }
         Button(onClick = { onEvent(HomeEvent.OnAdvancedSearchClick) }) {
