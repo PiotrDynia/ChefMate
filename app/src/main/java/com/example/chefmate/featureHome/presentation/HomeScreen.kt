@@ -87,7 +87,18 @@ fun HomeScreen(
                 state = state,
                 onEvent = viewModel::onEvent
             )
-            RecommendationsRow(state = state)
+            RecommendationsRow(
+                state = state,
+                onSeeAllClick = {
+                    sharedViewModel.onEvent(
+                        SearchEvent.OnHomeSearchClick(
+                            state.copy(
+                                searchInput = ""
+                            )
+                        )
+                    )
+                }
+            )
         }
     }
 }

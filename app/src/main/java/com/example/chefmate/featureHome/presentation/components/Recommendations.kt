@@ -34,7 +34,11 @@ import com.example.chefmate.R
 import com.example.chefmate.featureHome.presentation.HomeState
 
 @Composable
-fun RecommendationsRow(state: HomeState, modifier: Modifier = Modifier) {
+fun RecommendationsRow(
+    state: HomeState,
+    onSeeAllClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
     Column(
         modifier = Modifier
             .padding(bottom = 16.dp)
@@ -60,7 +64,7 @@ fun RecommendationsRow(state: HomeState, modifier: Modifier = Modifier) {
                     .padding(horizontal = 8.dp)
                     .padding(bottom = 8.dp)
                     .clickable {
-                        /*TODO this branch*/
+                        onSeeAllClick()
                     },
                 style = MaterialTheme.typography.headlineSmall.copy(
                     fontWeight = FontWeight.ExtraBold,
