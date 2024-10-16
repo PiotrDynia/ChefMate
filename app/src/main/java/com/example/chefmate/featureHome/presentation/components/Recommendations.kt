@@ -37,6 +37,7 @@ import com.example.chefmate.featureHome.presentation.HomeState
 fun RecommendationsRow(
     state: HomeState,
     onSeeAllClick: () -> Unit,
+    onRecipeClick: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -98,7 +99,7 @@ fun RecommendationsRow(
                             .padding(vertical = 16.dp)
                             .animateItem()
                             .clickable {
-                                /*TODO*/
+                                onRecipeClick(item.id)
                             }
                     ) {
                         // TODO try to fix this little bug with the clickable area, copy from ResultsScreen?

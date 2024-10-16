@@ -10,6 +10,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -35,8 +36,8 @@ fun HomeScreen(
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
-    val state = viewModel.state.collectAsStateWithLifecycle().value
-    val sharedState = sharedViewModel.state.collectAsStateWithLifecycle().value
+    val state by viewModel.state.collectAsStateWithLifecycle()
+    val sharedState by sharedViewModel.state.collectAsStateWithLifecycle()
     val context = LocalContext.current
 
     LaunchedEffect(true) {
@@ -89,6 +90,7 @@ fun HomeScreen(
             )
             RecommendationsRow(
                 state = state,
+                onRecipeClick = { id -> viewModel.onEvent(HomeEvent.OnRecipeClick(id))},
                 onSeeAllClick = {
                     sharedViewModel.onEvent(
                         SearchEvent.OnHomeSearchClick(

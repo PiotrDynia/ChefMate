@@ -157,6 +157,13 @@ class HomeViewModel @Inject constructor(
             HomeEvent.OnDismissAutocomplete -> onDismissAutocomplete()
             HomeEvent.OnAutocompleteItemClick -> TODO()
             HomeEvent.OnAdvancedSearchClick -> navigateToSearch()
+            is HomeEvent.OnRecipeClick -> navigateToRecipeDetails(event.id)
+        }
+    }
+
+    private fun navigateToRecipeDetails(id: Int) {
+        viewModelScope.launch {
+            _uiEvent.send(UiEvent.Navigate(Screen.Details.route + "?id=$id"))
         }
     }
 

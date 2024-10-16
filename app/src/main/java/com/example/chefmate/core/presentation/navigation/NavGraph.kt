@@ -5,9 +5,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import com.example.chefmate.core.presentation.util.Screen
+import com.example.chefmate.featureDetails.presentation.DetailsScreen
 import com.example.chefmate.featureHome.presentation.HomeScreen
 import com.example.chefmate.featureOnboarding.presentation.WelcomeScreen
 import com.example.chefmate.featureResults.presentation.ResultsScreen
@@ -50,6 +53,14 @@ fun SetupNavGraph(
                 navController = navController,
                 sharedViewModel = sharedSearchViewModel
             )
+        }
+        composable(
+            route = Screen.Details.route + "?id={id}",
+            arguments = listOf(navArgument("id") {
+                type = NavType.IntType
+            })
+        ) {
+            DetailsScreen()
         }
     }
 }

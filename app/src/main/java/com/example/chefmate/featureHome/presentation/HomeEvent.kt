@@ -14,4 +14,5 @@ sealed class HomeEvent {
     data object OnDismissAutocomplete : HomeEvent()
     data object OnAutocompleteItemClick : HomeEvent()
     data object OnAdvancedSearchClick : HomeEvent()
+    data class OnRecipeClick(val id: Int) : HomeEvent()
 }

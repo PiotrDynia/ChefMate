@@ -17,6 +17,7 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -41,7 +42,7 @@ fun SearchScreen(
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
-    val state = sharedViewModel.state.collectAsStateWithLifecycle().value
+    val state by sharedViewModel.state.collectAsStateWithLifecycle()
     val isSnackbarVisible = snackbarHostState.currentSnackbarData != null
 
     if (!state.areUserPreferencesLoaded) {
