@@ -44,8 +44,10 @@ fun SearchScreen(
     val state = sharedViewModel.state.collectAsStateWithLifecycle().value
     val isSnackbarVisible = snackbarHostState.currentSnackbarData != null
 
-    LaunchedEffect(Unit) {
-        sharedViewModel.loadUserPreferences()
+    if (!state.areUserPreferencesLoaded) {
+        LaunchedEffect(Unit) {
+            sharedViewModel.loadUserPreferences()
+        }
     }
 
     LaunchedEffect(true) {

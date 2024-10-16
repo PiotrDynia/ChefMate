@@ -1,22 +1,17 @@
-package com.example.chefmate.featureHome.presentation
+package com.example.chefmate.featureResults.presentation
 
 import androidx.activity.compose.setContent
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.remember
-import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.assertHasClickAction
 import androidx.compose.ui.test.assertIsDisplayed
-import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
-import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performTextInput
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
 import androidx.test.platform.app.InstrumentationRegistry
 import com.example.chefmate.MainActivity
 import com.example.chefmate.R
-import com.example.chefmate.core.presentation.navigation.BottomNavigationViewModel
 import com.example.chefmate.core.presentation.navigation.SetupNavGraph
 import com.example.chefmate.core.presentation.util.Screen
 import com.example.chefmate.ui.theme.ChefMateTheme
@@ -27,7 +22,7 @@ import org.junit.Rule
 import org.junit.Test
 
 @HiltAndroidTest
-class HomeScreenTest {
+class ResultsScreenTest {
 
     @get:Rule(order = 0)
     val hiltRule = HiltAndroidRule(this)
@@ -37,7 +32,6 @@ class HomeScreenTest {
 
     private val context = InstrumentationRegistry.getInstrumentation().targetContext
 
-    @OptIn(ExperimentalTestApi::class)
     @Before
     fun setUp() {
         hiltRule.inject()
@@ -48,49 +42,23 @@ class HomeScreenTest {
                 SetupNavGraph(
                     navController = navController,
                     snackbarHostState = remember { SnackbarHostState() },
-                    startDestination = Screen.Home.route
+                    startDestination = Screen.Results.route
                 )
             }
         }
-        composeRule.waitUntilAtLeastOneExists(
-            hasText(context.getString(R.string.what_would_you_like_to_cook_today)),
-            timeoutMillis = 3000
-        )
     }
 
     @Test
     fun checkEachSectionIsDisplayed() {
         composeRule
-            .onNodeWithText(context.getString(R.string.what_would_you_like_to_cook_today))
-            .assertIsDisplayed()
-        composeRule
             .onNodeWithText(context.getString(R.string.search_for_recipes))
             .assertIsDisplayed()
         composeRule
-            .onNodeWithText(context.getString(R.string.cuisines))
+            .onNodeWithText(context.getString(R.string.excluded_cuisine))
             .assertIsDisplayed()
-        composeRule
-            .onNodeWithText(context.getString(R.string.diets))
-            .assertIsDisplayed()
-        composeRule
-            .onNodeWithText(context.getString(R.string.intolerances))
-            .assertIsDisplayed()
-        composeRule
-            .onNodeWithText(context.getString(R.string.meal_types))
-            .assertIsDisplayed()
-        composeRule
-            .onNodeWithText(context.getString(R.string.recommendations))
-            .assertIsDisplayed()
-    }
-
-    @Test
-    fun checkSearchButtonsAreClickable() {
         composeRule
             .onNodeWithText(context.getString(R.string.search))
-            .assertHasClickAction()
-        composeRule
-            .onNodeWithText(context.getString(R.string.advanced_search))
-            .assertHasClickAction()
+            .assertIsDisplayed()
     }
 
     @Test
@@ -104,32 +72,16 @@ class HomeScreenTest {
     }
 
     @Test
-    fun checkAccountIconIsClickable() {
+    fun checkSearchButtonIsClickable() {
         composeRule
-            .onNodeWithContentDescription(context.getString(R.string.go_to_profile))
+            .onNodeWithText(context.getString(R.string.search))
             .assertHasClickAction()
     }
 
     @Test
-    fun checkSeeAllIsClickable() {
+    fun checkFilterChipIsClickable() {
         composeRule
-            .onNodeWithText(context.getString(R.string.see_all))
-            .assertHasClickAction()
-    }
-
-    @Test
-    fun checkPreferencesAreClickable() {
-        composeRule
-            .onNodeWithText("African")
-            .assertHasClickAction()
-        composeRule
-            .onNodeWithText("Ketogenic")
-            .assertHasClickAction()
-        composeRule
-            .onNodeWithText("Dairy")
-            .assertHasClickAction()
-        composeRule
-            .onNodeWithText("Main course")
+            .onNodeWithText(context.getString(R.string.excluded_cuisine))
             .assertHasClickAction()
     }
 }

@@ -33,25 +33,26 @@ class SearchViewModel @Inject constructor(
     val uiEvent: Flow<UiEvent> = _uiEvent.receiveAsFlow()
 
     fun loadUserPreferences() {
-        if (!_state.value.areUserPreferencesLoaded) {
-            viewModelScope.launch(Dispatchers.IO) {
-                val userDietPreferences = useCases.readDietPreferences()
-                withContext(Dispatchers.Main) {
-                    _state.update { state ->
-                        state.copy(
-                            selectedDiets = userDietPreferences.selectedDiets.map { it.displayName }.toSet(),
-                            selectedCuisines = userDietPreferences.selectedCuisines.map { it.displayName }.toSet(),
-                            selectedIntolerances = userDietPreferences.selectedIntolerances.map { it.displayName }.toSet(),
-                            areUserPreferencesLoaded = true
-                        )
-                    }
+        viewModelScope.launch(Dispatchers.IO) {
+            val userDietPreferences = useCases.readDietPreferences()
+            withContext(Dispatchers.Main) {
+                _state.update { state ->
+                    state.copy(
+                        selectedDiets = userDietPreferences.selectedDiets.map { it.displayName }
+                            .toSet(),
+                        selectedCuisines = userDietPreferences.selectedCuisines.map { it.displayName }
+                            .toSet(),
+                        selectedIntolerances = userDietPreferences.selectedIntolerances.map { it.displayName }
+                            .toSet(),
+                        areUserPreferencesLoaded = true
+                    )
                 }
             }
         }
     }
 
     fun onEvent(event: SearchEvent) {
-        when(event) {
+        when (event) {
             is SearchEvent.OnSearchInputChange -> onSearchInputChange(event.input)
             is SearchEvent.OnCuisineSelected -> onCuisineSelected(event.cuisine)
             is SearchEvent.OnDietSelected -> onDietSelected(event.diet)
@@ -72,7 +73,8 @@ class SearchViewModel @Inject constructor(
                 searchInput = homeState.searchInput,
                 selectedCuisines = homeState.selectedCuisines.map { it.displayName }.toSet(),
                 selectedDiets = homeState.selectedDiets.map { it.displayName }.toSet(),
-                selectedIntolerances = homeState.selectedIntolerances.map { it.displayName }.toSet(),
+                selectedIntolerances = homeState.selectedIntolerances.map { it.displayName }
+                    .toSet(),
                 selectedMealTypes = homeState.selectedMealTypes.map { it.displayName }.toSet(),
             )
         }
