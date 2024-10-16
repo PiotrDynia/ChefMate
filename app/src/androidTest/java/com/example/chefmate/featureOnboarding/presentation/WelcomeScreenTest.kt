@@ -16,7 +16,6 @@ import androidx.navigation.compose.rememberNavController
 import androidx.test.platform.app.InstrumentationRegistry
 import com.example.chefmate.MainActivity
 import com.example.chefmate.R
-import com.example.chefmate.core.presentation.navigation.BottomNavigationViewModel
 import com.example.chefmate.core.presentation.navigation.SetupNavGraph
 import com.example.chefmate.featureSplash.presentation.SplashViewModel
 import com.example.chefmate.ui.theme.ChefMateTheme

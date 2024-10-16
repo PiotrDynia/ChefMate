@@ -23,7 +23,6 @@ lottieCompose = "6.5.2"
 materialIconsExtended = "1.7.3"
 mockitoAndroid = "5.2.0"
 mockitoKotlin = "5.4.0"
-numberpicker = "1.0.3"
 roomRuntime = "2.6.1"
 navigationCompose = "2.8.0"
 runner = "1.6.2"
@@ -35,7 +34,6 @@ lifecycleRuntimeComposeAndroid = "2.8.5"
 uiTextGoogleFonts = "1.7.1"
 retrofit = "2.9.0"
 converterGson = "2.9.0"
-runtimeLivedata = "1.7.3"
 
 [libraries]
 accompanist-pager-indicators = { module = "com.google.accompanist:accompanist-pager-indicators", version.ref = "accompanistPagerIndicators" }
@@ -74,7 +72,6 @@ androidx-navigation-compose = { group = "androidx.navigation", name = "navigatio
 lottie-compose = { module = "com.airbnb.android:lottie-compose", version.ref = "lottieCompose" }
 mockito-android = { module = "org.mockito:mockito-android", version.ref = "mockitoAndroid" }
 mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "mockitoKotlin" }
-numberpicker = { module = "com.chargemap.compose:numberpicker", version.ref = "numberpicker" }
 androidx-hilt-work = { group = "androidx.hilt", name = "hilt-work", version.ref = "hiltWork" }
 test-core-ktx = { module = "androidx.test:core-ktx", version.ref = "coreKtxVersion" }
 truth = { module = "com.google.truth:truth", version.ref = "truth" }
@@ -82,7 +79,6 @@ androidx-lifecycle-runtime-compose-android = { group = "androidx.lifecycle", nam
 androidx-ui-text-google-fonts = { group = "androidx.compose.ui", name = "ui-text-google-fonts", version.ref = "uiTextGoogleFonts" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "converterGson" }
-androidx-runtime-livedata = { group = "androidx.compose.runtime", name = "runtime-livedata", version.ref = "runtimeLivedata" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

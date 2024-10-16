@@ -9,6 +9,5 @@ enum class SortType(val sortName: String) {
 
     companion object {
         fun getAllSortTypes() : List<String> = SortType.entries.map { it.sortName }
-
     }
 }

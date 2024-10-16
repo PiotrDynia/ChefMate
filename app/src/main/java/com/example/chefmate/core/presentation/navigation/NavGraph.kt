@@ -46,7 +46,10 @@ fun SetupNavGraph(
             )
         }
         composable(route = Screen.Results.route) {
-            ResultsScreen(navController = navController, sharedViewModel = sharedSearchViewModel)
+            ResultsScreen(
+                navController = navController,
+                sharedViewModel = sharedSearchViewModel
+            )
         }
     }
 }

@@ -92,7 +92,7 @@ fun HomeScreen(
                 onSeeAllClick = {
                     sharedViewModel.onEvent(
                         SearchEvent.OnHomeSearchClick(
-                            state.copy(
+                            homeUserPreferences = state.copy(
                                 searchInput = ""
                             )
                         )

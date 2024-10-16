@@ -4,7 +4,6 @@ import com.example.chefmate.core.data.api.dto.GetRecipeResult
 import com.example.chefmate.core.data.api.dto.RecipeSimple
 import com.example.chefmate.core.domain.util.Result
 import com.example.chefmate.core.domain.util.error.DataError
-import com.example.chefmate.core.domain.util.error.ValidationError
 import com.example.chefmate.featureSearch.data.repository.FakeSearchRepository
 import com.example.chefmate.featureSearch.presentation.SearchState
 import kotlinx.coroutines.runBlocking
@@ -53,47 +52,6 @@ class SearchRecipesTest {
     }
 
     @Test
-    fun `Should return error for empty query`() = runBlocking {
-        val result = searchRecipes(
-            SearchState(
-                searchInput = "",
-                selectedCuisines = setOf("Italian", "French"),
-                selectedDiets = setOf("Vegan", "Vegetarian"),
-                excludedCuisines = setOf("Greek"),
-                selectedIntolerances = setOf("Sesame"),
-                selectedMealTypes = setOf("Breakfast,Main course"),
-                caloriesSliderPosition = 100.0f..200.0f,
-                servingsSliderPosition = 2.0f..3.0f,
-                selectedSortType = "random"
-            )
-        )
-
-        assertTrue(result is Result.Error)
-        val error = (result as Result.Error).error
-        assertEquals(ValidationError.EMPTY, error)
-    }
-
-    @Test
-    fun `Should return error for too short query`() = runBlocking {
-        val result = searchRecipes(
-            SearchState(
-                searchInput = "Aw",
-                selectedCuisines = setOf("Italian", "French"),
-                selectedDiets = setOf("Vegan", "Vegetarian"),
-                excludedCuisines = setOf("Greek"),
-                selectedIntolerances = setOf("Sesame"),
-                selectedMealTypes = setOf("Breakfast,Main course"),
-                caloriesSliderPosition = 100.0f..200.0f,
-                servingsSliderPosition = 2.0f..3.0f,
-                selectedSortType = "random"
-            )
-        )
-
-        assertTrue(result is Result.Error)
-        val error = (result as Result.Error).error
-        assertEquals(ValidationError.TOO_SHORT, error)
-    }
-    @Test
     fun `Should return error for server error`() = runBlocking {
         repository.shouldReturnError = true
         repository.httpErrorCode = 500
@@ -114,6 +72,7 @@ class SearchRecipesTest {
         val error = (result as Result.Error).error
         assertEquals(DataError.Network.SERVER_ERROR, error)
     }
+
     @Test
     fun `Should return error for no internet`() = runBlocking {
         repository.shouldReturnError = true

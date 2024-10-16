@@ -14,12 +14,10 @@ import androidx.compose.ui.test.performTextInput
 import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.test.swipeLeft
 import androidx.compose.ui.test.swipeRight
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
 import androidx.test.platform.app.InstrumentationRegistry
 import com.example.chefmate.MainActivity
 import com.example.chefmate.R
-import com.example.chefmate.core.presentation.navigation.BottomNavigationViewModel
 import com.example.chefmate.core.presentation.navigation.SetupNavGraph
 import com.example.chefmate.core.presentation.util.Screen
 import com.example.chefmate.ui.theme.ChefMateTheme

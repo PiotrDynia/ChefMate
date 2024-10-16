@@ -43,22 +43,7 @@ fun FilterChipWithCount(label: String, count: Int, onClick: () -> Unit) {
 }
 
 @Composable
-fun FilterChipWithRange(label: String, range: String, onClick: () -> Unit) {
-    FilterChip(
-        selected = false,
-        onClick = onClick,
-        label = {
-            Text(text = "$label: ")
-            Text(
-                text = range,
-                fontWeight = FontWeight.Bold,
-            )
-        }
-    )
-}
-
-@Composable
-fun FilterChipWithValue(label: String, value: String, onClick: () -> Unit) {
+fun FilterChipWithoutCount(label: String, value: String, onClick: () -> Unit) {
     FilterChip(
         selected = false,
         onClick = onClick,

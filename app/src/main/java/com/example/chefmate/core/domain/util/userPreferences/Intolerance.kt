@@ -19,6 +19,5 @@ enum class Intolerance(val displayName: String, @DrawableRes val imageResId: Int
 
     companion object {
         fun getAllIntoleranceNames() : List<String> = Intolerance.entries.map { it.displayName }
-
     }
 }

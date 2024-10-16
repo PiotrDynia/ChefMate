@@ -13,8 +13,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.chefmate.R
 import com.example.chefmate.core.presentation.util.FilterChipWithCount
-import com.example.chefmate.core.presentation.util.FilterChipWithRange
-import com.example.chefmate.core.presentation.util.FilterChipWithValue
+import com.example.chefmate.core.presentation.util.FilterChipWithoutCount
 import com.example.chefmate.featureSearch.presentation.SearchEvent
 import com.example.chefmate.featureSearch.presentation.SearchState
 import com.example.chefmate.featureSearch.presentation.components.SearchBar
@@ -46,23 +45,23 @@ fun FilterSearchBar(
             }
         }
         item {
-            FilterChipWithRange(
+            FilterChipWithoutCount(
                 label = stringResource(R.string.servings_lowercase),
-                range = "${searchState.servingsSliderPosition.start.toInt()}-${searchState.servingsSliderPosition.endInclusive.toInt()}",
+                value = "${searchState.servingsSliderPosition.start.toInt()}-${searchState.servingsSliderPosition.endInclusive.toInt()}",
                 onClick = onFilterChipClick
             )
         }
 
         item {
-            FilterChipWithRange(
+            FilterChipWithoutCount(
                 label = stringResource(R.string.calories),
-                range = "${searchState.caloriesSliderPosition.start.toInt()}-${searchState.caloriesSliderPosition.endInclusive.toInt()}",
+                value = "${searchState.caloriesSliderPosition.start.toInt()}-${searchState.caloriesSliderPosition.endInclusive.toInt()}",
                 onClick = onFilterChipClick
             )
         }
 
         item {
-            FilterChipWithValue(
+            FilterChipWithoutCount(
                 label = stringResource(R.string.sort_lowercase),
                 value = searchState.selectedSortType,
                 onClick = onFilterChipClick

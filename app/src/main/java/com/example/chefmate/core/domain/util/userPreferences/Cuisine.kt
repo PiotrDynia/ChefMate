@@ -34,6 +34,5 @@ enum class Cuisine(val displayName: String, @DrawableRes val imageResId: Int) {
 
     companion object {
         fun getAllCuisineNames() : List<String> = Cuisine.entries.map { it.displayName }
-
     }
 }

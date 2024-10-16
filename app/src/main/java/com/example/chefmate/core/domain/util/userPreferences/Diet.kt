@@ -18,6 +18,5 @@ enum class Diet(val displayName: String, @DrawableRes val imageResId: Int) {
 
     companion object {
         fun getAllDietNames() : List<String> = Diet.entries.map { it.displayName }
-
     }
 }
