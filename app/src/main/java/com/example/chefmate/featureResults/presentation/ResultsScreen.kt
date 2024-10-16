@@ -50,6 +50,9 @@ fun ResultsScreen(
             onSearchFilterEvent = sharedViewModel::onEvent,
             onFilterChipClick = { viewModel.onFilterChipClick() }
         )
-        ResultsContent(results = searchState.searchResults)
+        ResultsContent(
+            results = searchState.searchResults,
+            onRecipeClick = { id -> viewModel.onRecipeClick(id) }
+        )
     }
 }

@@ -155,7 +155,6 @@ class HomeViewModel @Inject constructor(
             is HomeEvent.OnIntoleranceSelected -> onIntoleranceSelected(event.intolerance)
             is HomeEvent.OnMealTypeSelected -> onMealTypeSelected(event.mealType)
             HomeEvent.OnDismissAutocomplete -> onDismissAutocomplete()
-            HomeEvent.OnAutocompleteItemClick -> TODO()
             HomeEvent.OnAdvancedSearchClick -> navigateToSearch()
             is HomeEvent.OnRecipeClick -> navigateToRecipeDetails(event.id)
         }

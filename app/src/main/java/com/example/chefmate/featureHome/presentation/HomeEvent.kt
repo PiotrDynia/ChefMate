@@ -12,7 +12,6 @@ sealed class HomeEvent {
     data class OnIntoleranceSelected(val intolerance: Intolerance) : HomeEvent()
     data class OnMealTypeSelected(val mealType: MealType) : HomeEvent()
     data object OnDismissAutocomplete : HomeEvent()
-    data object OnAutocompleteItemClick : HomeEvent()
     data object OnAdvancedSearchClick : HomeEvent()
     data class OnRecipeClick(val id: Int) : HomeEvent()
 }

@@ -33,4 +33,10 @@ class ResultsViewModel @Inject constructor() : ViewModel() {
             _uiEvent.send(UiEvent.Navigate(Screen.Search.route))
         }
     }
+
+    fun onRecipeClick(id: Int) {
+        viewModelScope.launch {
+            _uiEvent.send(UiEvent.Navigate(Screen.Details.route + "?id=$id"))
+        }
+    }
 }

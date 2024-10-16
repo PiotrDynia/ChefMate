@@ -85,7 +85,7 @@ fun SearchSection(
                         DropdownMenuItem(
                             text = { Text(option.title) },
                             onClick = {
-                                onEvent(HomeEvent.OnAutocompleteItemClick)
+                                onEvent(HomeEvent.OnRecipeClick(option.id))
                             }
                         )
                     }

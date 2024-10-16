@@ -29,7 +29,11 @@ import com.example.chefmate.R
 import com.example.chefmate.core.data.api.dto.RecipeSimple
 
 @Composable
-fun ResultsContent(results: List<RecipeSimple>, modifier: Modifier = Modifier) {
+fun ResultsContent(
+    results: List<RecipeSimple>,
+    onRecipeClick: (Int) -> Unit,
+    modifier: Modifier = Modifier
+) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
         horizontalArrangement = Arrangement.spacedBy(16.dp),
@@ -44,7 +48,7 @@ fun ResultsContent(results: List<RecipeSimple>, modifier: Modifier = Modifier) {
                     .padding(vertical = 8.dp)
                     .animateItem()
                     .clickable {
-                        /*TODO*/
+                        onRecipeClick(item.id)
                     }
             ) {
                 AsyncImage(
