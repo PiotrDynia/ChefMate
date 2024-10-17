@@ -22,6 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -64,13 +65,15 @@ fun RecommendationsRow(
                 modifier = Modifier
                     .padding(horizontal = 8.dp)
                     .padding(bottom = 8.dp)
-                    .clickable {
-                        onSeeAllClick()
-                    },
+                    .then(
+                        if (state.recommendations.isNotEmpty()) Modifier.clickable { onSeeAllClick() }
+                        else Modifier
+                    ),
                 style = MaterialTheme.typography.headlineSmall.copy(
                     fontWeight = FontWeight.ExtraBold,
                     fontSize = 14.sp,
-                    color = MaterialTheme.colorScheme.tertiary
+                    color = if (state.recommendations.isNotEmpty()) MaterialTheme.colorScheme.tertiary
+                    else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f)
                 )
             )
         }
@@ -107,6 +110,8 @@ fun RecommendationsRow(
                             model = item.image,
                             contentDescription = stringResource(R.string.recipe_image),
                             contentScale = ContentScale.Crop,
+                            placeholder = painterResource(R.drawable.loading_image),
+                            error = painterResource(R.drawable.placeholder_image),
                             modifier = Modifier
                                 .size(120.dp)
                                 .clip(RoundedCornerShape(16.dp))

@@ -17,6 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -35,48 +36,57 @@ fun ResultsContent(
     onRecipeClick: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    LazyVerticalGrid(
-        columns = GridCells.Fixed(2),
-        horizontalArrangement = Arrangement.spacedBy(16.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp),
-        contentPadding = PaddingValues(horizontal = 8.dp),
-        modifier = Modifier.padding(bottom = 100.dp)
-    ) {
-        items(results) { item ->
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier
-                    .padding(vertical = 8.dp)
-                    .animateItem()
-                    .clickable {
-                        onRecipeClick(item.id)
-                    }
-            ) {
-                AsyncImage(
-                    model = item.image,
-                    contentDescription = stringResource(R.string.recipe_image),
-                    contentScale = ContentScale.Crop,
+    if (results.isEmpty()) {
+        Text(
+            text = stringResource(R.string.can_t_find_any_results_try_changing_your_filters),
+            fontStyle = FontStyle.Italic
+        )
+    } else {
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(2),
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+            contentPadding = PaddingValues(horizontal = 8.dp),
+            modifier = Modifier.padding(bottom = 100.dp)
+        ) {
+            items(results) { item ->
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
                     modifier = Modifier
-                        .clip(RoundedCornerShape(16.dp))
-                )
-                Spacer(modifier = Modifier.height(16.dp))
-                Text(
-                    text = item.title,
-                    textAlign = TextAlign.Center,
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Bold,
-                    maxLines = 4,
-                    overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier.height(48.dp)
-                )
-                Text(
-                    text = TextFormatter.getCleanText(item.summary),
-                    textAlign = TextAlign.Justify,
-                    fontSize = 12.sp,
-                    fontStyle = FontStyle.Italic,
-                    maxLines = 4,
-                    overflow = TextOverflow.Ellipsis
-                )
+                        .padding(vertical = 8.dp)
+                        .animateItem()
+                        .clickable {
+                            onRecipeClick(item.id)
+                        }
+                ) {
+                    AsyncImage(
+                        model = item.image,
+                        contentDescription = stringResource(R.string.recipe_image),
+                        contentScale = ContentScale.Crop,
+                        placeholder = painterResource(R.drawable.loading_image),
+                        error = painterResource(R.drawable.placeholder_image),
+                        modifier = Modifier
+                            .clip(RoundedCornerShape(16.dp))
+                    )
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Text(
+                        text = item.title,
+                        textAlign = TextAlign.Center,
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold,
+                        maxLines = 4,
+                        overflow = TextOverflow.Ellipsis,
+                        modifier = Modifier.height(48.dp)
+                    )
+                    Text(
+                        text = TextFormatter.getCleanText(item.summary),
+                        textAlign = TextAlign.Justify,
+                        fontSize = 12.sp,
+                        fontStyle = FontStyle.Italic,
+                        maxLines = 4,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                }
             }
         }
     }

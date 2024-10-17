@@ -19,6 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -64,6 +65,8 @@ fun IngredientsSection(ingredients: List<ExtendedIngredient>?, modifier: Modifie
             AsyncImage(
                 model = "https://spoonacular.com/cdn/ingredients_100x100/${ingredient.image}",
                 contentDescription = null,
+                placeholder = painterResource(R.drawable.loading_image),
+                error = painterResource(R.drawable.placeholder_image),
                 modifier = Modifier
                     .size(40.dp)
                     .background(color = MaterialTheme.colorScheme.background)

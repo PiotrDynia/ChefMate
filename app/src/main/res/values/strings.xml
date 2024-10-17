@@ -63,4 +63,5 @@
     <string name="add_all">Add all</string>
     <string name="add_to_shopping_list">Add to shopping list</string>
     <string name="instructions">Instructions</string>
+    <string name="can_t_find_any_results_try_changing_your_filters">Can\'t find any results. Try changing your filters.</string>
 </resources>
