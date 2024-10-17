@@ -55,4 +55,6 @@
     <string name="intolerance">intolerance</string>
     <string name="meal_type">meal type</string>
     <string name="calories">calories</string>
+    <string name="back">Back</string>
+    <string name="bookmark">Bookmark</string>
 </resources>

@@ -43,9 +43,7 @@ fun HomeScreen(
     LaunchedEffect(true) {
         viewModel.uiEvent.collect { event ->
             when (event) {
-                is UiEvent.Navigate -> {
-                    navController.navigateTo(event.route)
-                }
+                is UiEvent.Navigate -> navController.navigateTo(event.route)
                 else -> Unit
             }
         }

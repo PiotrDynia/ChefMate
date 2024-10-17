@@ -60,7 +60,10 @@ fun SetupNavGraph(
                 type = NavType.IntType
             })
         ) {
-            DetailsScreen()
+            DetailsScreen(
+                navController = navController,
+                modifier = modifier
+            )
         }
     }
 }
