@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.example.chefmate.R
 import com.example.chefmate.core.data.api.dto.RecipeSimple
+import com.example.chefmate.core.domain.util.TextFormatter
 
 @Composable
 fun ResultsContent(
@@ -69,7 +70,7 @@ fun ResultsContent(
                     modifier = Modifier.height(48.dp)
                 )
                 Text(
-                    text = item.getCleanSummary(),
+                    text = TextFormatter.getCleanText(item.summary),
                     textAlign = TextAlign.Justify,
                     fontSize = 12.sp,
                     fontStyle = FontStyle.Italic,
