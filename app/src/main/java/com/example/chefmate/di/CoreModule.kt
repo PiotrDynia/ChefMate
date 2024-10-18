@@ -1,7 +1,10 @@
 package com.example.chefmate.di
 
+import android.app.Application
 import android.content.Context
+import androidx.room.Room
 import com.example.chefmate.core.data.api.APIService
+import com.example.chefmate.core.data.db.ChefMateDatabase
 import com.example.chefmate.core.data.repository.DataStoreRepositoryImpl
 import com.example.chefmate.core.domain.repository.DataStoreRepository
 import dagger.Module
@@ -23,6 +26,17 @@ object CoreModule {
         @ApplicationContext context: Context
     ) : DataStoreRepository {
         return DataStoreRepositoryImpl(context = context)
+    }
+
+    @Provides
+    @Singleton
+    fun provideDatabase(app: Application) : ChefMateDatabase {
+        return Room.databaseBuilder(
+            app,
+            ChefMateDatabase::class.java,
+            "chefmate_db"
+        )
+            .build()
     }
 
     @Provides

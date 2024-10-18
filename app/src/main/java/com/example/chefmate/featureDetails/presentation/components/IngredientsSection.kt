@@ -28,10 +28,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.example.chefmate.R
-import com.example.chefmate.core.data.api.dto.ExtendedIngredient
+import com.example.chefmate.core.data.api.dto.Ingredient
 
 @Composable
-fun IngredientsSection(ingredients: List<ExtendedIngredient>?, modifier: Modifier = Modifier) {
+fun IngredientsSection(ingredients: List<Ingredient>?, modifier: Modifier = Modifier) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -47,7 +47,7 @@ fun IngredientsSection(ingredients: List<ExtendedIngredient>?, modifier: Modifie
             color = MaterialTheme.colorScheme.secondary,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.clickable {
-
+                /* TODO add to shopping list */
             }
         )
     }
@@ -80,7 +80,7 @@ fun IngredientsSection(ingredients: List<ExtendedIngredient>?, modifier: Modifie
                 modifier = Modifier.weight(1f)
             )
             IconButton(
-                onClick = {  },
+                onClick = { /* TODO add to shopping list */ },
                 modifier = Modifier.size(20.dp)
             ) {
                 Icon(

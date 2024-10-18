@@ -2,7 +2,7 @@ package com.example.chefmate.core.data.api.dto
 
 data class RecipeDetails(
     val aggregateLikes: Int,
-    val extendedIngredients: List<ExtendedIngredient>,
+    val extendedIngredients: List<Ingredient>,
     val id: Int,
     val image: String,
     val instructions: String,

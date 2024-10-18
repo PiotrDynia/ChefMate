@@ -1,6 +1,6 @@
 package com.example.chefmate.core.data.api.dto
 
-data class ExtendedIngredient(
+data class Ingredient(
     val id: Int,
     val image: String,
     val name: String,

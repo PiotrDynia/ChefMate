@@ -14,6 +14,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -31,28 +32,50 @@ class DetailsViewModel @Inject constructor(
     init {
         viewModelScope.launch(Dispatchers.IO) {
             val recipeId = savedStateHandle.get<Int>("id") ?: return@launch
-            val details = useCases.getRecipeDetails(recipeId)
-            _state.update {
-                it.copy(
-                    details = details,
-                    isLoading = false
-                )
-            }
+            loadRecipeDetails(recipeId)
+            checkIfRecipeIsBookmarked()
         }
+    }
+
+    private suspend fun loadRecipeDetails(recipeId: Int) {
+        val details = useCases.getRecipeDetailsFromAPI(recipeId)
+        _state.update {
+            it.copy(
+                details = details,
+                isLoading = false
+            )
+        }
+    }
+
+    private suspend fun checkIfRecipeIsBookmarked() {
+        val isBookmarked = state.value.details?.id?.let { recipeId ->
+            useCases.checkRecipeIsBookmarked(recipeId)
+        } ?: false
+        _state.value = state.value.copy(isBookmarked = isBookmarked)
     }
 
     fun onEvent(event: DetailsEvent) {
         when(event) {
             DetailsEvent.OnBackClick -> navigateBack()
-            DetailsEvent.OnBookmarkClick -> bookmarkRecipe()
+            DetailsEvent.OnBookmarkClick -> onBookmarkClick()
         }
     }
 
-    private fun bookmarkRecipe() {
-        // TODO cache in database
-        println(_state.value.isBookmarked)
-        _state.update { it.copy(isBookmarked = !it.isBookmarked) }
-        println(_state.value.isBookmarked)
+    private fun onBookmarkClick() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val recipeDetails = state.value.details
+            recipeDetails?.let { recipe ->
+                if (state.value.isBookmarked) {
+                    val cachedRecipe = useCases.getRecipeFromCache(recipe.id)
+                    useCases.deleteRecipeFromCache(cachedRecipe.recipe.id, cachedRecipe.recipe.imagePath)
+                } else {
+                    useCases.saveRecipe(recipeDetails)
+                }
+                withContext(Dispatchers.Main) {
+                    _state.value = state.value.copy(isBookmarked = !state.value.isBookmarked)
+                }
+            }
+        }
     }
 
     private fun navigateBack() {
