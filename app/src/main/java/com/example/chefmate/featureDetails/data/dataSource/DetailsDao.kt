@@ -21,6 +21,12 @@ interface DetailsDao {
     @Upsert
     suspend fun upsertIngredients(ingredients: List<IngredientEntity>)
 
+    @Query("DELETE FROM ingredient WHERE recipeId = :recipeId AND isInShoppingCart = 0")
+    suspend fun deleteIngredientsNotInShoppingCart(recipeId: Int)
+
+    @Query("SELECT * FROM ingredient WHERE id = :ingredientId AND isInShoppingCart = 1 LIMIT 1")
+    suspend fun getIngredientFromShoppingCartById(ingredientId: Int) : IngredientEntity?
+
     @Query("DELETE FROM recipe WHERE id = :recipeId")
     suspend fun deleteRecipeById(recipeId: Int)
 }

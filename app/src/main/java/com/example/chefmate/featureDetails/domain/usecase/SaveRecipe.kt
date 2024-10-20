@@ -27,13 +27,14 @@ class SaveRecipe(
         val ingredientEntities = recipe.extendedIngredients.map { ingredient ->
             val localIngredientImagePath =
                 imageManager.cacheImage("https://spoonacular.com/cdn/ingredients_100x100/${ingredient.image}")
+            val isIngredientInShoppingCart = repository.isIngredientInShoppingCart(ingredient.id)
             IngredientEntity(
                 id = ingredient.id,
                 recipeId = recipe.id,
                 name = ingredient.name,
                 original = ingredient.original,
                 imagePath = localIngredientImagePath ?: "",
-                isShoppingItem = false
+                isInShoppingCart = isIngredientInShoppingCart
             )
         }
         repository.saveRecipeWithIngredients(recipeEntity, ingredientEntities)

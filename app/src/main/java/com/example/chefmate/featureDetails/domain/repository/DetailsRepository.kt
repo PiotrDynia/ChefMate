@@ -9,6 +9,7 @@ interface DetailsRepository {
     suspend fun getRecipeDetailsFromAPI(id: Int): RecipeDetails
     suspend fun getRecipeFromCache(id: Int) : RecipeWithIngredients
     suspend fun isRecipeBookmarked(recipeId: Int): Boolean
+    suspend fun isIngredientInShoppingCart(ingredientId: Int): Boolean
     suspend fun saveRecipeWithIngredients(recipe: RecipeEntity, ingredients: List<IngredientEntity>)
     suspend fun deleteRecipeById(recipeId: Int)
 }

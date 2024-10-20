@@ -25,12 +25,17 @@ class DetailsRepositoryImpl @Inject constructor(
         return recipeDao.getRecipeById(recipeId) != null
     }
 
+    override suspend fun isIngredientInShoppingCart(ingredientId: Int): Boolean {
+        return recipeDao.getIngredientFromShoppingCartById(ingredientId) != null
+    }
+
     override suspend fun saveRecipeWithIngredients(recipe: RecipeEntity, ingredients: List<IngredientEntity>) {
         recipeDao.upsertRecipe(recipe)
         recipeDao.upsertIngredients(ingredients)
     }
 
     override suspend fun deleteRecipeById(recipeId: Int) {
+        recipeDao.deleteIngredientsNotInShoppingCart(recipeId)
         recipeDao.deleteRecipeById(recipeId)
     }
 }

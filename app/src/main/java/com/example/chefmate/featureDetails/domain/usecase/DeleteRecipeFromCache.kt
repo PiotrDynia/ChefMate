@@ -14,8 +14,7 @@ class DeleteRecipeFromCache(
         imageManager.deleteImageFile(imagePath)
 
         cachedRecipeWithIngredients.ingredients.forEach { ingredient ->
-            // TODO figure out the logic here, we can't delete ingredients if they are in the shopping cart, flag won't work
-            if (!ingredient.isShoppingItem) {
+            if (!ingredient.isInShoppingCart) {
                 imageManager.deleteImageFile(ingredient.imagePath)
             }
         }
