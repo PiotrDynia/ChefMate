@@ -11,6 +11,7 @@ class RecipeEntity(
     val title: String,
     val summary: String,
     val instructions: String,
+    val pricePerServing: Double,
     val servings: Int,
     val readyInMinutes: Int,
     val aggregateLikes: Int,

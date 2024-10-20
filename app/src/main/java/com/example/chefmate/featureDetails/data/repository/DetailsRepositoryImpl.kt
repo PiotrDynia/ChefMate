@@ -2,7 +2,7 @@ package com.example.chefmate.featureDetails.data.repository
 
 import com.example.chefmate.core.data.api.APIService
 import com.example.chefmate.core.data.api.dto.RecipeDetails
-import com.example.chefmate.featureDetails.data.dataSource.DetailsDao
+import com.example.chefmate.featureDetails.data.dataSource.RecipeDao
 import com.example.chefmate.featureDetails.domain.model.IngredientEntity
 import com.example.chefmate.featureDetails.domain.model.RecipeEntity
 import com.example.chefmate.featureDetails.domain.model.RecipeWithIngredients
@@ -11,7 +11,7 @@ import javax.inject.Inject
 
 class DetailsRepositoryImpl @Inject constructor(
     private val apiService: APIService,
-    private val recipeDao: DetailsDao
+    private val recipeDao: RecipeDao
 ) : DetailsRepository {
     override suspend fun getRecipeDetailsFromAPI(id: Int): RecipeDetails {
         return apiService.getRecipeDetails(id = id)

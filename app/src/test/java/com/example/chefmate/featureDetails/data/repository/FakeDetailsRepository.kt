@@ -8,8 +8,8 @@ import com.example.chefmate.featureDetails.domain.repository.DetailsRepository
 
 class FakeDetailsRepository : DetailsRepository {
 
-    private val cachedRecipes = mutableListOf<RecipeWithIngredients>()
-    private var recipeFromAPI: RecipeDetails? = null
+    val cachedRecipes = mutableListOf<RecipeWithIngredients>()
+    var recipeFromAPI: RecipeDetails? = null
 
     override suspend fun getRecipeDetailsFromAPI(id: Int): RecipeDetails {
         return recipeFromAPI ?: throw IllegalStateException("Recipe not found in the fake API")
@@ -22,6 +22,14 @@ class FakeDetailsRepository : DetailsRepository {
 
     override suspend fun isRecipeBookmarked(recipeId: Int): Boolean {
         return cachedRecipes.any { it.recipe.id == recipeId }
+    }
+
+    override suspend fun isIngredientInShoppingCart(ingredientId: Int): Boolean {
+        return cachedRecipes.any {
+            it.ingredients.any { ingredient ->
+                ingredient.id == ingredientId && ingredient.isInShoppingCart
+            }
+        }
     }
 
     override suspend fun saveRecipeWithIngredients(

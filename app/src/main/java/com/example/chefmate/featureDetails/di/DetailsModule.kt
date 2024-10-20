@@ -2,7 +2,7 @@ package com.example.chefmate.featureDetails.di
 
 import com.example.chefmate.core.data.api.APIService
 import com.example.chefmate.core.data.db.ChefMateDatabase
-import com.example.chefmate.core.domain.util.ImageCacheManager
+import com.example.chefmate.core.domain.util.imageManager.ImageCacheManager
 import com.example.chefmate.featureDetails.data.repository.DetailsRepositoryImpl
 import com.example.chefmate.featureDetails.domain.repository.DetailsRepository
 import com.example.chefmate.featureDetails.domain.usecase.CheckRecipeIsBookmarked

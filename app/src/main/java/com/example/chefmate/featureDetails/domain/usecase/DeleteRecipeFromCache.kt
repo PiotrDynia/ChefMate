@@ -1,11 +1,11 @@
 package com.example.chefmate.featureDetails.domain.usecase
 
-import com.example.chefmate.core.domain.util.ImageCacheManager
+import com.example.chefmate.core.domain.util.imageManager.ImageManager
 import com.example.chefmate.featureDetails.domain.repository.DetailsRepository
 
 class DeleteRecipeFromCache(
     private val repository: DetailsRepository,
-    private val imageManager: ImageCacheManager
+    private val imageManager: ImageManager
 ) {
 
     suspend operator fun invoke(id: Int, imagePath: String) {

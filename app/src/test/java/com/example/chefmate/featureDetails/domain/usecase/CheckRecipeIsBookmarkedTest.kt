@@ -30,7 +30,8 @@ class CheckRecipeIsBookmarkedTest {
                 servings = 3,
                 readyInMinutes = 30,
                 aggregateLikes = 5,
-                imagePath = ""
+                imagePath = "",
+                pricePerServing = 30.0
             ),
             ingredients = emptyList()
         )
@@ -48,7 +49,8 @@ class CheckRecipeIsBookmarkedTest {
                 servings = 3,
                 readyInMinutes = 30,
                 aggregateLikes = 5,
-                imagePath = ""
+                imagePath = "",
+                pricePerServing = 30.0
             ),
             ingredients = emptyList()
         )

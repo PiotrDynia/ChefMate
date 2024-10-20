@@ -1,4 +1,4 @@
-package com.example.chefmate.core.domain.util
+package com.example.chefmate.core.domain.util.imageManager
 
 import android.content.Context
 import android.graphics.Bitmap
@@ -11,8 +11,8 @@ import javax.inject.Inject
 
 class ImageCacheManager @Inject constructor(
     @ApplicationContext private val context: Context
-) {
-    suspend fun cacheImage(imageUrl: String): String? {
+) : ImageManager {
+    override suspend fun cacheImage(imageUrl: String): String? {
         val request = ImageRequest.Builder(context)
             .data(imageUrl)
             .build()
@@ -29,7 +29,7 @@ class ImageCacheManager @Inject constructor(
         }
     }
 
-    fun deleteImageFile(imagePath: String) {
+    override fun deleteImageFile(imagePath: String) {
         val file = File(context.filesDir, imagePath)
         if (file.exists()) {
             file.delete()

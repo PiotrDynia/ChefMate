@@ -1,14 +1,14 @@
 package com.example.chefmate.featureDetails.domain.usecase
 
 import com.example.chefmate.core.data.api.dto.RecipeDetails
-import com.example.chefmate.core.domain.util.ImageCacheManager
+import com.example.chefmate.core.domain.util.imageManager.ImageManager
 import com.example.chefmate.featureDetails.domain.model.IngredientEntity
 import com.example.chefmate.featureDetails.domain.model.RecipeEntity
 import com.example.chefmate.featureDetails.domain.repository.DetailsRepository
 
 class SaveRecipe(
     private val repository: DetailsRepository,
-    private val imageManager: ImageCacheManager
+    private val imageManager: ImageManager
 ) {
     suspend operator fun invoke(recipe: RecipeDetails) {
         val localImagePath = imageManager.cacheImage(recipe.image)
@@ -21,6 +21,7 @@ class SaveRecipe(
             servings = recipe.servings,
             readyInMinutes = recipe.readyInMinutes,
             aggregateLikes = recipe.aggregateLikes,
+            pricePerServing = recipe.pricePerServing,
             imagePath = localImagePath ?: ""
         )
 
@@ -28,11 +29,12 @@ class SaveRecipe(
             val localIngredientImagePath =
                 imageManager.cacheImage("https://spoonacular.com/cdn/ingredients_100x100/${ingredient.image}")
             val isIngredientInShoppingCart = repository.isIngredientInShoppingCart(ingredient.id)
+
             IngredientEntity(
                 id = ingredient.id,
                 recipeId = recipe.id,
                 name = ingredient.name,
-                original = ingredient.original,
+                originalName = ingredient.original,
                 imagePath = localIngredientImagePath ?: "",
                 isInShoppingCart = isIngredientInShoppingCart
             )

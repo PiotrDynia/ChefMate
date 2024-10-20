@@ -12,7 +12,7 @@ data class IngredientEntity(
     @PrimaryKey val id: Int,
     val recipeId: Int,
     val name: String,
-    val original: String,
+    val originalName: String,
     val imagePath: String,
-    val isInShoppingCart: Boolean = false
+    val isInShoppingCart: Boolean
 )

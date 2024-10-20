@@ -9,7 +9,7 @@ import com.example.chefmate.featureDetails.domain.model.RecipeEntity
 import com.example.chefmate.featureDetails.domain.model.RecipeWithIngredients
 
 @Dao
-interface DetailsDao {
+interface RecipeDao {
 
     @Transaction
     @Query("SELECT * FROM recipe WHERE id = :recipeId LIMIT 1")
