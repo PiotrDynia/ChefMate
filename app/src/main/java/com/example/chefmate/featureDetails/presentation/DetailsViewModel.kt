@@ -30,6 +30,7 @@ class DetailsViewModel @Inject constructor(
     val uiEvent: Flow<UiEvent> = _uiEvent.receiveAsFlow()
 
     init {
+        // TODO figure out the logic with loading from cache and from remote
         viewModelScope.launch(Dispatchers.IO) {
             val recipeId = savedStateHandle.get<Int>("id") ?: return@launch
             loadRecipeDetails(recipeId)

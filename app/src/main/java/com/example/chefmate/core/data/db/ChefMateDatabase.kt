@@ -9,7 +9,7 @@ import com.example.chefmate.featureDetails.domain.model.RecipeEntity
 
 @Database(
     entities = [RecipeEntity::class, IngredientEntity::class],
-    version = 1
+    version = 2
 )
 abstract class ChefMateDatabase : RoomDatabase() {
     abstract fun detailsDao() : RecipeDetailsDao

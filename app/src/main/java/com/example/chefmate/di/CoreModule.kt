@@ -36,6 +36,7 @@ object CoreModule {
             ChefMateDatabase::class.java,
             "chefmate_db"
         )
+            .fallbackToDestructiveMigration()
             .build()
     }
 
