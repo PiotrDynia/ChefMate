@@ -48,7 +48,7 @@ class BottomNavigationViewModel @Inject constructor() : ViewModel() {
             titleResId = R.string.saved,
             selectedIcon = Icons.Filled.Bookmark,
             unselectedIcon = Icons.Outlined.BookmarkBorder,
-            route = ""
+            route = Screen.Bookmarks.route
         ),
         BottomNavigationItem(
             titleResId = R.string.ai_chatbot,

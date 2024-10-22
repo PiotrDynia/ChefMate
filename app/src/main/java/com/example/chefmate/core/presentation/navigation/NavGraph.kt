@@ -10,6 +10,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.example.chefmate.core.presentation.util.Screen
+import com.example.chefmate.featureBookmarks.presentation.BookmarksScreen
 import com.example.chefmate.featureDetails.presentation.DetailsScreen
 import com.example.chefmate.featureHome.presentation.HomeScreen
 import com.example.chefmate.featureOnboarding.presentation.WelcomeScreen
@@ -64,6 +65,9 @@ fun SetupNavGraph(
                 navController = navController,
                 modifier = modifier
             )
+        }
+        composable(route = Screen.Bookmarks.route) {
+            BookmarksScreen(navController = navController)
         }
     }
 }
