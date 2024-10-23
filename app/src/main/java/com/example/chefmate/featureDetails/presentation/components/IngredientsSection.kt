@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.example.chefmate.R
 import com.example.chefmate.core.data.api.dto.Ingredient
+import java.io.File
 
 @Composable
 fun IngredientsSection(ingredients: List<Ingredient>?, modifier: Modifier = Modifier) {
@@ -57,13 +58,21 @@ fun IngredientsSection(ingredients: List<Ingredient>?, modifier: Modifier = Modi
         fontSize = 14.sp
     )
     ingredients?.forEach { ingredient ->
+        val imageModel = ingredient.image.let { imagePath ->
+            if (imagePath.startsWith("/data/")) {
+                File(imagePath)
+            } else {
+                "https://spoonacular.com/cdn/ingredients_100x100/${imagePath}"
+            }
+        }
+
         Row(
             modifier = Modifier
                 .fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
             AsyncImage(
-                model = "https://spoonacular.com/cdn/ingredients_100x100/${ingredient.image}",
+                model = imageModel,
                 contentDescription = null,
                 placeholder = painterResource(R.drawable.loading_image),
                 error = painterResource(R.drawable.placeholder_image),

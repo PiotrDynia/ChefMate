@@ -42,7 +42,7 @@ class BookmarksViewModel @Inject constructor(
 
     private fun navigateToDetails(id: Int) {
         viewModelScope.launch {
-            _uiEvent.send(UiEvent.Navigate(Screen.Details.route + "?id=${id}"))
+            _uiEvent.send(UiEvent.Navigate(Screen.Details.route + "?id=${id}&isBookmarked=true"))
         }
     }
 

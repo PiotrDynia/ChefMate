@@ -4,6 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.chefmate.core.presentation.util.UiEvent
+import com.example.chefmate.featureDetails.domain.model.toRecipeDetails
 import com.example.chefmate.featureDetails.domain.usecase.DetailsUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -30,21 +31,40 @@ class DetailsViewModel @Inject constructor(
     val uiEvent: Flow<UiEvent> = _uiEvent.receiveAsFlow()
 
     init {
-        // TODO figure out the logic with loading from cache and from remote
         viewModelScope.launch(Dispatchers.IO) {
             val recipeId = savedStateHandle.get<Int>("id") ?: return@launch
-            loadRecipeDetails(recipeId)
-            checkIfRecipeIsBookmarked()
+            val isBookmarked = savedStateHandle.get<Boolean>("isBookmarked")!!
+            if (isBookmarked) {
+                loadRecipeFromCache(recipeId)
+            } else {
+                loadRecipeDetailsFromAPI(recipeId)
+                checkIfRecipeIsBookmarked()
+            }
         }
     }
 
-    private suspend fun loadRecipeDetails(recipeId: Int) {
+    private suspend fun loadRecipeDetailsFromAPI(recipeId: Int) {
         val details = useCases.getRecipeDetailsFromAPI(recipeId)
-        _state.update {
-            it.copy(
-                details = details,
-                isLoading = false
-            )
+        withContext(Dispatchers.Main) {
+            _state.update {
+                it.copy(
+                    details = details,
+                    isLoading = false
+                )
+            }
+        }
+    }
+
+    private suspend fun loadRecipeFromCache(recipeId: Int) {
+        val cachedRecipe = useCases.getRecipeFromCache(recipeId)
+        withContext(Dispatchers.Main) {
+            _state.update {
+                it.copy(
+                    details = cachedRecipe.toRecipeDetails(),
+                    isLoading = false,
+                    isBookmarked = true
+                )
+            }
         }
     }
 
@@ -52,7 +72,9 @@ class DetailsViewModel @Inject constructor(
         val isBookmarked = state.value.details?.id?.let { recipeId ->
             useCases.checkRecipeIsBookmarked(recipeId)
         } ?: false
-        _state.value = state.value.copy(isBookmarked = isBookmarked)
+        withContext(Dispatchers.Main) {
+            _state.value = state.value.copy(isBookmarked = isBookmarked)
+        }
     }
 
     fun onEvent(event: DetailsEvent) {

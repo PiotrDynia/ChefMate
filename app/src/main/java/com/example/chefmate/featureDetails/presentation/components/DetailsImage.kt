@@ -27,6 +27,7 @@ import coil.compose.AsyncImage
 import com.example.chefmate.R
 import com.example.chefmate.featureDetails.presentation.DetailsEvent
 import com.example.chefmate.featureDetails.presentation.DetailsState
+import java.io.File
 
 @Composable
 fun DetailsImage(
@@ -34,9 +35,17 @@ fun DetailsImage(
     onEvent: (DetailsEvent) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val imageModel = state.details?.image?.let { imagePath ->
+        if (imagePath.startsWith("/data/")) {
+            File(imagePath)
+        } else {
+            imagePath
+        }
+    }
+
     Box(modifier = Modifier.fillMaxWidth()) {
         AsyncImage(
-            model = state.details?.image,
+            model = imageModel,
             contentDescription = null,
             contentScale = ContentScale.Crop,
             placeholder = painterResource(R.drawable.loading_image),

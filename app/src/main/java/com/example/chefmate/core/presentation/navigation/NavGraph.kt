@@ -23,7 +23,8 @@ fun SetupNavGraph(
     navController: NavHostController,
     snackbarHostState: SnackbarHostState,
     startDestination: String,
-    modifier: Modifier = Modifier) {
+    modifier: Modifier = Modifier
+) {
     val sharedSearchViewModel: SearchViewModel = hiltViewModel()
 
     NavHost(
@@ -56,10 +57,15 @@ fun SetupNavGraph(
             )
         }
         composable(
-            route = Screen.Details.route + "?id={id}",
-            arguments = listOf(navArgument("id") {
-                type = NavType.IntType
-            })
+            route = Screen.Details.route + "?id={id}&isBookmarked={isBookmarked}",
+            arguments = listOf(
+                navArgument("id") {
+                    type = NavType.IntType
+                },
+                navArgument("isBookmarked") {
+                    type = NavType.BoolType
+                    defaultValue = false
+                })
         ) {
             DetailsScreen(
                 navController = navController,
