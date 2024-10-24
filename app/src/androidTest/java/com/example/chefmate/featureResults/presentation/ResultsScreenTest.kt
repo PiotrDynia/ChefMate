@@ -14,14 +14,17 @@ import com.example.chefmate.MainActivity
 import com.example.chefmate.R
 import com.example.chefmate.core.presentation.navigation.SetupNavGraph
 import com.example.chefmate.core.presentation.util.Screen
+import com.example.chefmate.di.CoreModule
 import com.example.chefmate.ui.theme.ChefMateTheme
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
+import dagger.hilt.android.testing.UninstallModules
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
 @HiltAndroidTest
+@UninstallModules(CoreModule::class)
 class ResultsScreenTest {
 
     @get:Rule(order = 0)

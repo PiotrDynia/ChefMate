@@ -17,15 +17,18 @@ import androidx.test.platform.app.InstrumentationRegistry
 import com.example.chefmate.MainActivity
 import com.example.chefmate.R
 import com.example.chefmate.core.presentation.navigation.SetupNavGraph
+import com.example.chefmate.di.CoreModule
 import com.example.chefmate.featureSplash.presentation.SplashViewModel
 import com.example.chefmate.ui.theme.ChefMateTheme
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
+import dagger.hilt.android.testing.UninstallModules
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
 @HiltAndroidTest
+@UninstallModules(CoreModule::class)
 class WelcomeScreenTest {
 
     @get:Rule(order = 0)
