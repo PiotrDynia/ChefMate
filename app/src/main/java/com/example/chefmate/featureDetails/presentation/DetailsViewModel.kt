@@ -43,18 +43,6 @@ class DetailsViewModel @Inject constructor(
         }
     }
 
-    private suspend fun loadRecipeDetailsFromAPI(recipeId: Int) {
-        val details = useCases.getRecipeDetailsFromAPI(recipeId)
-        withContext(Dispatchers.Main) {
-            _state.update {
-                it.copy(
-                    details = details,
-                    isLoading = false
-                )
-            }
-        }
-    }
-
     private suspend fun loadRecipeFromCache(recipeId: Int) {
         val cachedRecipe = useCases.getRecipeFromCache(recipeId)
         withContext(Dispatchers.Main) {
@@ -63,6 +51,18 @@ class DetailsViewModel @Inject constructor(
                     details = cachedRecipe.toRecipeDetails(),
                     isLoading = false,
                     isBookmarked = true
+                )
+            }
+        }
+    }
+
+    private suspend fun loadRecipeDetailsFromAPI(recipeId: Int) {
+        val details = useCases.getRecipeDetailsFromAPI(recipeId)
+        withContext(Dispatchers.Main) {
+            _state.update {
+                it.copy(
+                    details = details,
+                    isLoading = false
                 )
             }
         }

@@ -2,10 +2,9 @@ package com.example.chefmate.featureBookmarks.domain.usecase
 
 import com.example.chefmate.featureBookmarks.data.repository.FakeBookmarksRepository
 import com.example.chefmate.featureDetails.domain.model.RecipeEntity
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
-import org.junit.Assert.*
+import org.junit.Assert.assertNotNull
 import org.junit.Before
 import org.junit.Test
 

@@ -16,7 +16,6 @@ import androidx.navigation.NavHostController
 import com.example.chefmate.core.domain.util.navigateTo
 import com.example.chefmate.core.presentation.util.UiEvent
 import com.example.chefmate.featureResults.presentation.components.FilterSearchBar
-import com.example.chefmate.core.presentation.util.RecipeGridContent
 import com.example.chefmate.featureResults.presentation.components.ResultsContent
 import com.example.chefmate.featureSearch.presentation.SearchViewModel
 

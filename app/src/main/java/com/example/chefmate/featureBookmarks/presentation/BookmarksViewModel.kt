@@ -32,6 +32,15 @@ class BookmarksViewModel @Inject constructor(
         loadBookmarkedRecipes()
     }
 
+    private fun loadBookmarkedRecipes() {
+        useCases.getBookmarkedRecipes().onEach {
+            _state.value = _state.value.copy(
+                bookmarkedRecipes = it,
+                isLoading = false
+            )
+        }.launchIn(viewModelScope)
+    }
+
     fun onEvent(event: BookmarksEvent) {
         when(event) {
             is BookmarksEvent.OnRecipeClick -> navigateToDetails(event.id)
@@ -60,14 +69,5 @@ class BookmarksViewModel @Inject constructor(
         _state.update {
             it.copy(searchInput = input)
         }
-    }
-
-    private fun loadBookmarkedRecipes() {
-        useCases.getBookmarkedRecipes().onEach {
-            _state.value = _state.value.copy(
-                bookmarkedRecipes = it,
-                isLoading = false
-            )
-        }.launchIn(viewModelScope)
     }
 }
