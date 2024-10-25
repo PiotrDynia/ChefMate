@@ -69,6 +69,7 @@ fun SetupNavGraph(
         ) {
             DetailsScreen(
                 navController = navController,
+                snackbarHostState = snackbarHostState,
                 modifier = modifier
             )
         }

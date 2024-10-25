@@ -3,6 +3,7 @@ package com.example.chefmate.featureDetails.presentation
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.chefmate.core.domain.util.Result
 import com.example.chefmate.core.presentation.util.UiEvent
 import com.example.chefmate.featureDetails.domain.model.toRecipeDetails
 import com.example.chefmate.featureDetails.domain.usecase.DetailsUseCases
@@ -57,13 +58,18 @@ class DetailsViewModel @Inject constructor(
     }
 
     private suspend fun loadRecipeDetailsFromAPI(recipeId: Int) {
-        val details = useCases.getRecipeDetailsFromAPI(recipeId)
-        withContext(Dispatchers.Main) {
-            _state.update {
-                it.copy(
-                    details = details,
-                    isLoading = false
-                )
+        when (val result = useCases.getRecipeDetailsFromAPI(recipeId)) {
+            is Result.Success -> withContext(Dispatchers.Main) {
+                _state.update {
+                    it.copy(
+                        details = result.data,
+                        isLoading = false
+                    )
+                }
+            }
+            is Result.Error -> {
+                _uiEvent.send(UiEvent.ShowSnackbar(result.error.getErrorMessageResId()))
+                _uiEvent.send(UiEvent.PopBackStack)
             }
         }
     }
