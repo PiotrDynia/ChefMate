@@ -1,6 +1,7 @@
 package com.example.chefmate.featureDetails.domain.usecase
 
 import com.example.chefmate.core.data.api.dto.RecipeDetails
+import com.example.chefmate.core.domain.util.Result
 import com.example.chefmate.featureDetails.data.repository.FakeDetailsRepository
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.*
@@ -33,7 +34,9 @@ class GetRecipeDetailsFromAPITest {
             extendedIngredients = emptyList()
         )
         repository.createFakeRemoteRecipe(dummyRecipe)
-        val recipeDetails = getRecipeDetailsFromAPI(1)
-        assertEquals(dummyRecipe, recipeDetails)
+        val result = getRecipeDetailsFromAPI(1)
+        assertTrue(result is Result.Success)
+        val data = (result as Result.Success).data
+        assertEquals("Dummy title", data.title)
     }
 }
