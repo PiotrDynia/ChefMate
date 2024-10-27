@@ -36,7 +36,8 @@ class SaveRecipe(
                 name = ingredient.name,
                 originalName = ingredient.original,
                 imagePath = localIngredientImagePath ?: "",
-                isInShoppingCart = isIngredientInShoppingCart
+                isInShoppingCart = isIngredientInShoppingCart,
+                isBookmarked = true
             )
         }
         repository.saveRecipeWithIngredients(recipeEntity, ingredientEntities)

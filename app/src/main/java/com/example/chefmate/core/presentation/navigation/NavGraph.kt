@@ -17,6 +17,7 @@ import com.example.chefmate.featureOnboarding.presentation.WelcomeScreen
 import com.example.chefmate.featureResults.presentation.ResultsScreen
 import com.example.chefmate.featureSearch.presentation.SearchScreen
 import com.example.chefmate.featureSearch.presentation.SearchViewModel
+import com.example.chefmate.featureShoppingList.presentation.ShoppingListScreen
 
 @Composable
 fun SetupNavGraph(
@@ -75,6 +76,9 @@ fun SetupNavGraph(
         }
         composable(route = Screen.Bookmarks.route) {
             BookmarksScreen(navController = navController)
+        }
+        composable(route = Screen.ShoppingList.route) {
+            ShoppingListScreen()
         }
     }
 }

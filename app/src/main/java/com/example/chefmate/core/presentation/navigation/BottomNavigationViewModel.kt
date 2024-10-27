@@ -4,10 +4,12 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.Bookmark
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Receipt
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.outlined.AutoAwesome
 import androidx.compose.material.icons.outlined.BookmarkBorder
 import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material.icons.outlined.Receipt
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
@@ -49,6 +51,12 @@ class BottomNavigationViewModel @Inject constructor() : ViewModel() {
             selectedIcon = Icons.Filled.Bookmark,
             unselectedIcon = Icons.Outlined.BookmarkBorder,
             route = Screen.Bookmarks.route
+        ),
+        BottomNavigationItem(
+            titleResId = R.string.shopping_list,
+            selectedIcon = Icons.Filled.Receipt,
+            unselectedIcon = Icons.Outlined.Receipt,
+            route = Screen.ShoppingList.route
         ),
         BottomNavigationItem(
             titleResId = R.string.ai_chatbot,
