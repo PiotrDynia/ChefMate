@@ -43,6 +43,7 @@ import com.example.chefmate.featureHome.presentation.components.RecommendationsR
 import com.example.chefmate.featureHome.presentation.components.SearchSection
 import com.example.chefmate.featureHome.presentation.components.TopWelcomeRow
 import com.example.chefmate.featureSearch.presentation.SearchEvent
+import com.example.chefmate.featureShoppingList.presentation.components.ShoppingListItems
 
 @Composable
 fun ShoppingListScreen(
@@ -51,7 +52,6 @@ fun ShoppingListScreen(
     viewModel: ShoppingListViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
-
     val context = LocalContext.current
 
     LaunchedEffect(true) {
@@ -89,29 +89,13 @@ fun ShoppingListScreen(
                 ),
                 modifier = Modifier.align(Alignment.CenterHorizontally)
             )
-            LazyColumn(
-                modifier = Modifier.padding(16.dp)
-            ) {
-                items(state.shoppingList) { item ->
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.SpaceBetween
-                    ) {
-                        Text(text = item.name, modifier = Modifier.weight(1f))
-
-                        IconButton(onClick = {
-                            viewModel.onEvent(ShoppingListEvent.OnRemoveFromShoppingList(item))
-                        }) {
-                            Icon(
-                                imageVector = Icons.Default.Delete,
-                                contentDescription = stringResource(R.string.remove_item),
-                                tint = MaterialTheme.colorScheme.primary
-                            )
-                        }
-                    }
-                }
-            }
+            ShoppingListItems(
+                items = state.shoppingList,
+                onRemoveItem = { item ->
+                    viewModel.onEvent(
+                        ShoppingListEvent.OnRemoveFromShoppingList(item)
+                    )
+                })
         }
     }
 }
