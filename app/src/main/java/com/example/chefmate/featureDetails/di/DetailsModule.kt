@@ -29,8 +29,7 @@ object DetailsModule {
     fun provideDetailsRepository(apiService: APIService, db: ChefMateDatabase): DetailsRepository {
         return DetailsRepositoryImpl(
             apiService = apiService,
-            recipeDetailsDao = db.detailsDao(),
-            shoppingListDao = db.shoppingListDao()
+            recipeDetailsDao = db.detailsDao()
         )
     }
 

@@ -59,8 +59,8 @@ fun IngredientsSection(
             color = MaterialTheme.colorScheme.secondary,
             fontWeight = FontWeight.Bold,
             modifier = Modifier
-                .clickable(enabled = true) {
-                    // TODO figure this shit out or just give up
+                .clickable {
+                    onEvent(DetailsEvent.OnAddAllIngredientsToShoppingListClick)
                 }
         )
     }

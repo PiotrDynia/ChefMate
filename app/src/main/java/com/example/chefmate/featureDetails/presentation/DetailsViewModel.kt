@@ -9,6 +9,7 @@ import com.example.chefmate.core.data.api.dto.RecipeDetails
 import com.example.chefmate.core.domain.util.Result
 import com.example.chefmate.core.domain.util.error.DataError
 import com.example.chefmate.core.presentation.util.UiEvent
+import com.example.chefmate.featureDetails.domain.model.RecipeEntity
 import com.example.chefmate.featureDetails.domain.model.toRecipeDetails
 import com.example.chefmate.featureDetails.domain.usecase.DetailsUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -111,6 +112,38 @@ class DetailsViewModel @Inject constructor(
             is DetailsEvent.OnAddIngredientToShoppingListClick -> addIngredientToShoppingCart(event.ingredient)
             DetailsEvent.OnUndoAddIngredientToShoppingList -> undoAddIngredientToShoppingCart()
             is DetailsEvent.OnDeleteIngredientFromShoppingList -> deleteIngredientFromShoppingCart(event.ingredient)
+            DetailsEvent.OnAddAllIngredientsToShoppingListClick -> addAllIngredientsToShoppingCart()
+        }
+    }
+
+    private fun addAllIngredientsToShoppingCart() {
+        viewModelScope.launch {
+            val ingredients = state.value.details?.extendedIngredients ?: return@launch
+
+            val ingredientsToAdd = ingredients.filter { ingredient ->
+                !useCases.checkIngredientIsInShoppingCart(ingredient.id)
+            }
+
+            if (ingredientsToAdd.isEmpty()) {
+                _uiEvent.send(UiEvent.ShowSnackbar(R.string.all_items_are_already_added_to_shopping_cart))
+                return@launch
+            }
+
+            ingredientsToAdd.forEach { ingredient ->
+                useCases.addShoppingListItem(ingredient, state.value.details!!.id)
+            }
+
+            withContext(Dispatchers.Main) {
+                _state.update { currentState ->
+                    val updatedCartStatusMap = currentState.ingredientCartStatusMap.toMutableMap()
+                    ingredientsToAdd.forEach { ingredient ->
+                        updatedCartStatusMap[ingredient.id] = MutableStateFlow(true)
+                    }
+                    currentState.copy(ingredientCartStatusMap = updatedCartStatusMap)
+                }
+            }
+
+            _uiEvent.send(UiEvent.ShowSnackbar(R.string.all_items_were_added_to_the_shopping_cart))
         }
     }
 
