@@ -78,7 +78,7 @@ fun SetupNavGraph(
             BookmarksScreen(navController = navController)
         }
         composable(route = Screen.ShoppingList.route) {
-            ShoppingListScreen()
+            ShoppingListScreen(snackbarHostState = snackbarHostState, modifier = modifier)
         }
     }
 }

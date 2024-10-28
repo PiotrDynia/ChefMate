@@ -70,4 +70,7 @@
     <string name="add_all">Add all</string>
     <string name="all_items_were_added_to_the_shopping_cart">All items were added to the shopping cart</string>
     <string name="all_items_are_already_added_to_shopping_cart">All items are already added to shopping cart</string>
+    <string name="your_shopping_list">Your shopping list</string>
+    <string name="remove_item">Remove item</string>
+    <string name="item_removed_from_shopping_list">Item removed from shopping list</string>
 </resources>

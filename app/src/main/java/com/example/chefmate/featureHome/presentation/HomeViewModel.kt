@@ -39,7 +39,7 @@ class HomeViewModel @Inject constructor(
     val state = _state.asStateFlow()
 
     private val _uiEvent = Channel<UiEvent>(Channel.BUFFERED)
-    val uiEvent: Flow<UiEvent> = _uiEvent.receiveAsFlow()
+    val uiEvent = _uiEvent.receiveAsFlow()
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
