@@ -67,6 +67,7 @@ fun ShoppingListScreen(
                         viewModel.onEvent(ShoppingListEvent.OnUndoClick)
                     }
                 }
+
                 else -> Unit
             }
         }
@@ -89,13 +90,23 @@ fun ShoppingListScreen(
                 ),
                 modifier = Modifier.align(Alignment.CenterHorizontally)
             )
-            ShoppingListItems(
-                items = state.shoppingList,
-                onRemoveItem = { item ->
-                    viewModel.onEvent(
-                        ShoppingListEvent.OnRemoveFromShoppingList(item)
-                    )
-                })
+            if (state.shoppingList.isEmpty()) {
+                Text(
+                    text = stringResource(R.string.empty_shopping_list),
+                    style = MaterialTheme.typography.bodyMedium,
+                    modifier = Modifier
+                        .align(Alignment.CenterHorizontally)
+                        .padding(top = 8.dp)
+                )
+            } else {
+                ShoppingListItems(
+                    items = state.shoppingList,
+                    onRemoveItem = { item ->
+                        viewModel.onEvent(
+                            ShoppingListEvent.OnRemoveFromShoppingList(item)
+                        )
+                    })
+            }
         }
     }
 }

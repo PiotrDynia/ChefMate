@@ -9,7 +9,7 @@ import com.example.chefmate.featureDetails.domain.repository.DetailsRepository
 class FakeDetailsRepository : DetailsRepository {
 
     val cachedRecipes = mutableListOf<RecipeWithIngredients>()
-    var recipeFromAPI: RecipeDetails? = null
+    private var recipeFromAPI: RecipeDetails? = null
 
     override suspend fun getRecipeDetailsFromAPI(id: Int): RecipeDetails {
         return recipeFromAPI ?: throw IllegalStateException("Recipe not found in the fake API")

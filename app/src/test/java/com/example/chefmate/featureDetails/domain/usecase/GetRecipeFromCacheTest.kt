@@ -39,7 +39,8 @@ class GetRecipeFromCacheTest {
                 name = "Dummy ingredient",
                 originalName = "Dummy original name",
                 imagePath = "",
-                isInShoppingCart = false
+                isInShoppingCart = false,
+                isBookmarked = true
             ),
             IngredientEntity(
                 id = 2,
@@ -47,7 +48,8 @@ class GetRecipeFromCacheTest {
                 name = "Dummy ingredient 2",
                 originalName = "Dummy original name 2",
                 imagePath = "",
-                isInShoppingCart = false
+                isInShoppingCart = false,
+                isBookmarked = true
             )
         )
         repository.saveRecipeWithIngredients(dummyRecipe, dummyIngredients)
