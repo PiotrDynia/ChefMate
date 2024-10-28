@@ -60,8 +60,11 @@
     <string name="summary">Summary</string>
     <string name="ingredients">Ingredients</string>
     <string name="press_to_add_the_ingredient_to_shopping_list">Press \'+\' to add the ingredient to shopping list</string>
-    <string name="add_all">Add all</string>
     <string name="add_to_shopping_list">Add to shopping list</string>
     <string name="instructions">Instructions</string>
     <string name="can_t_find_any_results_try_changing_your_filters">Can\'t find any results. Try changing your filters.</string>
+    <string name="item_added_to_shopping_cart">Item added to shopping cart</string>
+    <string name="undo">Undo</string>
+    <string name="in_shopping_list">In shopping list</string>
+    <string name="item_removed_from_shopping_cart">Item removed from shopping cart</string>
 </resources>

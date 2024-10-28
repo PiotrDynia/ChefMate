@@ -6,7 +6,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.SnackbarResult
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -41,9 +43,16 @@ fun DetailsScreen(
             when (event) {
                 is UiEvent.Navigate -> navController.navigateTo(event.route)
                 is UiEvent.PopBackStack -> navController.popBackStack()
-                is UiEvent.ShowSnackbar -> snackbarHostState.showSnackbar(
-                    message = context.getString(event.message)
-                )
+                is UiEvent.ShowSnackbar -> {
+                    val result = snackbarHostState.showSnackbar(
+                        message = context.getString(event.message),
+                        actionLabel = event.action?.let { context.getString(it) },
+                        duration = SnackbarDuration.Long
+                    )
+                    if (result == SnackbarResult.ActionPerformed) {
+                        viewModel.onEvent(DetailsEvent.OnUndoAddIngredientToShoppingList)
+                    }
+                }
             }
         }
     }
@@ -65,7 +74,11 @@ fun DetailsScreen(
             ) {
                 BasicRecipeInfoText(state = state)
                 SummaryText(summary = state.details?.summary)
-                IngredientsSection(ingredients = state.details?.extendedIngredients)
+                IngredientsSection(
+                    ingredients = state.details?.extendedIngredients,
+                    isIngredientInShoppingCart = { id -> viewModel.isIngredientInShoppingCart(id) },
+                    onEvent = viewModel::onEvent
+                )
                 InstructionsText(instructions = state.details?.instructions)
             }
         }

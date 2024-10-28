@@ -5,12 +5,17 @@ import com.example.chefmate.core.data.db.ChefMateDatabase
 import com.example.chefmate.core.domain.util.imageManager.ImageCacheManager
 import com.example.chefmate.featureDetails.data.repository.DetailsRepositoryImpl
 import com.example.chefmate.featureDetails.domain.repository.DetailsRepository
+import com.example.chefmate.featureDetails.domain.usecase.CheckIngredientIsInShoppingCart
+import com.example.chefmate.featureShoppingList.domain.usecase.AddShoppingListItem
 import com.example.chefmate.featureDetails.domain.usecase.CheckRecipeIsBookmarked
 import com.example.chefmate.featureDetails.domain.usecase.DeleteRecipeFromCache
 import com.example.chefmate.featureDetails.domain.usecase.DetailsUseCases
 import com.example.chefmate.featureDetails.domain.usecase.GetRecipeDetailsFromAPI
 import com.example.chefmate.featureDetails.domain.usecase.GetRecipeFromCache
 import com.example.chefmate.featureDetails.domain.usecase.SaveRecipe
+import com.example.chefmate.featureShoppingList.domain.repository.ShoppingListRepository
+import com.example.chefmate.featureShoppingList.domain.usecase.CheckIngredientIsBookmarked
+import com.example.chefmate.featureShoppingList.domain.usecase.RemoveShoppingListItem
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -24,18 +29,27 @@ object DetailsModule {
     fun provideDetailsRepository(apiService: APIService, db: ChefMateDatabase): DetailsRepository {
         return DetailsRepositoryImpl(
             apiService = apiService,
-            recipeDetailsDao = db.detailsDao()
+            recipeDetailsDao = db.detailsDao(),
+            shoppingListDao = db.shoppingListDao()
         )
     }
 
     @Provides
-    fun provideDetailsUseCases(repository: DetailsRepository, imageManager: ImageCacheManager) : DetailsUseCases {
+    fun provideDetailsUseCases(
+        detailsRepository: DetailsRepository,
+        shoppingListRepository: ShoppingListRepository,
+        imageManager: ImageCacheManager
+    ) : DetailsUseCases {
         return DetailsUseCases(
-            getRecipeDetailsFromAPI = GetRecipeDetailsFromAPI(repository),
-            deleteRecipeFromCache = DeleteRecipeFromCache(repository = repository, imageManager = imageManager),
-            checkRecipeIsBookmarked = CheckRecipeIsBookmarked(repository),
-            getRecipeFromCache = GetRecipeFromCache(repository),
-            saveRecipe = SaveRecipe(repository = repository, imageManager = imageManager)
+            getRecipeDetailsFromAPI = GetRecipeDetailsFromAPI(detailsRepository),
+            deleteRecipeFromCache = DeleteRecipeFromCache(repository = detailsRepository, imageManager = imageManager),
+            checkRecipeIsBookmarked = CheckRecipeIsBookmarked(detailsRepository),
+            checkIngredientIsBookmarked = CheckIngredientIsBookmarked(shoppingListRepository),
+            addShoppingListItem = AddShoppingListItem(shoppingListRepository),
+            deleteShoppingListItem = RemoveShoppingListItem(shoppingListRepository),
+            getRecipeFromCache = GetRecipeFromCache(detailsRepository),
+            checkIngredientIsInShoppingCart = CheckIngredientIsInShoppingCart(detailsRepository),
+            saveRecipe = SaveRecipe(repository = detailsRepository, imageManager = imageManager)
         )
     }
 }

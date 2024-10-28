@@ -17,18 +17,18 @@ class ShoppingListRepositoryImpl(
     }
 
     override suspend fun addShoppingListItem(item: IngredientEntity) {
-        if (isIngredientBookmarked(item.id)) {
-            dao.addBookmarkedIngredientToShoppingCart(item.id)
-        } else {
-            dao.upsertIngredient(item)
-        }
+        dao.upsertIngredient(item)
     }
 
-    override suspend fun removeShoppingListItem(item: IngredientEntity) {
-        if (isIngredientBookmarked(item.id)) {
-            dao.removeBookmarkedIngredientFromShoppingCart(item.id)
+    override suspend fun addBookmarkedIngredientToShoppingCart(id: Int) {
+        dao.addBookmarkedIngredientToShoppingCart(id)
+    }
+
+    override suspend fun removeShoppingListItem(id: Int) {
+        if (isIngredientBookmarked(id)) {
+            dao.removeBookmarkedIngredientFromShoppingCart(id)
         } else {
-            dao.removeIngredient(item)
+            dao.removeIngredientById(id)
         }
     }
 }

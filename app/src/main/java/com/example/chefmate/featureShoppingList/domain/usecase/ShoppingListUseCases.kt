@@ -1,8 +1,8 @@
 package com.example.chefmate.featureShoppingList.domain.usecase
 
 data class ShoppingListUseCases(
-    val checkIngredientIsBookmarked: CheckIngredientIsBookmarked,
     val addShoppingListItem: AddShoppingListItem,
+    val checkIngredientIsBookmarked: CheckIngredientIsBookmarked,
     val removeShoppingListItem: RemoveShoppingListItem,
     val getShoppingList: GetShoppingList
 )

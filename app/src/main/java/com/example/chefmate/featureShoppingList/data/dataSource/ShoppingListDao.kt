@@ -1,7 +1,6 @@
 package com.example.chefmate.featureShoppingList.data.dataSource
 
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Query
 import androidx.room.Upsert
 import com.example.chefmate.featureDetails.domain.model.IngredientEntity
@@ -25,6 +24,6 @@ interface ShoppingListDao {
     @Upsert
     suspend fun upsertIngredient(ingredient: IngredientEntity)
 
-    @Delete
-    suspend fun removeIngredient(ingredient: IngredientEntity)
+    @Query("DELETE FROM ingredient WHERE id = :ingredientId")
+    suspend fun removeIngredientById(ingredientId: Int)
 }
