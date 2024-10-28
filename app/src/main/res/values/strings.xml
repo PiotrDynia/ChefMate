@@ -67,4 +67,5 @@
     <string name="undo">Undo</string>
     <string name="in_shopping_list">In shopping list</string>
     <string name="item_removed_from_shopping_cart">Item removed from shopping cart</string>
+    <string name="add_all">Add all</string>
 </resources>

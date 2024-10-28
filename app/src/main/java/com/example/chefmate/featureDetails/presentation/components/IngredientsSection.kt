@@ -1,6 +1,7 @@
 package com.example.chefmate.featureDetails.presentation.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -16,6 +17,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -51,6 +53,15 @@ fun IngredientsSection(
             text = stringResource(R.string.ingredients),
             fontWeight = FontWeight.Bold,
             fontSize = 20.sp
+        )
+        Text(
+            text = stringResource(R.string.add_all),
+            color = MaterialTheme.colorScheme.secondary,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier
+                .clickable(enabled = true) {
+                    // TODO figure this shit out or just give up
+                }
         )
     }
     Text(
