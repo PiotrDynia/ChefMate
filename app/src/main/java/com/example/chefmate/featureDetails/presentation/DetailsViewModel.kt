@@ -9,7 +9,6 @@ import com.example.chefmate.core.data.api.dto.RecipeDetails
 import com.example.chefmate.core.domain.util.Result
 import com.example.chefmate.core.domain.util.error.DataError
 import com.example.chefmate.core.presentation.util.UiEvent
-import com.example.chefmate.featureDetails.domain.model.RecipeEntity
 import com.example.chefmate.featureDetails.domain.model.toRecipeDetails
 import com.example.chefmate.featureDetails.domain.usecase.DetailsUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -95,11 +94,11 @@ class DetailsViewModel @Inject constructor(
         }
     }
 
-    fun isIngredientInShoppingCart(id: Int): StateFlow<Boolean> {
-        return _state.value.ingredientCartStatusMap.getOrPut(id) {
+    fun isIngredientInShoppingList(id: Int): StateFlow<Boolean> {
+        return _state.value.ingredientListStatusMap.getOrPut(id) {
             MutableStateFlow(false).also { stateFlow ->
                 viewModelScope.launch {
-                    stateFlow.value = useCases.checkIngredientIsInShoppingCart(id)
+                    stateFlow.value = useCases.checkIngredientIsInShoppingList(id)
                 }
             }
         }
@@ -109,23 +108,23 @@ class DetailsViewModel @Inject constructor(
         when (event) {
             DetailsEvent.OnBackClick -> navigateBack()
             DetailsEvent.OnBookmarkClick -> onBookmarkClick()
-            is DetailsEvent.OnAddIngredientToShoppingListClick -> addIngredientToShoppingCart(event.ingredient)
-            DetailsEvent.OnUndoAddIngredientToShoppingList -> undoAddIngredientToShoppingCart()
-            is DetailsEvent.OnDeleteIngredientFromShoppingList -> deleteIngredientFromShoppingCart(event.ingredient)
-            DetailsEvent.OnAddAllIngredientsToShoppingListClick -> addAllIngredientsToShoppingCart()
+            is DetailsEvent.OnAddIngredientToShoppingListClick -> addIngredientToShoppingList(event.ingredient)
+            DetailsEvent.OnUndoAddIngredientToShoppingList -> undoAddIngredientToShoppingList()
+            is DetailsEvent.OnDeleteIngredientFromShoppingList -> deleteIngredientFromShoppingList(event.ingredient)
+            DetailsEvent.OnAddAllIngredientsToShoppingListClick -> addAllIngredientsToShoppingList()
         }
     }
 
-    private fun addAllIngredientsToShoppingCart() {
+    private fun addAllIngredientsToShoppingList() {
         viewModelScope.launch {
             val ingredients = state.value.details?.extendedIngredients ?: return@launch
 
             val ingredientsToAdd = ingredients.filter { ingredient ->
-                !useCases.checkIngredientIsInShoppingCart(ingredient.id)
+                !useCases.checkIngredientIsInShoppingList(ingredient.id)
             }
 
             if (ingredientsToAdd.isEmpty()) {
-                _uiEvent.send(UiEvent.ShowSnackbar(R.string.all_items_are_already_added_to_shopping_cart))
+                _uiEvent.send(UiEvent.ShowSnackbar(R.string.all_items_are_already_added_to_shopping_list))
                 return@launch
             }
 
@@ -135,54 +134,54 @@ class DetailsViewModel @Inject constructor(
 
             withContext(Dispatchers.Main) {
                 _state.update { currentState ->
-                    val updatedCartStatusMap = currentState.ingredientCartStatusMap.toMutableMap()
+                    val updatedListStatusMap = currentState.ingredientListStatusMap.toMutableMap()
                     ingredientsToAdd.forEach { ingredient ->
-                        updatedCartStatusMap[ingredient.id] = MutableStateFlow(true)
+                        updatedListStatusMap[ingredient.id] = MutableStateFlow(true)
                     }
-                    currentState.copy(ingredientCartStatusMap = updatedCartStatusMap)
+                    currentState.copy(ingredientListStatusMap = updatedListStatusMap)
                 }
             }
 
-            _uiEvent.send(UiEvent.ShowSnackbar(R.string.all_items_were_added_to_the_shopping_cart))
+            _uiEvent.send(UiEvent.ShowSnackbar(R.string.all_items_were_added_to_the_shopping_list))
         }
     }
 
-    private fun addIngredientToShoppingCart(ingredient: Ingredient) {
+    private fun addIngredientToShoppingList(ingredient: Ingredient) {
         viewModelScope.launch {
             useCases.addShoppingListItem(ingredient, _state.value.details!!.id)
             withContext(Dispatchers.Main) {
                 _state.update { currentState ->
-                    val updatedCartStatusMap = currentState.ingredientCartStatusMap.toMutableMap()
-                    updatedCartStatusMap[ingredient.id] = MutableStateFlow(true)
+                    val updatedListStatusMap = currentState.ingredientListStatusMap.toMutableMap()
+                    updatedListStatusMap[ingredient.id] = MutableStateFlow(true)
 
                     currentState.copy(
-                        ingredientCartStatusMap = updatedCartStatusMap,
+                        ingredientListStatusMap = updatedListStatusMap,
                         addedIngredient = ingredient
                     )
                 }
             }
             _uiEvent.send(
                 UiEvent.ShowSnackbar(
-                    message = R.string.item_added_to_shopping_cart,
+                    message = R.string.item_added_to_shopping_list,
                     action = R.string.undo
                 )
             )
         }
     }
 
-    private fun undoAddIngredientToShoppingCart() {
+    private fun undoAddIngredientToShoppingList() {
         viewModelScope.launch {
             _state.value.addedIngredient?.let { ingredient ->
                 useCases.deleteShoppingListItem(ingredient.id)
 
                 withContext(Dispatchers.Main) {
                     _state.update { currentState ->
-                        val updatedCartStatusMap =
-                            currentState.ingredientCartStatusMap.toMutableMap()
-                        updatedCartStatusMap[ingredient.id]?.value = false
+                        val updatedListStatusMap =
+                            currentState.ingredientListStatusMap.toMutableMap()
+                        updatedListStatusMap[ingredient.id]?.value = false
 
                         currentState.copy(
-                            ingredientCartStatusMap = updatedCartStatusMap,
+                            ingredientListStatusMap = updatedListStatusMap,
                             addedIngredient = null
                         )
                     }
@@ -191,23 +190,23 @@ class DetailsViewModel @Inject constructor(
         }
     }
 
-    private fun deleteIngredientFromShoppingCart(ingredient: Ingredient) {
+    private fun deleteIngredientFromShoppingList(ingredient: Ingredient) {
         viewModelScope.launch {
             useCases.deleteShoppingListItem(ingredient.id)
 
             withContext(Dispatchers.Main) {
                 _state.update { currentState ->
-                    val updatedCartStatusMap = currentState.ingredientCartStatusMap.toMutableMap()
-                    updatedCartStatusMap[ingredient.id]?.value = false
+                    val updatedListStatusMap = currentState.ingredientListStatusMap.toMutableMap()
+                    updatedListStatusMap[ingredient.id]?.value = false
 
                     currentState.copy(
-                        ingredientCartStatusMap = updatedCartStatusMap
+                        ingredientListStatusMap = updatedListStatusMap
                     )
                 }
             }
             _uiEvent.send(
                 UiEvent.ShowSnackbar(
-                    message = R.string.item_removed_from_shopping_cart
+                    message = R.string.item_removed_from_shopping_list
                 )
             )
         }

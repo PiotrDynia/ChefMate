@@ -7,6 +7,6 @@ interface ShoppingListRepository {
     suspend fun getShoppingList(): Flow<List<IngredientEntity>>
     suspend fun isIngredientBookmarked(id: Int) : Boolean
     suspend fun addShoppingListItem(item: IngredientEntity)
-    suspend fun addBookmarkedIngredientToShoppingCart(id: Int)
+    suspend fun addBookmarkedIngredientToShoppingList(id: Int)
     suspend fun removeShoppingListItem(id: Int)
 }

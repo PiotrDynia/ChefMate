@@ -14,6 +14,6 @@ data class IngredientEntity(
     val name: String,
     val originalName: String,
     val imagePath: String,
-    val isInShoppingCart: Boolean,
+    val isInShoppingList: Boolean,
     val isBookmarked: Boolean
 )

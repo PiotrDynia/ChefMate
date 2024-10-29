@@ -8,6 +8,6 @@ data class DetailsState(
     val details: RecipeDetails? = null,
     val isLoading: Boolean = true,
     val isBookmarked: Boolean = false,
-    val ingredientCartStatusMap: MutableMap<Int, MutableStateFlow<Boolean>> = mutableMapOf(),
+    val ingredientListStatusMap: MutableMap<Int, MutableStateFlow<Boolean>> = mutableMapOf(),
     val addedIngredient: Ingredient? = null
 )

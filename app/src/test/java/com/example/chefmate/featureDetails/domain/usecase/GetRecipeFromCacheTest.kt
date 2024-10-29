@@ -39,7 +39,7 @@ class GetRecipeFromCacheTest {
                 name = "Dummy ingredient",
                 originalName = "Dummy original name",
                 imagePath = "",
-                isInShoppingCart = false,
+                isInShoppingList = false,
                 isBookmarked = true
             ),
             IngredientEntity(
@@ -48,7 +48,7 @@ class GetRecipeFromCacheTest {
                 name = "Dummy ingredient 2",
                 originalName = "Dummy original name 2",
                 imagePath = "",
-                isInShoppingCart = false,
+                isInShoppingList = false,
                 isBookmarked = true
             )
         )

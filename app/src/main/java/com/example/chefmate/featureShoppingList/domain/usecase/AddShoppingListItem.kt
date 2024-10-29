@@ -1,9 +1,7 @@
 package com.example.chefmate.featureShoppingList.domain.usecase
 
 import com.example.chefmate.core.data.api.dto.Ingredient
-import com.example.chefmate.core.domain.util.imageManager.ImageManager
 import com.example.chefmate.featureDetails.domain.model.IngredientEntity
-import com.example.chefmate.featureDetails.domain.repository.DetailsRepository
 import com.example.chefmate.featureShoppingList.domain.repository.ShoppingListRepository
 
 class AddShoppingListItem(
@@ -14,7 +12,7 @@ class AddShoppingListItem(
         val isIngredientBookmarked = repository.isIngredientBookmarked(item.id)
 
         if (isIngredientBookmarked) {
-            repository.addBookmarkedIngredientToShoppingCart(item.id)
+            repository.addBookmarkedIngredientToShoppingList(item.id)
         } else {
             val ingredientEntity = IngredientEntity(
                 id = item.id,
@@ -22,7 +20,7 @@ class AddShoppingListItem(
                 name = item.name,
                 originalName = item.original,
                 imagePath = "",
-                isInShoppingCart = true,
+                isInShoppingList = true,
                 isBookmarked = false
             )
             repository.addShoppingListItem(ingredientEntity)

@@ -24,10 +24,10 @@ class FakeDetailsRepository : DetailsRepository {
         return cachedRecipes.any { it.recipe.id == recipeId }
     }
 
-    override suspend fun isIngredientInShoppingCart(ingredientId: Int): Boolean {
+    override suspend fun isIngredientInShoppingList(ingredientId: Int): Boolean {
         return cachedRecipes.any {
             it.ingredients.any { ingredient ->
-                ingredient.id == ingredientId && ingredient.isInShoppingCart
+                ingredient.id == ingredientId && ingredient.isInShoppingList
             }
         }
     }

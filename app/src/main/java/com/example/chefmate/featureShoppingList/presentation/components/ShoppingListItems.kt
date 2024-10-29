@@ -19,7 +19,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.chefmate.R
 import com.example.chefmate.featureDetails.domain.model.IngredientEntity
-import com.example.chefmate.featureShoppingList.presentation.ShoppingListEvent
 
 @Composable
 fun ShoppingListItems(items: List<IngredientEntity>, onRemoveItem: (IngredientEntity) -> Unit, modifier: Modifier = Modifier) {

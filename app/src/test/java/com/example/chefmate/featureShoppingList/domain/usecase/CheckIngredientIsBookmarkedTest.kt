@@ -28,7 +28,7 @@ class CheckIngredientIsBookmarkedTest {
             originalName = "",
             imagePath = "",
             isBookmarked = true,
-            isInShoppingCart = true
+            isInShoppingList = true
         )
         repository.addShoppingListItem(ingredient)
 
@@ -47,7 +47,7 @@ class CheckIngredientIsBookmarkedTest {
                 originalName = "",
                 imagePath = "",
                 isBookmarked = false,
-                isInShoppingCart = true
+                isInShoppingList = true
             )
             repository.addShoppingListItem(ingredient)
 

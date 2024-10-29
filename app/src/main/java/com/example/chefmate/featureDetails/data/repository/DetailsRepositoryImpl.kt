@@ -25,8 +25,8 @@ class DetailsRepositoryImpl @Inject constructor(
         return recipeDetailsDao.getRecipeById(recipeId) != null
     }
 
-    override suspend fun isIngredientInShoppingCart(ingredientId: Int): Boolean {
-        return recipeDetailsDao.getIngredientFromShoppingCartById(ingredientId) != null
+    override suspend fun isIngredientInShoppingList(ingredientId: Int): Boolean {
+        return recipeDetailsDao.getIngredientFromShoppingListById(ingredientId) != null
     }
 
     override suspend fun saveRecipeWithIngredients(recipe: RecipeEntity, ingredients: List<IngredientEntity>) {
@@ -35,7 +35,7 @@ class DetailsRepositoryImpl @Inject constructor(
     }
 
     override suspend fun deleteRecipeById(recipeId: Int) {
-        recipeDetailsDao.deleteIngredientsNotInShoppingCart(recipeId)
+        recipeDetailsDao.deleteIngredientsNotInShoppingList(recipeId)
         recipeDetailsDao.deleteRecipeById(recipeId)
     }
 }

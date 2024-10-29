@@ -29,7 +29,7 @@ class GetShoppingListTest {
             originalName = "",
             imagePath = "",
             isBookmarked = false,
-            isInShoppingCart = true
+            isInShoppingList = true
         )
         repository.addShoppingListItem(ingredient)
 

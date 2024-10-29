@@ -21,7 +21,7 @@ class FakeShoppingListRepository : ShoppingListRepository {
         shoppingList.add(item)
     }
 
-    override suspend fun addBookmarkedIngredientToShoppingCart(id: Int) {
+    override suspend fun addBookmarkedIngredientToShoppingList(id: Int) {
         shoppingList.add(IngredientEntity(
             id = id,
             recipeId = 0,
@@ -29,7 +29,7 @@ class FakeShoppingListRepository : ShoppingListRepository {
             originalName = "",
             imagePath = "",
             isBookmarked = true,
-            isInShoppingCart = true
+            isInShoppingList = true
         ))
     }
 

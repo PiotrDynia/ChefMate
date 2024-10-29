@@ -2,9 +2,8 @@ package com.example.chefmate.featureShoppingList.domain.usecase
 
 import com.example.chefmate.featureDetails.domain.model.IngredientEntity
 import com.example.chefmate.featureShoppingList.data.repository.FakeShoppingListRepository
-import com.example.chefmate.featureShoppingList.domain.repository.ShoppingListRepository
 import kotlinx.coroutines.runBlocking
-import org.junit.Assert.*
+import org.junit.Assert.assertFalse
 import org.junit.Before
 import org.junit.Test
 
@@ -28,7 +27,7 @@ class RemoveShoppingListItemTest {
             originalName = "",
             imagePath = "",
             isBookmarked = false,
-            isInShoppingCart = true
+            isInShoppingList = true
         )
         repository.addShoppingListItem(ingredient)
 

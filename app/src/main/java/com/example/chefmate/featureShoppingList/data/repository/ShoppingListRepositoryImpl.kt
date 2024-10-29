@@ -20,13 +20,13 @@ class ShoppingListRepositoryImpl(
         dao.upsertIngredient(item)
     }
 
-    override suspend fun addBookmarkedIngredientToShoppingCart(id: Int) {
-        dao.addBookmarkedIngredientToShoppingCart(id)
+    override suspend fun addBookmarkedIngredientToShoppingList(id: Int) {
+        dao.addBookmarkedIngredientToShoppingList(id)
     }
 
     override suspend fun removeShoppingListItem(id: Int) {
         if (isIngredientBookmarked(id)) {
-            dao.removeBookmarkedIngredientFromShoppingCart(id)
+            dao.removeBookmarkedIngredientFromShoppingList(id)
         } else {
             dao.removeIngredientById(id)
         }

@@ -1,7 +1,6 @@
 package com.example.chefmate.featureShoppingList.di
 
 import com.example.chefmate.core.data.db.ChefMateDatabase
-import com.example.chefmate.core.domain.util.imageManager.ImageCacheManager
 import com.example.chefmate.featureShoppingList.data.repository.ShoppingListRepositoryImpl
 import com.example.chefmate.featureShoppingList.domain.repository.ShoppingListRepository
 import com.example.chefmate.featureShoppingList.domain.usecase.AddShoppingListItem

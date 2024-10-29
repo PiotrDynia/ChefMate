@@ -45,7 +45,7 @@ class DeleteRecipeFromCacheTest {
                     originalName = "Dummy original name",
                     imagePath = "",
                     isBookmarked = true,
-                    isInShoppingCart = false
+                    isInShoppingList = false
                 )
             )
         )

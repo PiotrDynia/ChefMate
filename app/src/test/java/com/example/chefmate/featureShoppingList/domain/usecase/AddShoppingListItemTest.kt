@@ -28,7 +28,7 @@ class AddShoppingListItemTest {
             originalName = "",
             imagePath = "",
             isBookmarked = false,
-            isInShoppingCart = true
+            isInShoppingList = true
         )
         addShoppingListItem(ingredient.toIngredient(), recipeId = ingredient.recipeId)
 

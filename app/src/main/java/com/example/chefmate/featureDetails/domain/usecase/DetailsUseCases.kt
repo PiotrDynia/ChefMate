@@ -11,7 +11,7 @@ data class DetailsUseCases(
     val getRecipeFromCache: GetRecipeFromCache,
     val addShoppingListItem: AddShoppingListItem,
     val checkIngredientIsBookmarked: CheckIngredientIsBookmarked,
-    val checkIngredientIsInShoppingCart: CheckIngredientIsInShoppingCart,
+    val checkIngredientIsInShoppingList: CheckIngredientIsInShoppingList,
     val deleteShoppingListItem: RemoveShoppingListItem,
     val saveRecipe: SaveRecipe
 )

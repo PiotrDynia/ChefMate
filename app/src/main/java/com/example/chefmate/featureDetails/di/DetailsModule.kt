@@ -5,7 +5,7 @@ import com.example.chefmate.core.data.db.ChefMateDatabase
 import com.example.chefmate.core.domain.util.imageManager.ImageCacheManager
 import com.example.chefmate.featureDetails.data.repository.DetailsRepositoryImpl
 import com.example.chefmate.featureDetails.domain.repository.DetailsRepository
-import com.example.chefmate.featureDetails.domain.usecase.CheckIngredientIsInShoppingCart
+import com.example.chefmate.featureDetails.domain.usecase.CheckIngredientIsInShoppingList
 import com.example.chefmate.featureShoppingList.domain.usecase.AddShoppingListItem
 import com.example.chefmate.featureDetails.domain.usecase.CheckRecipeIsBookmarked
 import com.example.chefmate.featureDetails.domain.usecase.DeleteRecipeFromCache
@@ -47,7 +47,7 @@ object DetailsModule {
             addShoppingListItem = AddShoppingListItem(shoppingListRepository),
             deleteShoppingListItem = RemoveShoppingListItem(shoppingListRepository),
             getRecipeFromCache = GetRecipeFromCache(detailsRepository),
-            checkIngredientIsInShoppingCart = CheckIngredientIsInShoppingCart(detailsRepository),
+            checkIngredientIsInShoppingList = CheckIngredientIsInShoppingList(detailsRepository),
             saveRecipe = SaveRecipe(repository = detailsRepository, imageManager = imageManager)
         )
     }

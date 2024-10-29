@@ -14,7 +14,7 @@ class DeleteRecipeFromCache(
         imageManager.deleteImageFile(imagePath)
 
         cachedRecipeWithIngredients.ingredients.forEach { ingredient ->
-            if (!ingredient.isInShoppingCart) {
+            if (!ingredient.isInShoppingList) {
                 imageManager.deleteImageFile(ingredient.imagePath)
             }
         }

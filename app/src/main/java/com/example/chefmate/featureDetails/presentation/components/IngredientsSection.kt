@@ -17,7 +17,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -40,7 +39,7 @@ import java.io.File
 @Composable
 fun IngredientsSection(
     ingredients: List<Ingredient>?,
-    isIngredientInShoppingCart: (Int) -> StateFlow<Boolean>,
+    isIngredientInShoppingList: (Int) -> StateFlow<Boolean>,
     onEvent: (DetailsEvent) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -78,7 +77,7 @@ fun IngredientsSection(
             }
         }
 
-        val isInShoppingCart by isIngredientInShoppingCart(ingredient.id).collectAsStateWithLifecycle()
+        val isInShoppingList by isIngredientInShoppingList(ingredient.id).collectAsStateWithLifecycle()
 
         Row(
             modifier = Modifier
@@ -104,7 +103,7 @@ fun IngredientsSection(
             )
             IconButton(
                 onClick = {
-                    if (isInShoppingCart) {
+                    if (isInShoppingList) {
                         onEvent(DetailsEvent.OnDeleteIngredientFromShoppingList(ingredient))
                     } else {
                         onEvent(DetailsEvent.OnAddIngredientToShoppingListClick(ingredient))
@@ -113,11 +112,11 @@ fun IngredientsSection(
                 modifier = Modifier.size(20.dp)
             ) {
                 Icon(
-                    imageVector = if (isInShoppingCart) Icons.Default.CheckCircle else Icons.Default.AddCircle,
-                    contentDescription = if (isInShoppingCart) stringResource(R.string.in_shopping_list) else stringResource(
+                    imageVector = if (isInShoppingList) Icons.Default.CheckCircle else Icons.Default.AddCircle,
+                    contentDescription = if (isInShoppingList) stringResource(R.string.in_shopping_list) else stringResource(
                         R.string.add_to_shopping_list
                     ),
-                    tint = if (isInShoppingCart) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.secondary
+                    tint = if (isInShoppingList) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.secondary
                 )
             }
         }

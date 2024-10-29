@@ -76,7 +76,7 @@ fun DetailsScreen(
                 SummaryText(summary = state.details?.summary)
                 IngredientsSection(
                     ingredients = state.details?.extendedIngredients,
-                    isIngredientInShoppingCart = { id -> viewModel.isIngredientInShoppingCart(id) },
+                    isIngredientInShoppingList = { id -> viewModel.isIngredientInShoppingList(id) },
                     onEvent = viewModel::onEvent
                 )
                 InstructionsText(instructions = state.details?.instructions)
