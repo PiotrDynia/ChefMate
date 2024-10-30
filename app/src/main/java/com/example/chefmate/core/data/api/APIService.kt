@@ -1,6 +1,7 @@
 package com.example.chefmate.core.data.api
 
 import com.example.chefmate.BuildConfig
+import com.example.chefmate.core.data.api.dto.ChatbotAnswer
 import com.example.chefmate.core.data.api.dto.GetRandomRecipeResult
 import com.example.chefmate.core.data.api.dto.GetRecipeResult
 import com.example.chefmate.core.data.api.dto.GetRecipesAutocompleteResultItem
@@ -51,4 +52,11 @@ interface APIService {
         @Path("id") id: Int,
         @Query("apiKey") apiKey: String = API_KEY
     ) : RecipeDetails
+
+    @GET("/food/converse")
+    suspend fun getChatbotAnswer(
+        @Query("text") input: String,
+        @Query("contextId") contextId: String = "342938",
+        @Query("apiKey") apiKey: String = API_KEY
+    ) : ChatbotAnswer
 }
