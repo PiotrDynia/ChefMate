@@ -62,7 +62,7 @@ class BottomNavigationViewModel @Inject constructor() : ViewModel() {
             titleResId = R.string.ai_chatbot,
             selectedIcon = Icons.Filled.AutoAwesome,
             unselectedIcon = Icons.Outlined.AutoAwesome,
-            route = ""
+            route = Screen.Chatbot.route
         )
     )
 
