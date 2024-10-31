@@ -21,9 +21,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.chefmate.R
 import com.example.chefmate.featureChatbot.presentation.components.ChatMessageItem
 
 @Composable
@@ -55,7 +57,7 @@ fun ChatbotScreen(modifier: Modifier = Modifier, viewModel: ChatbotViewModel = h
                 value = state.userMessage,
                 onValueChange = { viewModel.updateTextInput(it) },
                 modifier = Modifier.weight(1f),
-                placeholder = { Text("Type a message...") }
+                placeholder = { Text(stringResource(R.string.type_a_message)) }
             )
             Spacer(modifier = Modifier.width(8.dp))
             Button(
@@ -63,7 +65,7 @@ fun ChatbotScreen(modifier: Modifier = Modifier, viewModel: ChatbotViewModel = h
                     viewModel.sendMessage()
                 }
             ) {
-                Text("Send")
+                Text(stringResource(R.string.send))
             }
         }
     }
