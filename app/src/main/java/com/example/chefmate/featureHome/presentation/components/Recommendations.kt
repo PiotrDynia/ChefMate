@@ -105,7 +105,6 @@ fun RecommendationsRow(
                                 onRecipeClick(item.id)
                             }
                     ) {
-                        // TODO try to fix this little bug with the clickable area, copy from ResultsScreen?
                         AsyncImage(
                             model = item.image,
                             contentDescription = stringResource(R.string.recipe_image),

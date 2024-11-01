@@ -6,7 +6,7 @@ searching for recipes, bookmarking them and talking to a chatbot.
 
 ## Presentation
 
-![Demo](demo/Navigation.gif)
+![Demo](demo/demo.mp4)
 
 ## Features
 - Set dietary preferences (cuisine, diet, intolerance)
