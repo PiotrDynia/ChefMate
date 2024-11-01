@@ -17,7 +17,6 @@
     <string name="select_your_intolerances">Select your intolerances</string>
     <string name="skip">Skip</string>
     <string name="what_would_you_like_to_cook_today">What would you like to cook today?</string>
-    <string name="go_to_profile">Go to profile</string>
     <string name="search_for_recipes">Search for recipes</string>
     <string name="search">Search</string>
     <string name="advanced_search">Advanced search</string>
@@ -46,8 +45,6 @@
     <string name="servings_lowercase">servings</string>
     <string name="sort">Sort</string>
     <string name="sort_lowercase">sort</string>
-    <string name="query_cannot_be_empty_please_enter_a_keyword_or_phrase_to_perform_the_search">Query cannot be empty. Please enter a keyword or phrase to perform the search.</string>
-    <string name="enter_at_least_3_characters">Enter at least 3 characters!</string>
     <string name="search_filtered_recipes">Search filtered recipes</string>
     <string name="cuisine">cuisine</string>
     <string name="excluded_cuisine">excluded cuisine</string>

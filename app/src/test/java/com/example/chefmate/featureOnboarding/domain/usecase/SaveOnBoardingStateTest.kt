@@ -1,11 +1,9 @@
 package com.example.chefmate.featureOnboarding.domain.usecase
 
 import com.example.chefmate.data.repository.FakeDataStoreRepository
-import com.example.chefmate.featureSplash.domain.usecase.ReadOnBoardingState
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
-import org.junit.Assert.*
-
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 

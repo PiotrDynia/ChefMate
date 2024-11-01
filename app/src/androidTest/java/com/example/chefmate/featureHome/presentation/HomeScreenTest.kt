@@ -8,7 +8,6 @@ import androidx.compose.ui.test.assertHasClickAction
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
-import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performTextInput
 import androidx.navigation.compose.rememberNavController
@@ -102,13 +101,6 @@ class HomeScreenTest {
         composeRule
             .onNodeWithText("Hello")
             .assertIsDisplayed()
-    }
-
-    @Test
-    fun checkAccountIconIsClickable() {
-        composeRule
-            .onNodeWithContentDescription(context.getString(R.string.go_to_profile))
-            .assertHasClickAction()
     }
 
     @Test

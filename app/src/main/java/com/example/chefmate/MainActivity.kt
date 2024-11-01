@@ -16,7 +16,6 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
 import com.example.chefmate.core.presentation.navigation.BottomNavigationBar
-import com.example.chefmate.core.presentation.navigation.BottomNavigationViewModel
 import com.example.chefmate.core.presentation.navigation.SetupNavGraph
 import com.example.chefmate.featureSplash.presentation.SplashViewModel
 import com.example.chefmate.ui.theme.ChefMateTheme
