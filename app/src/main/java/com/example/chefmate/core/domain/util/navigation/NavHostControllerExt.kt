@@ -1,4 +1,4 @@
-package com.example.chefmate.core.domain.util
+package com.example.chefmate.core.domain.util.navigation
 
 import androidx.navigation.NavHostController
 

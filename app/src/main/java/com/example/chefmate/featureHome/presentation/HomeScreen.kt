@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
-import com.example.chefmate.core.domain.util.navigateTo
+import com.example.chefmate.core.domain.util.navigation.navigateTo
 import com.example.chefmate.core.presentation.util.LoadingScreen
 import com.example.chefmate.core.presentation.util.UiEvent
 import com.example.chefmate.featureHome.presentation.components.DietaryPreferencesRows

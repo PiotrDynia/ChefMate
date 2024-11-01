@@ -1,4 +1,4 @@
-package com.example.chefmate.core.domain.util
+package com.example.chefmate.core.domain.util.textFormatter
 
 import org.jsoup.Jsoup
 

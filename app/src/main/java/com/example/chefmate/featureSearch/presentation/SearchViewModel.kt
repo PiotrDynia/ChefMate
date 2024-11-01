@@ -3,8 +3,8 @@ package com.example.chefmate.featureSearch.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.chefmate.core.data.api.dto.RecipeSimple
-import com.example.chefmate.core.domain.util.Result
-import com.example.chefmate.core.domain.util.error.Error
+import com.example.chefmate.core.domain.util.methodResult.Result
+import com.example.chefmate.core.domain.util.methodResult.Error
 import com.example.chefmate.core.presentation.util.Screen
 import com.example.chefmate.core.presentation.util.UiEvent
 import com.example.chefmate.featureHome.presentation.HomeState

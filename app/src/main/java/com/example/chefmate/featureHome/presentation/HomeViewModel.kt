@@ -10,7 +10,7 @@ import com.example.chefmate.core.domain.util.userPreferences.Diet
 import com.example.chefmate.core.domain.util.userPreferences.DietPreferences
 import com.example.chefmate.core.domain.util.userPreferences.Intolerance
 import com.example.chefmate.core.domain.util.userPreferences.MealType
-import com.example.chefmate.core.domain.util.Result
+import com.example.chefmate.core.domain.util.methodResult.Result
 import com.example.chefmate.core.presentation.util.Screen
 import com.example.chefmate.core.presentation.util.UiEvent
 import com.example.chefmate.featureHome.domain.usecase.HomeUseCases

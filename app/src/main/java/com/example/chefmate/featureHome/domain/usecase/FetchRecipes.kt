@@ -1,8 +1,8 @@
 package com.example.chefmate.featureHome.domain.usecase
 
 import com.example.chefmate.core.data.api.dto.GetRecipeResult
-import com.example.chefmate.core.domain.util.Result
-import com.example.chefmate.core.domain.util.error.DataError
+import com.example.chefmate.core.domain.util.methodResult.Result
+import com.example.chefmate.core.domain.util.methodResult.DataError
 import com.example.chefmate.featureHome.domain.repository.HomeRepository
 import com.example.chefmate.featureHome.domain.util.PreferencesSelection
 import retrofit2.HttpException

@@ -107,9 +107,6 @@ dependencies {
     // Coil
     implementation(libs.coil.compose)
 
-    // WorkManager
-    implementation(libs.androidx.work.runtime.ktx)
-
     // Jetpack Compose
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.ui)
@@ -131,9 +128,6 @@ dependencies {
 
     // Instrumentation testing
     androidTestImplementation(libs.hilt.android.testing)
-    androidTestImplementation(libs.mockito.kotlin)
-    androidTestImplementation(libs.mockito.android)
-    androidTestImplementation(libs.dexopener)
     kspAndroidTest(libs.hilt.android.compiler)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.core.testing)

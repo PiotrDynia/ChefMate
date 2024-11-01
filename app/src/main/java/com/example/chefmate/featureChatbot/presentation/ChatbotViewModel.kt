@@ -3,7 +3,7 @@ package com.example.chefmate.featureChatbot.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.chefmate.core.data.api.dto.ChatbotAnswer
-import com.example.chefmate.core.domain.util.Result
+import com.example.chefmate.core.domain.util.methodResult.Result
 import com.example.chefmate.featureChatbot.domain.usecase.ChatbotUseCases
 import com.example.chefmate.featureChatbot.domain.util.ChatMessage
 import dagger.hilt.android.lifecycle.HiltViewModel

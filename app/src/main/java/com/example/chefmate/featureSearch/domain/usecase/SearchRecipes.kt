@@ -1,9 +1,9 @@
 package com.example.chefmate.featureSearch.domain.usecase
 
 import com.example.chefmate.core.data.api.dto.GetRecipeResult
-import com.example.chefmate.core.domain.util.Result
-import com.example.chefmate.core.domain.util.error.DataError
-import com.example.chefmate.core.domain.util.error.Error
+import com.example.chefmate.core.domain.util.methodResult.Result
+import com.example.chefmate.core.domain.util.methodResult.DataError
+import com.example.chefmate.core.domain.util.methodResult.Error
 import com.example.chefmate.featureSearch.domain.repository.SearchRepository
 import com.example.chefmate.featureSearch.presentation.SearchState
 import retrofit2.HttpException

@@ -27,7 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.example.chefmate.R
-import com.example.chefmate.core.domain.util.TextFormatter
+import com.example.chefmate.core.domain.util.textFormatter.TextFormatter
 
 @Composable
 fun <T> RecipeGridContent(

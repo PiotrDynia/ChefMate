@@ -6,8 +6,8 @@ import androidx.lifecycle.viewModelScope
 import com.example.chefmate.R
 import com.example.chefmate.core.data.api.dto.Ingredient
 import com.example.chefmate.core.data.api.dto.RecipeDetails
-import com.example.chefmate.core.domain.util.Result
-import com.example.chefmate.core.domain.util.error.DataError
+import com.example.chefmate.core.domain.util.methodResult.Result
+import com.example.chefmate.core.domain.util.methodResult.DataError
 import com.example.chefmate.core.presentation.util.UiEvent
 import com.example.chefmate.featureDetails.domain.model.toRecipeDetails
 import com.example.chefmate.featureDetails.domain.usecase.DetailsUseCases

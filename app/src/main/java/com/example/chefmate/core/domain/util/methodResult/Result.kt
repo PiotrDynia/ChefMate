@@ -1,6 +1,4 @@
-package com.example.chefmate.core.domain.util
-
-import com.example.chefmate.core.domain.util.error.Error
+package com.example.chefmate.core.domain.util.methodResult
 
 typealias RootError = Error
 

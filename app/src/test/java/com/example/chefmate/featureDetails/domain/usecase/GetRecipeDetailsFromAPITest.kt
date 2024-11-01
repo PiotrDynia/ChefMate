@@ -1,7 +1,7 @@
 package com.example.chefmate.featureDetails.domain.usecase
 
 import com.example.chefmate.core.data.api.dto.RecipeDetails
-import com.example.chefmate.core.domain.util.Result
+import com.example.chefmate.core.domain.util.methodResult.Result
 import com.example.chefmate.featureDetails.data.repository.FakeDetailsRepository
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.*

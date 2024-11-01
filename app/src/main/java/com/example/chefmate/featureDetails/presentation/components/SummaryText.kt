@@ -8,7 +8,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import com.example.chefmate.R
-import com.example.chefmate.core.domain.util.TextFormatter
+import com.example.chefmate.core.domain.util.textFormatter.TextFormatter
 
 @Composable
 fun SummaryText(

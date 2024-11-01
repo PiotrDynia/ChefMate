@@ -6,8 +6,8 @@ import com.example.chefmate.core.domain.util.userPreferences.Cuisine
 import com.example.chefmate.core.domain.util.userPreferences.Diet
 import com.example.chefmate.core.domain.util.userPreferences.Intolerance
 import com.example.chefmate.core.domain.util.userPreferences.MealType
-import com.example.chefmate.core.domain.util.Result
-import com.example.chefmate.core.domain.util.error.DataError
+import com.example.chefmate.core.domain.util.methodResult.Result
+import com.example.chefmate.core.domain.util.methodResult.DataError
 import com.example.chefmate.featureHome.data.repository.FakeHomeRepository
 import com.example.chefmate.featureHome.domain.util.PreferencesSelection
 import kotlinx.coroutines.runBlocking

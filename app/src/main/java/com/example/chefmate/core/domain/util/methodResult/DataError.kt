@@ -1,4 +1,4 @@
-package com.example.chefmate.core.domain.util.error
+package com.example.chefmate.core.domain.util.methodResult
 
 import com.example.chefmate.R
 

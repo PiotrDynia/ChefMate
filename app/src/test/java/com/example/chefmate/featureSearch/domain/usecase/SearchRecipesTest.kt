@@ -2,8 +2,8 @@ package com.example.chefmate.featureSearch.domain.usecase
 
 import com.example.chefmate.core.data.api.dto.GetRecipeResult
 import com.example.chefmate.core.data.api.dto.RecipeSimple
-import com.example.chefmate.core.domain.util.Result
-import com.example.chefmate.core.domain.util.error.DataError
+import com.example.chefmate.core.domain.util.methodResult.Result
+import com.example.chefmate.core.domain.util.methodResult.DataError
 import com.example.chefmate.featureSearch.data.repository.FakeSearchRepository
 import com.example.chefmate.featureSearch.presentation.SearchState
 import kotlinx.coroutines.runBlocking
