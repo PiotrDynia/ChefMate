@@ -73,6 +73,6 @@
     <string name="your_shopping_list">Your shopping list</string>
     <string name="remove_item">Remove item</string>
     <string name="empty_shopping_list">Your shopping list is empty!</string>
-    <string name="type_a_message">Type a message...</string>
+    <string name="type_a_message">Type a message…</string>
     <string name="send">Send</string>
 </resources>

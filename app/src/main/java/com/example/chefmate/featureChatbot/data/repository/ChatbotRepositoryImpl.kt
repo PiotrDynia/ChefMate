@@ -9,7 +9,6 @@ class ChatbotRepositoryImpl(
 ) : ChatbotRepository  {
 
     override suspend fun getChatbotResponse(userMessage: String): ChatbotAnswer {
-        println("User message: $userMessage")
         return apiService.getChatbotAnswer(input = userMessage)
     }
 }

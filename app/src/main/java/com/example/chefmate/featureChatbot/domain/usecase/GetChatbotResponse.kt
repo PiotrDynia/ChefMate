@@ -1,7 +1,6 @@
 package com.example.chefmate.featureChatbot.domain.usecase
 
 import com.example.chefmate.core.data.api.dto.ChatbotAnswer
-import com.example.chefmate.core.data.api.dto.GetRecipeResult
 import com.example.chefmate.core.domain.util.Result
 import com.example.chefmate.core.domain.util.error.DataError
 import com.example.chefmate.featureChatbot.domain.repository.ChatbotRepository
